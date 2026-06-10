@@ -1,0 +1,19 @@
+# 依赖
+node_modules/
+
+# Next.js 产物
+.next/
+out/
+
+# 日志
+*.log
+npm-debug.log*
+
+# 环境变量
+.env
+.env.local
+
+# IDE
+.vscode/
+.idea/
+.DS_Store
