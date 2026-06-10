@@ -1,0 +1,31 @@
+{
+  "name": "CityPulse - 城市漫步探索",
+  "short_name": "CityPulse",
+  "description": "发现城市中的隐藏宝藏，规划个性化漫步路线，与社区分享体验。",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f9f9f9",
+  "theme_color": "#ab3500",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    },
+    {
+      "src": "/icons/icon-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "categories": ["lifestyle", "navigation", "social"],
+  "lang": "zh-CN",
+  "dir": "ltr"
+}

@@ -1,0 +1,170 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url("https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap");
+
+@layer base {
+  /* 亮色模式 Token（与 tailwind.config.ts 原值对应） */
+  :root {
+    --color-background: #f9f9f9;
+    --color-surface: #f9f9f9;
+    --color-surface-bright: #f9f9f9;
+    --color-surface-dim: #dadada;
+    --color-surface-container-lowest: #ffffff;
+    --color-surface-container-low: #f3f3f3;
+    --color-surface-container: #eeeeee;
+    --color-surface-container-high: #e8e8e8;
+    --color-surface-container-highest: #e2e2e2;
+    --color-surface-variant: #e2e2e2;
+    --color-surface-tint: #ab3500;
+    --color-on-surface: #1a1c1c;
+    --color-on-surface-variant: #594139;
+    --color-on-background: #1a1c1c;
+    --color-primary: #ab3500;
+    --color-on-primary: #ffffff;
+    --color-on-primary-fixed: #390c00;
+    --color-on-primary-fixed-variant: #832600;
+    --color-primary-container: #ff6b35;
+    --color-on-primary-container: #5f1900;
+    --color-primary-fixed: #ffdbd0;
+    --color-primary-fixed-dim: #ffb59d;
+    --color-secondary: #24619d;
+    --color-on-secondary: #ffffff;
+    --color-on-secondary-fixed: #001c37;
+    --color-on-secondary-fixed-variant: #004880;
+    --color-secondary-container: #87bcfe;
+    --color-on-secondary-container: #004b84;
+    --color-secondary-fixed: #d2e4ff;
+    --color-secondary-fixed-dim: #a1c9ff;
+    --color-tertiary: #5c5f5a;
+    --color-on-tertiary: #ffffff;
+    --color-on-tertiary-fixed: #191c18;
+    --color-on-tertiary-fixed-variant: #454843;
+    --color-tertiary-container: #989a94;
+    --color-on-tertiary-container: #2f322e;
+    --color-tertiary-fixed: #e1e3dc;
+    --color-tertiary-fixed-dim: #c5c7c1;
+    --color-error: #ba1a1a;
+    --color-on-error: #ffffff;
+    --color-on-error-container: #93000a;
+    --color-error-container: #ffdad6;
+    --color-outline: #8d7168;
+    --color-outline-variant: #e1bfb5;
+    --color-inverse-surface: #2f3131;
+    --color-inverse-on-surface: #f1f1f1;
+    --color-inverse-primary: #ffb59d;
+  }
+
+  /* 暗色模式 Token 覆盖 */
+  .dark {
+    --color-background: #1a1c1c;
+    --color-surface: #232727;
+    --color-surface-bright: #323636;
+    --color-surface-dim: #1a1e1e;
+    --color-surface-container-lowest: #0f1313;
+    --color-surface-container-low: #1e2222;
+    --color-surface-container: #272b2b;
+    --color-surface-container-high: #323636;
+    --color-surface-container-highest: #3d4141;
+    --color-surface-variant: #2f3333;
+    --color-surface-tint: #ffb59d;
+    --color-on-surface: #e2e2e2;
+    --color-on-surface-variant: #a8a8a8;
+    --color-on-background: #e2e2e2;
+    --color-primary: #ffb59d;
+    --color-on-primary: #5c1700;
+    --color-on-primary-fixed: #390c00;
+    --color-on-primary-fixed-variant: #832600;
+    --color-primary-container: #ab3500;
+    --color-on-primary-container: #ffdbd0;
+    --color-primary-fixed: #ffdbd0;
+    --color-primary-fixed-dim: #ffb59d;
+    --color-secondary: #a1c9ff;
+    --color-on-secondary: #00325b;
+    --color-on-secondary-fixed: #001c37;
+    --color-on-secondary-fixed-variant: #004880;
+    --color-secondary-container: #004880;
+    --color-on-secondary-container: #d2e4ff;
+    --color-secondary-fixed: #d2e4ff;
+    --color-secondary-fixed-dim: #a1c9ff;
+    --color-tertiary: #c5c7c1;
+    --color-on-tertiary: #2e312d;
+    --color-on-tertiary-fixed: #191c18;
+    --color-on-tertiary-fixed-variant: #454843;
+    --color-tertiary-container: #5c5f5a;
+    --color-on-tertiary-container: #e1e3dc;
+    --color-tertiary-fixed: #e1e3dc;
+    --color-tertiary-fixed-dim: #c5c7c1;
+    --color-error: #ffb4ab;
+    --color-on-error: #690005;
+    --color-on-error-container: #ffdad6;
+    --color-error-container: #93000a;
+    --color-outline: #8d7168;
+    --color-outline-variant: #534341;
+    --color-inverse-surface: #e2e2e2;
+    --color-inverse-on-surface: #2f3131;
+    --color-inverse-primary: #ab3500;
+  }
+
+  body {
+    @apply bg-background text-on-surface font-body-md antialiased;
+  }
+
+  .material-symbols-outlined {
+    font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 24;
+  }
+}
+
+@layer utilities {
+  .hide-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .hide-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .timeline-line {
+    position: absolute;
+    left: 11px;
+    top: 24px;
+    bottom: -24px;
+    width: 2px;
+    background: repeating-linear-gradient(
+      to bottom,
+      #ab3500 0,
+      #ab3500 4px,
+      transparent 4px,
+      transparent 8px
+    );
+  }
+
+  .custom-shadow {
+    box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.05);
+  }
+
+  .orange-glow {
+    box-shadow: 0px 4px 12px rgba(255, 107, 53, 0.3);
+  }
+
+  .masonry-grid {
+    column-count: 2;
+    column-gap: 16px;
+  }
+  @media (min-width: 768px) {
+    .masonry-grid {
+      column-count: 3;
+    }
+  }
+  @media (min-width: 1024px) {
+    .masonry-grid {
+      column-count: 4;
+    }
+  }
+  .masonry-item {
+    break-inside: avoid;
+    margin-bottom: 16px;
+  }
+}

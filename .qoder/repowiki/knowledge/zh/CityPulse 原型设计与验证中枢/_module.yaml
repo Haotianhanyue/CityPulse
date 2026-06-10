@@ -1,0 +1,20 @@
+schema_version: 1
+module_path: ""
+title: CityPulse 原型设计与验证中枢
+scope:
+    - docs/
+    - AGENTS.md
+    - PROJECT_OVERVIEW.md
+    - Untitled-1.html
+    - .qoder\agents\citypulse-designer.md
+    - .qoder\agents\citypulse-reviewer.md
+    - .qoder\skills\citypulse-route\SKILL.md
+    - .qoder\skills\citypulse-ui\SKILL.md
+    - docs\sdd\SOFTWARE_DESIGN.md
+    - harness\README.md
+    - harness\fixtures.js
+    - harness\run-tests.js
+    - harness\test-report.json
+source_files: []
+depends_on: []
+related_to: []

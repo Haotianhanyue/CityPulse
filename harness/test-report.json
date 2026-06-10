@@ -1,0 +1,207 @@
+{
+  "timestamp": "2026-06-09T09:12:46.112Z",
+  "file": "c:\\Users\\Administrator\\Desktop\\工作文档\\xjbg\\Untitled-1.html",
+  "summary": {
+    "passed": 38,
+    "failed": 0,
+    "warnings": 1,
+    "total": 39
+  },
+  "details": [
+    {
+      "status": "PASS",
+      "name": "primary-color",
+      "message": "Found #ab3500"
+    },
+    {
+      "status": "PASS",
+      "name": "primary-container-color",
+      "message": "Found #ff6b35"
+    },
+    {
+      "status": "PASS",
+      "name": "secondary-color",
+      "message": "Found #24619d"
+    },
+    {
+      "status": "PASS",
+      "name": "headline-font",
+      "message": "Plus Jakarta Sans loaded"
+    },
+    {
+      "status": "PASS",
+      "name": "body-font",
+      "message": "Inter font loaded"
+    },
+    {
+      "status": "PASS",
+      "name": "material-icons",
+      "message": "Material Symbols Outlined loaded"
+    },
+    {
+      "status": "PASS",
+      "name": "tailwind-cdn",
+      "message": "Tailwind CSS CDN found"
+    },
+    {
+      "status": "PASS",
+      "name": "design-token-consistency",
+      "message": "Primary color used 18 times across pages"
+    },
+    {
+      "status": "PASS",
+      "name": "spacing-tokens",
+      "message": "Custom spacing tokens found in config"
+    },
+    {
+      "status": "PASS",
+      "name": "section-路线详情-桌面",
+      "message": "Found \"路线详情 - CityPulse\""
+    },
+    {
+      "status": "PASS",
+      "name": "section-个人中心-桌面",
+      "message": "Found \"个人中心 - CityPulse\""
+    },
+    {
+      "status": "PASS",
+      "name": "section-个人中心-移动端",
+      "message": "Found \"个人中心 - 移动端\""
+    },
+    {
+      "status": "PASS",
+      "name": "section-社区动态-桌面",
+      "message": "Found \"社区动态 - CityPulse\""
+    },
+    {
+      "status": "PASS",
+      "name": "section-社区动态-移动端",
+      "message": "Found \"社区动态 - 移动端\""
+    },
+    {
+      "status": "PASS",
+      "name": "section-路线详情-移动端",
+      "message": "Found \"路线详情 - 移动端\""
+    },
+    {
+      "status": "PASS",
+      "name": "section-探索大厅",
+      "message": "Found \"探索大厅 - CityPulse\""
+    },
+    {
+      "status": "PASS",
+      "name": "page-count",
+      "message": "Found 8 pages in single HTML file"
+    },
+    {
+      "status": "PASS",
+      "name": "lang-attribute",
+      "message": "Chinese language attribute set"
+    },
+    {
+      "status": "PASS",
+      "name": "viewport-meta",
+      "message": "Viewport meta tag found"
+    },
+    {
+      "status": "PASS",
+      "name": "bottom-nav",
+      "message": "Fixed bottom navigation found"
+    },
+    {
+      "status": "PASS",
+      "name": "mobile-only-elements",
+      "message": "md:hidden responsive class used"
+    },
+    {
+      "status": "PASS",
+      "name": "desktop-sidebar",
+      "message": "Desktop sidebar with hidden md:flex found"
+    },
+    {
+      "status": "PASS",
+      "name": "responsive-padding",
+      "message": "Responsive margin tokens used"
+    },
+    {
+      "status": "PASS",
+      "name": "responsive-grid",
+      "message": "Responsive grid layout found"
+    },
+    {
+      "status": "PASS",
+      "name": "bottom-nav-4-items",
+      "message": "Bottom nav has 4 items (Map/Feed/Routes/Me)"
+    },
+    {
+      "status": "PASS",
+      "name": "img-alt",
+      "message": "All 56 images have alt or data-alt attributes"
+    },
+    {
+      "status": "WARN",
+      "name": "data-alt-usage",
+      "message": "49 images use data-alt instead of alt (non-standard)"
+    },
+    {
+      "status": "PASS",
+      "name": "input-labels",
+      "message": "All inputs have placeholder or aria-label"
+    },
+    {
+      "status": "PASS",
+      "name": "button-content",
+      "message": "No empty buttons found"
+    },
+    {
+      "status": "PASS",
+      "name": "semantic-html",
+      "message": "Uses 6 semantic HTML elements"
+    },
+    {
+      "status": "PASS",
+      "name": "focus-states",
+      "message": "Focus ring/border states found"
+    },
+    {
+      "status": "PASS",
+      "name": "javascript-present",
+      "message": "Found 7 script blocks"
+    },
+    {
+      "status": "PASS",
+      "name": "event-listeners",
+      "message": "Event listeners found"
+    },
+    {
+      "status": "PASS",
+      "name": "bottom-sheet",
+      "message": "Bottom sheet component found"
+    },
+    {
+      "status": "PASS",
+      "name": "scroll-interaction",
+      "message": "Scroll event handler found"
+    },
+    {
+      "status": "PASS",
+      "name": "hover-transitions",
+      "message": "Found 111 hover state classes"
+    },
+    {
+      "status": "PASS",
+      "name": "active-states",
+      "message": "Found 12 active:scale micro-interactions"
+    },
+    {
+      "status": "PASS",
+      "name": "transitions",
+      "message": "Found 95 transition classes"
+    },
+    {
+      "status": "PASS",
+      "name": "css-animations",
+      "message": "CSS @keyframes animations found"
+    }
+  ]
+}

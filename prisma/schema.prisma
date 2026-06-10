@@ -1,0 +1,212 @@
+// CityPulse Prisma Schema
+// 开发环境使用 SQLite，生产环境切换至 PostgreSQL + PostGIS
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+// ============================================================
+// 用户与认证
+// ============================================================
+
+model User {
+  id            String    @id @default(cuid())
+  name          String?
+  email         String?   @unique
+  emailVerified DateTime?
+  image         String?
+  level         Int       @default(1)
+  title         String    @default("城市新手")
+  totalDistance Float     @default(0)
+  spotsExplored Int       @default(0)
+  routesCreated Int       @default(0)
+  experience    Int       @default(0)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  accounts Account[]
+  sessions Session[]
+  routes   Route[]
+  posts    Post[]
+  comments Comment[]
+  likes    Like[]
+  bookmarks Bookmark[]
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+  @@unique([identifier, token])
+}
+
+// ============================================================
+// 路线与站点
+// ============================================================
+
+model Route {
+  id          String     @id @default(cuid())
+  title       String
+  subtitle    String     @default("")
+  category    String     @default("城市漫步")
+  location    String
+  distance    String
+  duration    String
+  difficulty  String     @default("轻松")
+  coverImage  String     @default("")
+  isTopRated  Boolean    @default(false)
+  likes       Int        @default(0)
+  bookmarks   Int        @default(0)
+  comments    Int        @default(0)
+  // 地理坐标 (PostGIS 时为 geometry, SQLite 用 JSON 字符串)
+  geometry    String?
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+
+  authorId    String
+  author      User       @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  stops       RouteStop[]
+  routeLikes  Like[]
+  routeBookmarks Bookmark[]
+  routeComments Comment[]
+}
+
+model RouteStop {
+  id          String   @id @default(cuid())
+  order       Int
+  name        String
+  nameEn      String?
+  time        String
+  description String
+  images      String   // JSON array of image URLs
+  tips        String?
+  latitude    Float?
+  longitude   Float?
+
+  routeId     String
+  route       Route    @relation(fields: [routeId], references: [id], onDelete: Cascade)
+}
+
+// ============================================================
+// 社区动态
+// ============================================================
+
+model Post {
+  id          String   @id @default(cuid())
+  type        String   @default("精选路线")
+  title       String
+  content     String   @default("")
+  images      String   // JSON array
+  likes       Int      @default(0)
+  comments    Int      @default(0)
+  bookmarks   Int      @default(0)
+  isTrending  Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  authorId    String
+  author      User     @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  postComments Comment[]
+  postLikes   Like[]
+  postBookmarks Bookmark[]
+}
+
+model Comment {
+  id        String   @id @default(cuid())
+  content   String
+  likes     Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  authorId  String
+  author    User     @relation(fields: [authorId], references: [id], onDelete: Cascade)
+
+  postId    String?
+  post      Post?    @relation(fields: [postId], references: [id], onDelete: Cascade)
+
+  routeId   String?
+  route     Route?   @relation(fields: [routeId], references: [id], onDelete: Cascade)
+}
+
+// ============================================================
+// 互动
+// ============================================================
+
+model Like {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  postId    String?
+  post      Post?    @relation(fields: [postId], references: [id], onDelete: Cascade)
+  routeId   String?
+  route     Route?   @relation(fields: [routeId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+
+  @@unique([userId, postId])
+  @@unique([userId, routeId])
+}
+
+model Bookmark {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  postId    String?
+  post      Post?    @relation(fields: [postId], references: [id], onDelete: Cascade)
+  routeId   String?
+  route     Route?   @relation(fields: [routeId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+
+  @@unique([userId, postId])
+  @@unique([userId, routeId])
+}
+
+// ============================================================
+// 兴趣点 (POI)
+// ============================================================
+
+model POI {
+  id          String  @id @default(cuid())
+  name        String
+  category    String
+  rating      Float   @default(0)
+  distance    String  @default("")
+  status      String  @default("营业中")
+  tags        String  // JSON array
+  image       String  @default("")
+  description String  @default("")
+  latitude    Float
+  longitude   Float
+  isPulse     Boolean @default(false)
+}

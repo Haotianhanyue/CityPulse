@@ -1,0 +1,2761 @@
+<!-- 路线详情 - CityPulse -->
+<!DOCTYPE html><html lang="zh-CN"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        
+        .timeline-line {
+            position: absolute;
+            left: 11px;
+            top: 24px;
+            bottom: -24px;
+            width: 2px;
+            background: repeating-linear-gradient(to bottom, #e1bfb5 0, #e1bfb5 4px, transparent 4px, transparent 8px);
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-secondary-fixed-variant": "#004880",
+                        "outline": "#8d7168",
+                        "on-error-container": "#93000a",
+                        "on-primary-fixed": "#390c00",
+                        "tertiary-fixed-dim": "#c5c7c1",
+                        "on-primary-fixed-variant": "#832600",
+                        "surface-container-low": "#f3f3f3",
+                        "surface-tint": "#ab3500",
+                        "surface-container-lowest": "#ffffff",
+                        "on-secondary": "#ffffff",
+                        "inverse-on-surface": "#f1f1f1",
+                        "error": "#ba1a1a",
+                        "tertiary-fixed": "#e1e3dc",
+                        "outline-variant": "#e1bfb5",
+                        "primary": "#ab3500",
+                        "on-background": "#1a1c1c",
+                        "on-primary-container": "#5f1900",
+                        "surface-bright": "#f9f9f9",
+                        "surface-dim": "#dadada",
+                        "on-secondary-container": "#004b84",
+                        "on-tertiary": "#ffffff",
+                        "surface-variant": "#e2e2e2",
+                        "primary-fixed": "#ffdbd0",
+                        "on-surface-variant": "#594139",
+                        "surface-container": "#eeeeee",
+                        "inverse-surface": "#2f3131",
+                        "inverse-primary": "#ffb59d",
+                        "tertiary-container": "#989a94",
+                        "on-secondary-fixed": "#001c37",
+                        "on-tertiary-fixed-variant": "#454843",
+                        "on-tertiary-container": "#2f322e",
+                        "background": "#f9f9f9",
+                        "tertiary": "#5c5f5a",
+                        "primary-fixed-dim": "#ffb59d",
+                        "secondary-fixed-dim": "#a1c9ff",
+                        "on-surface": "#1a1c1c",
+                        "surface-container-highest": "#e2e2e2",
+                        "surface": "#f9f9f9",
+                        "secondary-fixed": "#d2e4ff",
+                        "on-tertiary-fixed": "#191c18",
+                        "primary-container": "#ff6b35",
+                        "secondary": "#24619d",
+                        "surface-container-high": "#e8e8e8",
+                        "secondary-container": "#87bcfe",
+                        "error-container": "#ffdad6",
+                        "on-error": "#ffffff",
+                        "on-primary": "#ffffff"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "xl": "32px",
+                        "margin-desktop": "32px",
+                        "xs": "4px",
+                        "lg": "24px",
+                        "base": "4px",
+                        "2xl": "48px",
+                        "gutter": "16px",
+                        "md": "16px",
+                        "sm": "8px",
+                        "margin-mobile": "16px"
+                    },
+                    "fontFamily": {
+                        "caption": ["Inter"],
+                        "headline-lg": ["Plus Jakarta Sans"],
+                        "headline-lg-mobile": ["Plus Jakarta Sans"],
+                        "label-md": ["Inter"],
+                        "headline-md": ["Plus Jakarta Sans"],
+                        "body-md": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "display-lg": ["Plus Jakarta Sans"]
+                    },
+                    "fontSize": {
+                        "caption": ["12px", {"lineHeight": "16px", "fontWeight": "400"}],
+                        "headline-lg": ["32px", {"lineHeight": "40px", "fontWeight": "700"}],
+                        "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "700"}],
+                        "label-md": ["14px", {"lineHeight": "20px", "fontWeight": "600"}],
+                        "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                        "display-lg": ["40px", {"lineHeight": "48px", "letterSpacing": "-0.02em", "fontWeight": "700"}]
+                    }
+                },
+            },
+        }
+    </script>
+</head>
+<body class="bg-background text-on-surface font-body-md selection:bg-primary-fixed selection:text-on-primary-fixed">
+<!-- Top Navigation Bar -->
+<header class="sticky top-0 w-full z-50 flex justify-between items-center px-margin-mobile md:px-margin-desktop h-16 bg-surface shadow-sm">
+<div class="flex items-center gap-md">
+<button class="md:hidden p-2 text-on-surface-variant hover:bg-surface-container rounded-full transition-colors" onclick="history.back()">
+<span class="material-symbols-outlined">arrow_back</span>
+</button>
+<span class="text-headline-md font-headline-md font-bold text-primary">CityPulse</span>
+</div>
+<div class="hidden md:flex items-center gap-lg">
+<nav class="flex gap-md">
+<a class="text-on-surface-variant hover:text-primary transition-colors duration-200 font-label-md text-label-md" href="#">发现</a>
+<a class="text-primary font-bold border-b-2 border-primary pb-1 font-label-md text-label-md" href="#">路线</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors duration-200 font-label-md text-label-md" href="#">社区</a>
+</nav>
+<div class="h-8 w-[1px] bg-outline-variant"></div>
+<div class="flex items-center gap-sm">
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer hover:text-primary">notifications</span>
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer hover:text-primary">location_on</span>
+<img alt="User avatar" class="w-8 h-8 rounded-full border-2 border-surface shadow-sm" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAWCrM2uvi-agP-t5W4Fdtzfo43ajaV2m6Zk71x5J8R6vRLLwTkKsBd2Xi5UI8iv0BX8Wk2nwrxZBKDQkN7Kig4HCLJHaVN05F9p1jsbL_kk7c1WduEKjSA5NOeB1FV-svTJsN99zslbHTkCgRAb_hH7vT95YBCcPMKIjFvVlDNHdcEUuMZcIh_vBouZwaqTePOh9wEy9QNJ0nUJdKrS8YQhiN_CTkclvCyAyF-AT6Z6Hn11vcWhysge7UBMalRd-xT2BxyH2bcaMU">
+</div>
+</div>
+<button class="md:hidden p-2 text-on-surface-variant">
+<span class="material-symbols-outlined">share</span>
+</button>
+</header>
+<main class="max-w-[1280px] mx-auto md:px-margin-desktop pb-24">
+<!-- Hero Section: Title and Stats -->
+<section class="px-margin-mobile md:px-0 py-lg">
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-md mb-lg">
+<div class="space-y-sm">
+<div class="flex items-center gap-sm">
+<span class="bg-primary-container text-on-primary-container text-caption font-caption px-sm py-1 rounded-lg">城市漫步</span>
+<span class="text-on-surface-variant text-caption font-caption">上海 · 徐汇区</span>
+</div>
+<h1 class="font-headline-lg-mobile text-headline-lg-mobile md:font-headline-lg md:text-headline-lg text-on-surface">徐汇周日漫步：梧桐树下的老洋房与咖啡香</h1>
+<p class="text-on-surface-variant font-body-md text-body-md max-w-2xl">在这条精心策划的路线上，我们将穿梭于复兴中路与武康路之间，探寻隐匿在繁华背后的历史韵味，感受上海独有的精致海派生活方式。</p>
+</div>
+<div class="flex gap-md items-center bg-surface-container p-md rounded-xl">
+<div class="text-center px-sm">
+<div class="font-bold text-primary">3.2km</div>
+<div class="text-caption text-on-surface-variant">路程</div>
+</div>
+<div class="w-[1px] h-8 bg-outline-variant"></div>
+<div class="text-center px-sm">
+<div class="font-bold text-primary">2.5h</div>
+<div class="text-caption text-on-surface-variant">时长</div>
+</div>
+<div class="w-[1px] h-8 bg-outline-variant"></div>
+<div class="text-center px-sm">
+<div class="font-bold text-primary">中等</div>
+<div class="text-caption text-on-surface-variant">难度</div>
+</div>
+</div>
+</div>
+<!-- Author Profile Card -->
+<div class="flex items-center gap-md bg-surface p-md rounded-xl shadow-sm border border-surface-variant">
+<img alt="Author Profile Photo" class="w-12 h-12 rounded-full border-2 border-primary-container" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDgFJUwiP0oSTsclXarEHUU9ZioWvY_JPojekO5OHMUkAiXamZzMBz_1fBX5ftMTb6M9WZN-blhBFdpjOvsYvlckRm3aVc-MIoO-tyFCavczH_IUCrOmJlH0Psn69Vz7_SpW-YniRjBkKUHUgec49X_1LcXRAz4YSt0cSy0JhKTVmxuGmwAzRWSVU_Kf9HgQ1CWSoZq5d236iZqYNKO4GqErSZ6sFLFOdUSnI10Df50GLA4yzV7cG12FLZPrN8NOa7ga482eJtHVKs">
+<div class="flex-grow">
+<h3 class="font-label-md text-label-md text-on-surface">林间拾光 <span class="ml-sm text-caption text-secondary font-normal">Level 12 路线达人</span></h3>
+<p class="text-caption text-on-surface-variant">深耕上海街头巷尾 5 年，已分享 42 条漫步路线</p>
+</div>
+<button class="bg-secondary text-on-secondary px-md py-sm rounded-lg text-label-md font-label-md hover:bg-on-secondary-fixed-variant transition-colors shadow-sm active:scale-95">
+                    关注
+                </button>
+</div>
+</section>
+<!-- Main Content Layout -->
+<div class="flex flex-col lg:grid lg:grid-cols-12 gap-lg px-margin-mobile md:px-0">
+<!-- Left Column: Timeline -->
+<div class="lg:col-span-8 space-y-xl">
+<h2 class="font-headline-md text-headline-md text-on-surface flex items-center gap-sm">
+<span class="material-symbols-outlined text-primary">map</span> 路线行程
+                </h2>
+<div class="relative space-y-12">
+<!-- Timeline Item 1 -->
+<div class="relative pl-10">
+<div class="timeline-line"></div>
+<div class="absolute left-0 top-1 w-6 h-6 rounded-full bg-primary flex items-center justify-center text-white text-[10px] z-10 shadow-lg shadow-primary-container/30">1</div>
+<div class="space-y-md">
+<div class="flex justify-between items-start">
+<h4 class="font-headline-md text-[20px] text-on-surface">起点：黑石公寓 (Blackstone Apartments)</h4>
+<span class="text-caption text-on-surface-variant italic">10:00 AM</span>
+</div>
+<p class="text-on-surface-variant">这座折衷主义风格的标志性建筑是我们的起点。不仅外观宏伟，其内部的幸福集荟书店也非常值得驻足。你可以从一张徐汇老洋房明信片开始今天的旅程。</p>
+<div class="rounded-xl overflow-hidden shadow-md group">
+<img class="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A grand historical European-style apartment building in Shanghai with detailed stone carvings and classical balconies, captured in the soft morning sunlight. The architecture reflects early 20th-century elegance with lush green ivy climbing the side, creating a sophisticated and nostalgic urban atmosphere. Warm orange tones highlight the stone textures, matching the brand's vibrant city pulse identity." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDxhqq1bAeJWGzbXgNIPQEDSRhiPuN0PLeBAQHyn5iWzRWFQrkZ20Sh5lB0LRMKu7sF1wxwFE0LyDwZlb8wCsoJ8YCkoxoyQogCUeEfLA-Vnqq7LA9E6mAXzc9vvzT2WuWuShanNe5Er2bbQNB8z118tO9vCgStwX6_9-8ooFcy8jSFMfcTnU3KvEQ18nBSNytKSG4SSWIKgmo-D9Jgm1ZmUhRkNfowPI7ZzOakpgCXfpoEcv6LUYrVM7RWIGHEtrEhvqjYRLbemFc">
+</div>
+</div>
+</div>
+<!-- Timeline Item 2 -->
+<div class="relative pl-10">
+<div class="timeline-line"></div>
+<div class="absolute left-0 top-1 w-6 h-6 rounded-full bg-primary flex items-center justify-center text-white text-[10px] z-10 shadow-lg shadow-primary-container/30">2</div>
+<div class="space-y-md">
+<div class="flex justify-between items-start">
+<h4 class="font-headline-md text-[20px] text-on-surface">复兴中路梧桐长廊</h4>
+<span class="text-caption text-on-surface-variant italic">11:15 AM</span>
+</div>
+<p class="text-on-surface-variant">沿着复兴中路向西走，遮天蔽日的法国梧桐在地面洒下斑驳光影。这里是感受上海“梧桐区”宁静与优雅的最佳路段，沿途有很多有趣的设计师买手店。</p>
+<div class="grid grid-cols-2 gap-md">
+<div class="rounded-xl overflow-hidden shadow-md h-48">
+<img class="w-full h-full object-cover" data-alt="A scenic street in Shanghai lined with towering plane trees casting intricate patterns of shadow on a clean sidewalk. Modern urban explorers walk leisurely by, dressed in chic lifestyle attire. The lighting is bright and high-contrast, emphasizing the deep green leaves and the vibrant orange accents of street furniture, conveying a sense of organized energy and modern city rhythm." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCfuW9-o-b-9jkA1eibVDIFyz8jHVAzm9BxXbksH5wGNeHSWSy7n67t-aLtTndtC_w1_C4FCsH9uDO98Dc2L1kylyngTHw_3MnWoiqUuxZfe46TzkmhBFv8snWMlbYwVk7dQlR2_efpy_UAZbTQuGlcYfOKoEcY9IgJejc7cLY_pue7EeyKO1kGumOI_Pn_O8yFG-fcNLZfURkFEzY9r051EhV0pTex_z3HIzrhb2IH1F-Nxq9IwQxmIWemulsfjoZ2Xnp2kZcyfRI">
+</div>
+<div class="rounded-xl overflow-hidden shadow-md h-48">
+<img class="w-full h-full object-cover" data-alt="A cozy, high-end cafe entrance with minimalist wooden furniture and a large glass window showing a warm interior. Potted plants decorate the front, and the soft-tech aesthetic is visible in the clean lines and digital signage nearby. The overall mood is peaceful and proactive, reflecting the app's lifestyle companion positioning with a corporate modern twist." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCdKLBjrlLw04dQqGZVJ6Fcv2DbkCokfXTIP5qcxLSGzneVCN5xzOgKIpCurnJrH-PbiT7qkYXLRH30HckxLVfSXnLvhY5nYwoietHHYwU1RAS6ojDyxXx0LaVXfVgSaGsnncvojZ0l0Wd9RzdCZFq9DBD4lOwitmp22SC_OTlN_6jGnzgXnrkNYPVAXvAjesKDfwdOtT7zepN_BG3UWUWvfv7nXicX554CnrJjNQrJPS71hqHe7rdM2O3q-GGgo0_jx-svKIL3QvA">
+</div>
+</div>
+</div>
+</div>
+<!-- Timeline Item 3 -->
+<div class="relative pl-10">
+<div class="absolute left-0 top-1 w-6 h-6 rounded-full bg-primary flex items-center justify-center text-white text-[10px] z-10 shadow-lg shadow-primary-container/30">3</div>
+<div class="space-y-md">
+<div class="flex justify-between items-start">
+<h4 class="font-headline-md text-[20px] text-on-surface">终点：武康大楼 (Wukang Mansion)</h4>
+<span class="text-caption text-on-surface-variant italic">12:30 PM</span>
+</div>
+<p class="text-on-surface-variant">最后抵达大名鼎鼎的武康大楼。它是邬达克的杰作，像一艘巨大的巨轮停泊在五路口。推荐在这里拍摄一张全景照片，然后去对面的咖啡店享受悠闲午后。</p>
+<div class="rounded-xl overflow-hidden shadow-md relative group">
+<div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-md">
+<span class="text-white text-label-md font-label-md">最佳拍摄机位：天平路交叉口</span>
+</div>
+<img class="w-full h-80 object-cover" data-alt="The famous Wukang Mansion in Shanghai at a busy intersection, captured from a low angle to emphasize its unique ship-like shape. The late morning light creates deep shadows and highlights the red brick texture against a clear blue sky. The scene is vibrant and high-energy, with a few stylish passersby and the iconic orange CityPulse markers subtly integrated into the urban landscape." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBJkyqN1cu_q4BUKQ4sArouau6CGS02M8aWDS3c-eGejnVfG9ejQgx_6L78miYsm0zfpC20f3SEnoRlBc1BTZaH3q9aq0eEgh3v-A2y0FFX6EZhzQP-w6NtBbbmNQaFYdD3pT8iqSd0hJEeMCtGHSBLU9qrSHIicBSyzQdASYYjYxkVr_ANIoH66i_D10-9hSDzR4J0-R5zPI7mGAVM4G0Erbn2w_4YyeGVpCGUGuiNRUPTI_UXHixZLEEFQqxrToxuYBkZh9FEsCI">
+</div>
+</div>
+</div>
+</div>
+<!-- Interaction Section -->
+<section class="border-t border-outline-variant pt-lg mt-2xl">
+<div class="flex items-center justify-between mb-lg">
+<h3 class="font-headline-md text-headline-md text-on-surface">互动交流 (128)</h3>
+<div class="flex gap-md">
+<button class="flex items-center gap-sm text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">favorite</span>
+<span class="font-label-md">2.4k</span>
+</button>
+<button class="flex items-center gap-sm text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined">bookmark</span>
+<span class="font-label-md">856</span>
+</button>
+</div>
+</div>
+<div class="flex gap-md mb-xl">
+<img alt="User avatar" class="w-10 h-10 rounded-full" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAV-8aBF9g_E_ZBEo6Ac9KF7Ee-zDSgeb-JjDhpvSRU6_U6JV_DtFou-d_F_iVY_s3Z0_KA8rtK22xsYNiMgTM7X1r-QVM1e1YnNiNSs7EYVFzYszVODCObUNZQACnoMlJkE9ucIAWafC2wITTylHuPaHg_OtX2IsVfMic5dnuB0biRDnrtt-OHLt9Pl3Q9WqZp-2JXeSHolYaIUpMDnoZiR5Ng_d8OYvV2xEM22fo5F6SoueDpLBiLfhgWnIcxXmUy2-hD6Qj7Zt4">
+<div class="flex-grow">
+<textarea class="w-full bg-surface border border-outline-variant rounded-xl p-md focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all outline-none resize-none h-24 font-body-md text-body-md" placeholder="分享你的想法或漫步心得..."></textarea>
+<div class="flex justify-end mt-sm">
+<button class="bg-primary text-on-primary px-lg py-sm rounded-lg font-label-md text-label-md shadow-md hover:shadow-lg hover:bg-primary-container transition-all">发表评论</button>
+</div>
+</div>
+</div>
+<div class="space-y-lg">
+<div class="flex gap-md">
+<img alt="Reviewer" class="w-10 h-10 rounded-full" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAfZKd4wMpyB9ajWdQZgPCreO-AzVCU8c2gNf-oaPwT12deW8AfdfazK3Q1GnDzgAy0M6WP9YlOiTYDMELsTmZNk1F-1RyBKDIuH3gP5rg-3hgWF_XT5-r-0hsZCs_kgBPG0gcoliUITPv4z0crbvale92r3X7NInTuRd32co19Ntu0OjZ9ovtSG0jbi33pwz-ltcUsZI-RUxbLNdfR1qGgd3lcOUaCt00x-jM-iPN803GDh9ox_Pz8r2qk6DlEoH84HDD28LLbrXU">
+<div class="space-y-xs flex-grow">
+<div class="flex justify-between items-center">
+<span class="font-label-md text-on-surface">城中小怪</span>
+<span class="text-caption text-on-surface-variant">2小时前</span>
+</div>
+<p class="text-body-md text-on-surface-variant">上周末刚跟着这条路线走完，黑石公寓对面的那家咖啡店真的很赞！梧桐区的光影拍出来太美了。</p>
+<div class="flex gap-md pt-sm">
+<button class="text-caption font-bold text-primary">回复</button>
+<button class="text-caption text-on-surface-variant flex items-center gap-xs">
+<span class="material-symbols-outlined text-[16px]">thumb_up</span> 12
+                                    </button>
+</div>
+</div>
+</div>
+</div>
+</section>
+</div>
+<!-- Right Column: Sidebar -->
+<aside class="lg:col-span-4 space-y-lg">
+<!-- Mini Map Section -->
+<div class="bg-surface rounded-2xl shadow-sm border border-surface-variant overflow-hidden sticky top-20">
+<div class="p-md border-b border-outline-variant flex justify-between items-center">
+<h3 class="font-label-md text-label-md text-on-surface flex items-center gap-xs">
+<span class="material-symbols-outlined text-secondary">explore</span> 路线地图
+                        </h3>
+<button class="text-primary text-caption font-bold">全屏查看</button>
+</div>
+<div class="h-64 bg-surface-variant relative">
+<img class="w-full h-full object-cover grayscale opacity-80" data-alt="A stylized digital map of the Xuhui district in Shanghai, featuring a vibrant orange path winding through gray blocks representing city buildings. The map uses a clean, modern aesthetic with floating navy blue icons for points of interest. The lighting is soft and ambient, emphasizing the 'Soft-Tech' twist of the CityPulse brand and providing a clear, intuitive guide for urban exploration." data-location="Xuhui, Shanghai" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA67SfLI6LW2j3pNmE1eP-MBc-IN7w7mPJjFdp7ZEtbhI-A6kqPM6n-ecMIum2bNxR22YpR6KX0N3gxjR_JY4KEzK2u2DG_aqCrTZhWRHnBSal92L0gAQDdmNvSFaEZ5ajbPPyxZZluynTcK20zkj8ZPns14VvIJOeTBVhsNrnBzR8OOMoTUo22o4P0S0KaflIJSHGTEPcA-G-D4CQeShVcABB0QaqKfelRrAiqUGbNu5ozQeBit0K9M7Skk60s4ghYN-4Ri80Vif4">
+<div class="absolute inset-0 flex items-center justify-center pointer-events-none">
+<div class="w-4 h-4 bg-primary rounded-full border-2 border-white shadow-lg animate-pulse"></div>
+</div>
+</div>
+<div class="p-md space-y-md">
+<div class="flex items-center gap-sm">
+<span class="material-symbols-outlined text-on-surface-variant">info</span>
+<span class="text-caption text-on-surface-variant">今日预计人流较少，建议下午 2 点出发。</span>
+</div>
+<button class="w-full bg-primary text-on-primary py-md rounded-xl font-label-md text-label-md flex items-center justify-center gap-md shadow-md shadow-primary-container/40 active:scale-95 transition-transform animate-pulse">
+<span class="material-symbols-outlined">navigation</span> 开始导航
+                        </button>
+</div>
+</div>
+<!-- Related Routes -->
+<div class="bg-surface rounded-2xl shadow-sm border border-surface-variant p-md">
+<h3 class="font-label-md text-label-md text-on-surface mb-md">相关推荐</h3>
+<div class="space-y-md">
+<div class="flex gap-md group cursor-pointer">
+<div class="w-20 h-20 rounded-lg overflow-hidden flex-shrink-0">
+<img class="w-full h-full object-cover group-hover:scale-110 transition-transform" data-alt="A charming old lane in Shanghai with red brick walls and hanging lanterns at twilight. The scene is cozy and mysterious, utilizing warm orange and deep navy tones from the design system's palette. The high-quality photography showcases the intricate architectural details, matching the premium lifestyle feel of the CityPulse platform." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBm_25A1__KOP3H8wYe31SqWtVzMfX86-G-podO1D9nIZ8delg6_sw7JgATbGi5U5P82znzVjxdSjdiLOLXnUks0KYlO_W5DndjGYs6Kvw0vQHTgg4Y_OBU14gkoE8Ecl4DPtOhaUAdp86Ml9l5jCVqxQW9y_Tba2SwC4DPBNh75G2BgBgNTkWuZkc46yxDId-WSYChrQS3t-8M-p72i-DYLC9PSmWQr5Iq-qfPTBk0xD0gnHSnvo7XUbGlg4xxxVTyK8olsS7kwu8">
+</div>
+<div class="flex flex-col justify-center">
+<h4 class="text-label-md font-label-md text-on-surface group-hover:text-primary transition-colors">静安老弄堂探秘</h4>
+<p class="text-caption text-on-surface-variant">4.5km · 1.5h · 2k 收藏</p>
+</div>
+</div>
+<div class="flex gap-md group cursor-pointer">
+<div class="w-20 h-20 rounded-lg overflow-hidden flex-shrink-0">
+<img class="w-full h-full object-cover group-hover:scale-110 transition-transform" data-alt="A modern rooftop terrace in Shanghai overlooking the futuristic skyline at dusk. Bright neon lights in orange and blue reflect on the sleek glass surfaces. The image captures a high-energy urban pulse, perfectly aligning with the optimistic and reliable brand personality of CityPulse, aimed at social connectors." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDnHwbQO420ArEgsQnwjQqoTJZYxpVVI7IB2tGJX93dtUt6nSrxhpLOG6JxbHgT3M8z1kO8gmtclATTqAQN3NpegR0FO6ZOv8DY7-cACwdTOfBw2t0nQUvQDIa075s3n5p_tcUdUOSvTLosp_i7F2rh-rl298TW9lKUs5bP-wIu0iTsVUjRtNz2d8sPHPpgaPhuq6d3SPpjFqyEOSYbs0BTUHddumaGhOOYQkducooXC8GVOGO6A9GJ_g6iT2hE7RAcPE9AV3IJjgU">
+</div>
+<div class="flex flex-col justify-center">
+<h4 class="text-label-md font-label-md text-on-surface group-hover:text-primary transition-colors">滨江夜骑：外滩到前滩</h4>
+<p class="text-caption text-on-surface-variant">12.0km · 2h · 5k 收藏</p>
+</div>
+</div>
+</div>
+</div>
+</aside></div>
+</main>
+<!-- Bottom Navigation Bar (Mobile only) -->
+<nav class="fixed bottom-0 w-full z-50 flex justify-around items-center px-margin-mobile py-sm md:hidden bg-surface shadow-lg rounded-t-xl">
+<div class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary cursor-pointer">
+<span class="material-symbols-outlined">map</span>
+<span class="text-caption font-caption">地图</span>
+</div>
+<div class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary cursor-pointer">
+<span class="material-symbols-outlined">forum</span>
+<span class="text-caption font-caption">动态</span>
+</div>
+<div class="flex flex-col items-center justify-center bg-primary-container text-on-primary-container rounded-full px-4 py-1 cursor-pointer">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">route</span>
+<span class="text-caption font-caption">路线</span>
+</div>
+<div class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary cursor-pointer">
+<span class="material-symbols-outlined">account_circle</span>
+<span class="text-caption font-caption">我的</span>
+</div>
+</nav>
+<!-- FAB for quick action (Mobile only) -->
+<button class="fixed right-6 bottom-24 md:hidden w-14 h-14 bg-primary text-white rounded-full flex items-center justify-center shadow-lg shadow-primary-container/40 z-40 active:scale-90 transition-transform">
+<span class="material-symbols-outlined">add_photo_alternate</span>
+</button>
+<script>
+        // Simple micro-interaction for the timeline numbers on scroll
+        window.addEventListener('scroll', () => {
+            const numbers = document.querySelectorAll('.timeline-line');
+            const scrollPos = window.scrollY + window.innerHeight / 1.5;
+            
+            numbers.forEach(num => {
+                const rect = num.getBoundingClientRect();
+                const absoluteTop = rect.top + window.scrollY;
+                if (scrollPos > absoluteTop) {
+                    // Could add active states here
+                }
+            });
+        });
+    </script>
+
+
+</body></html>
+
+<!-- 个人中心 - CityPulse -->
+<!DOCTYPE html>
+
+<html lang="zh-CN"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>CityPulse - 个人中心</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;700;800&amp;family=Inter:wght@400;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-secondary-fixed-variant": "#004880",
+                        "outline": "#8d7168",
+                        "on-error-container": "#93000a",
+                        "on-primary-fixed": "#390c00",
+                        "tertiary-fixed-dim": "#c5c7c1",
+                        "on-primary-fixed-variant": "#832600",
+                        "surface-container-low": "#f3f3f3",
+                        "surface-tint": "#ab3500",
+                        "surface-container-lowest": "#ffffff",
+                        "on-secondary": "#ffffff",
+                        "inverse-on-surface": "#f1f1f1",
+                        "error": "#ba1a1a",
+                        "tertiary-fixed": "#e1e3dc",
+                        "outline-variant": "#e1bfb5",
+                        "primary": "#ab3500",
+                        "on-background": "#1a1c1c",
+                        "on-primary-container": "#5f1900",
+                        "surface-bright": "#f9f9f9",
+                        "surface-dim": "#dadada",
+                        "on-secondary-container": "#004b84",
+                        "on-tertiary": "#ffffff",
+                        "surface-variant": "#e2e2e2",
+                        "primary-fixed": "#ffdbd0",
+                        "on-surface-variant": "#594139",
+                        "surface-container": "#eeeeee",
+                        "inverse-surface": "#2f3131",
+                        "inverse-primary": "#ffb59d",
+                        "tertiary-container": "#989a94",
+                        "on-secondary-fixed": "#001c37",
+                        "on-tertiary-fixed-variant": "#454843",
+                        "on-tertiary-container": "#2f322e",
+                        "background": "#f9f9f9",
+                        "tertiary": "#5c5f5a",
+                        "primary-fixed-dim": "#ffb59d",
+                        "secondary-fixed-dim": "#a1c9ff",
+                        "on-surface": "#1a1c1c",
+                        "surface-container-highest": "#e2e2e2",
+                        "surface": "#f9f9f9",
+                        "secondary-fixed": "#d2e4ff",
+                        "on-tertiary-fixed": "#191c18",
+                        "primary-container": "#ff6b35",
+                        "secondary": "#24619d",
+                        "surface-container-high": "#e8e8e8",
+                        "secondary-container": "#87bcfe",
+                        "error-container": "#ffdad6",
+                        "on-error": "#ffffff",
+                        "on-primary": "#ffffff"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "xl": "32px",
+                        "margin-desktop": "32px",
+                        "xs": "4px",
+                        "lg": "24px",
+                        "base": "4px",
+                        "2xl": "48px",
+                        "gutter": "16px",
+                        "md": "16px",
+                        "sm": "8px",
+                        "margin-mobile": "16px"
+                    },
+                    "fontFamily": {
+                        "caption": ["Inter"],
+                        "headline-lg": ["Plus Jakarta Sans"],
+                        "headline-lg-mobile": ["Plus Jakarta Sans"],
+                        "label-md": ["Inter"],
+                        "headline-md": ["Plus Jakarta Sans"],
+                        "body-md": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "display-lg": ["Plus Jakarta Sans"]
+                    },
+                    "fontSize": {
+                        "caption": ["12px", {"lineHeight": "16px", "fontWeight": "400"}],
+                        "headline-lg": ["32px", {"lineHeight": "40px", "fontWeight": "700"}],
+                        "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "700"}],
+                        "label-md": ["14px", {"lineHeight": "20px", "fontWeight": "600"}],
+                        "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                        "display-lg": ["40px", {"lineHeight": "48px", "letterSpacing": "-0.02em", "fontWeight": "700"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; background-color: #f9f9f9; }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+        .custom-shadow { box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.05); }
+        .orange-glow { box-shadow: 0px 4px 12px rgba(255, 107, 53, 0.3); }
+    </style>
+</head>
+<body class="text-on-surface">
+<!-- Top Navigation Bar -->
+<header class="sticky top-0 w-full z-50 flex justify-between items-center px-margin-mobile md:px-margin-desktop h-16 shadow-sm bg-surface dark:bg-inverse-surface">
+<div class="flex items-center gap-md">
+<span class="text-headline-md font-headline-md font-bold text-primary dark:text-inverse-primary">CityPulse</span>
+<div class="hidden md:flex ml-8 gap-lg">
+<a class="text-on-surface-variant dark:text-on-surface-variant hover:text-primary transition-colors duration-200 font-label-md text-label-md" href="#">探索</a>
+<a class="text-on-surface-variant dark:text-on-surface-variant hover:text-primary transition-colors duration-200 font-label-md text-label-md" href="#">社区</a>
+<a class="text-primary font-bold border-b-2 border-primary pb-1 font-label-md text-label-md" href="#">我的</a>
+</div>
+</div>
+<div class="flex items-center gap-md">
+<div class="relative hidden sm:block">
+<input class="bg-surface-container border-none rounded-full py-2 pl-10 pr-4 text-body-md font-body-md focus:ring-2 focus:ring-primary-container w-64 transition-all" placeholder="搜索路线..." type="text"/>
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant">search</span>
+</div>
+<button class="material-symbols-outlined text-on-surface-variant">notifications</button>
+<div class="w-10 h-10 rounded-full bg-surface-container-highest overflow-hidden border-2 border-primary-container">
+<img alt="User Avatar" class="w-full h-full object-cover" data-alt="A professional close-up portrait of a stylish urban explorer in their late 20s. The lighting is soft and natural, suggesting an afternoon city glow. The subject has a confident, friendly expression. The background is slightly blurred showing modern city architecture with warm orange and cool gray tones, maintaining a high-end corporate lifestyle aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBX8UziRA-3MooMQTb1w2LxTmQcmb-DZVNt7H672xThJK-k3cJ_UM1qSQ_fbw-8RFv3Bf1HYWyFXSlAziPC02q3pv2HBW_X05MWaqrmdzVZtFWSrULN6l6TwWmdMxGWP4pAuZuh5rJ3zVvVhQzFkBNSKkHb52feTMwwRoxM6GpmdKZ781BAF2DBRPOImj-t_Lcese_q2MaxAce7hPfPTs7Muv0TWX2INfel3tI2G69r-gbc3HIxQPDf4klArYWsOFvPZMwbZYwJd_4"/>
+</div>
+</div>
+</header>
+<div class="flex max-w-[1280px] mx-auto min-h-[calc(100vh-64px)]">
+<!-- Side Navigation (Desktop Only) -->
+<aside class="hidden md:flex flex-col h-auto w-64 border-r border-outline-variant bg-surface dark:bg-inverse-surface p-md gap-lg sticky top-16 self-start">
+<div class="flex flex-col gap-xs pb-md border-b border-outline-variant">
+<span class="text-headline-md font-headline-md font-bold text-primary">City Explorer</span>
+<span class="text-body-md font-body-md text-on-surface-variant">12级 连接者</span>
+</div>
+<nav class="flex flex-col gap-sm">
+<a class="flex items-center gap-md text-on-surface-variant hover:bg-surface-container-high rounded-lg px-md py-sm transition-all" href="#">
+<span class="material-symbols-outlined">explore</span>
+<span class="text-label-md font-label-md">Discover</span>
+</a>
+<a class="flex items-center gap-md text-on-surface-variant hover:bg-surface-container-high rounded-lg px-md py-sm transition-all" href="#">
+<span class="material-symbols-outlined">map</span>
+<span class="text-label-md font-label-md">Routes</span>
+</a>
+<a class="flex items-center gap-md text-on-surface-variant hover:bg-surface-container-high rounded-lg px-md py-sm transition-all" href="#">
+<span class="material-symbols-outlined">group</span>
+<span class="text-label-md font-label-md">Community</span>
+</a>
+<a class="flex items-center gap-md bg-secondary-container text-on-secondary-container rounded-lg px-md py-sm scale-95 transition-transform" href="#">
+<span class="material-symbols-outlined">person</span>
+<span class="text-label-md font-label-md">Profile</span>
+</a>
+</nav>
+<div class="mt-auto flex flex-col gap-sm">
+<button class="bg-primary text-on-primary rounded-xl py-md font-label-md text-label-md orange-glow active:scale-95 transition-all">
+                    发布动态
+                </button>
+<a class="flex items-center gap-md text-on-surface-variant hover:bg-surface-container-high rounded-lg px-md py-sm transition-all" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="text-label-md font-label-md">Settings</span>
+</a>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="flex-1 p-margin-mobile md:p-margin-desktop bg-background">
+<!-- User Stats Section (Bento Grid) -->
+<section class="grid grid-cols-1 md:grid-cols-4 gap-gutter mb-xl">
+<div class="md:col-span-2 bg-surface custom-shadow rounded-xl p-lg flex flex-col justify-between overflow-hidden relative group">
+<div class="relative z-10">
+<span class="text-label-md font-label-md text-on-surface-variant uppercase tracking-wider">当前探索等级</span>
+<h2 class="text-display-lg font-display-lg text-primary mt-sm">Level 12</h2>
+<p class="text-body-md font-body-md text-on-surface-variant mt-sm">还差 120 经验值升级至“城市猎人”</p>
+</div>
+<div class="mt-lg w-full bg-surface-container rounded-full h-3 overflow-hidden">
+<div class="bg-primary h-full w-[75%] rounded-full shadow-lg"></div>
+</div>
+<!-- Background Pattern Decor -->
+<div class="absolute -right-10 -bottom-10 opacity-10 group-hover:scale-110 transition-transform duration-500">
+<span class="material-symbols-outlined text-[160px] text-primary">route</span>
+</div>
+</div>
+<div class="bg-surface custom-shadow rounded-xl p-lg flex flex-col items-center justify-center text-center">
+<span class="material-symbols-outlined text-primary text-4xl mb-sm">straighten</span>
+<span class="text-display-lg font-display-lg">248<span class="text-headline-md">km</span></span>
+<span class="text-label-md font-label-md text-on-surface-variant">总步行距离</span>
+</div>
+<div class="bg-surface custom-shadow rounded-xl p-lg flex flex-col items-center justify-center text-center">
+<span class="material-symbols-outlined text-primary text-4xl mb-sm">location_on</span>
+<span class="text-display-lg font-display-lg">42</span>
+<span class="text-label-md font-label-md text-on-surface-variant">探索兴趣点</span>
+</div>
+</section>
+<!-- Action Row -->
+<div class="flex justify-between items-end mb-lg">
+<div>
+<h2 class="text-headline-lg-mobile md:text-headline-lg font-headline-lg text-on-surface">我的保存路线</h2>
+<p class="text-body-md font-body-md text-on-surface-variant">收藏的最爱城步路线</p>
+</div>
+<button class="bg-primary text-on-primary px-lg py-sm rounded-xl font-label-md text-label-md orange-glow hover:translate-y-[-2px] transition-all flex items-center gap-xs">
+<span class="material-symbols-outlined">add</span>
+                    新建路线
+                </button>
+</div>
+<!-- Saved Routes List (Horizontal Scroll or Flex Row) -->
+<div class="flex flex-col gap-gutter mb-xl">
+<!-- Route Card 1 -->
+<div class="bg-surface custom-shadow rounded-xl p-md flex flex-col md:flex-row gap-md hover:bg-surface-container-low transition-colors group cursor-pointer border border-transparent hover:border-outline-variant">
+<div class="w-full md:w-48 h-32 rounded-lg overflow-hidden shrink-0">
+<img alt="Route Preview" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A scenic urban walking route captured at sunset. The path winds through a modern cityscape with clean architecture and lush greenery on either side. Warm orange sunlight creates long shadows and a welcoming atmosphere. The visual style is crisp, high-definition photography with a focus on urban serenity and discovery." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC_tviTZ35alqUaqmaIpvefgCgQLVl0njyxYqaVVcprYt4npPIJf6ltrCu6BtBS3b2OGG-tKKUVCejb8pUpG9a1G-HhtHyaB2QnjyQ_Q6OBk4qs8KzrllCMQtNK65s1-iGRqvEZ8R99NJjtIkDKpwjqfHc3KR53ACD9owIzG9XV9h9POji6V8zG6MGU-VTNCCv2MWIqnjMAv5F2-0I7BDULEJtWEs56LxQhHFAVONnvjqYtf9wWXUDJOe5SzZ0oQc5QTAMq-bquuzU"/>
+</div>
+<div class="flex flex-col justify-between flex-1 py-1">
+<div>
+<div class="flex justify-between items-start">
+<h3 class="text-headline-md font-headline-md">外滩江边漫步</h3>
+<span class="bg-surface-container-highest text-on-surface-variant px-sm py-xs rounded-full text-caption font-caption">3.2 km</span>
+</div>
+<p class="text-body-md font-body-md text-on-surface-variant mt-xs">涵盖上海历史建筑与江景的最佳路线。</p>
+</div>
+<div class="flex items-center gap-md mt-sm">
+<div class="flex items-center gap-xs text-on-surface-variant">
+<span class="material-symbols-outlined text-sm">schedule</span>
+<span class="text-caption font-caption">45 分钟</span>
+</div>
+<div class="flex items-center gap-xs text-secondary">
+<span class="material-symbols-outlined text-sm">trending_up</span>
+<span class="text-caption font-caption">中等难度</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Route Card 2 -->
+<div class="bg-surface custom-shadow rounded-xl p-md flex flex-col md:flex-row gap-md hover:bg-surface-container-low transition-colors group cursor-pointer border border-transparent hover:border-outline-variant">
+<div class="w-full md:w-48 h-32 rounded-lg overflow-hidden shrink-0">
+<img alt="Route Preview" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A vibrant shot of a bustling city center route during the golden hour. The image features tall skyscrapers, street performers in the distance, and bright urban signage. The palette is dominated by rich oranges, deep navys, and crisp whites. The lighting is dynamic, emphasizing the energetic 'pulse' of city life." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCVxXeEnttzp06NwuYixbO1FFDakfcvA8XZw9TTqm900tCWJQ0LFIGlE47yQSITGKevby3x3xc9kkItvbQQZiijOy1HA9sgjDb7kovN4s9g_XzzL__FWXDzovai1VzGHbny2CsgFnM5ejsB1N_oqqzxXkVy2kkigUPxE7EE_JSBY77YMno_YNJvo6Aiv0iz6FGu--_lfaeMtz6CLk34og21HSfOoXgZBWVF2eh6n5w7sJD5qR8yqWBIhg5hfTYL81xh6vadfFsfcZE"/>
+</div>
+<div class="flex flex-col justify-between flex-1 py-1">
+<div>
+<div class="flex justify-between items-start">
+<h3 class="text-headline-md font-headline-md">静安寺隐秘小巷</h3>
+<span class="bg-surface-container-highest text-on-surface-variant px-sm py-xs rounded-full text-caption font-caption">1.8 km</span>
+</div>
+<p class="text-body-md font-body-md text-on-surface-variant mt-xs">探索上海闹市区中安静的里弄文化。</p>
+</div>
+<div class="flex items-center gap-md mt-sm">
+<div class="flex items-center gap-xs text-on-surface-variant">
+<span class="material-symbols-outlined text-sm">schedule</span>
+<span class="text-caption font-caption">25 分钟</span>
+</div>
+<div class="flex items-center gap-xs text-primary">
+<span class="material-symbols-outlined text-sm">bolt</span>
+<span class="text-caption font-caption">轻松</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Posts Grid Section -->
+<section class="mb-xl">
+<h2 class="text-headline-lg-mobile md:text-headline-lg font-headline-lg text-on-surface mb-lg">我的发布</h2>
+<div class="grid grid-cols-2 md:grid-cols-3 gap-gutter">
+<!-- Post 1 -->
+<div class="aspect-square rounded-xl overflow-hidden relative group cursor-pointer custom-shadow">
+<img alt="Post Image" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" data-alt="A lifestyle photo of a pair of high-end walking shoes standing on a colorful urban mosaic pavement. The background shows a slightly out-of-focus street art mural with vibrant orange and navy blue patterns. The sunlight is bright and clear, casting sharp shadows. Professional, lifestyle-oriented photography with a modern corporate-soft-tech twist." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD7AD9Dn408Yqw7UM7-uPEWv6GyedchhnR30FG_95OBdUc4-WY2BH_abq2_3UACjd99C7V98HUb6CDOjCqK7u5VrM5y4ffbnCV_F8WztXXc_2SaTCQw6kAwC7N75n9OxX1uGIVe-T_isx5BL3_6fN3eW7U8kWnFTfaaawAnjvC6Ppcll6eib57Y0yQwQNuo8S5UoT3bq-63C58wANwnZ2W_pU4-dYYwXkWTly6Uq5FTJmdhRqinKP6QMnsipFkP4GSZnWZ3WQu5RVs"/>
+<div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-md text-white">
+<div class="flex items-center gap-xs"><span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">favorite</span> 124</div>
+<div class="flex items-center gap-xs"><span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">chat_bubble</span> 18</div>
+</div>
+</div>
+<!-- Post 2 -->
+<div class="aspect-square rounded-xl overflow-hidden relative group cursor-pointer custom-shadow">
+<img alt="Post Image" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" data-alt="A top-down view of a minimalist white cafe table featuring a smartphone showing a map app, a cup of artisanal latte, and a city guidebook. The lighting is soft and airy, creating a clean light-mode aesthetic. The color palette is neutral whites and grays with a small pop of orange from the app interface. It conveys a mood of relaxed urban planning." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBIvPxiIX-QdeUNgXH7JGjkZCNXvgPkoISZVtHjCC1DvEozXmRh1WkCjMnxztal-s4eoSmvNicenaepQdCC6fyWGeXZH2FCLmE9E7kVE_EFEdt4lE9kooFR_4mJ1hHT5A6m_X3VkWk5qVAl0yMh3qnsMsC189BX-6pAtf0lzaaPyVZbBLbf4BAb1CgvJsdLRc2MlSGsGUZL20EX09-cEuxUtpqKQIa03xLvKpwMKgwlIkQCcBx1k4XfDT5HJnna8k_gvJ2y1LNKjrw"/>
+<div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-md text-white">
+<div class="flex items-center gap-xs"><span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">favorite</span> 89</div>
+<div class="flex items-center gap-xs"><span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">chat_bubble</span> 5</div>
+</div>
+</div>
+<!-- Post 3 -->
+<div class="aspect-square rounded-xl overflow-hidden relative group cursor-pointer custom-shadow">
+<img alt="Post Image" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" data-alt="A wide-angle urban landscape featuring a modern glass bridge reflecting the blue sky. People are walking across the bridge, and the architecture is sleek and futuristic. High contrast lighting emphasizes the clean lines of the structure. The mood is optimistic and high-energy, perfectly aligning with an urban explorer's discovery journey." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCXf3pPGInpkWqfq-kTg3o8BVf1K42YY3C7lh7DmlJ091BRsCpkvyFF6i7BtRUeFvJVYwNArpcZdUmbzkg6R5KBP16Yfka55wErrLLgroZajy3pvmQpYTrrsjua0sM0a156qtRRkRFmOfHjFkijm4XQZ5Ax3ssARn1tb-YwMaNjY98BNPt10ymF3p7JGO1lHGoFn7WNatD64OMzW9wXDfpErbr-JpYczS2jBhv316Eo8YmuRNd5_LQigPbcWVR39oFIWIpsMUqnb_s"/>
+<div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-md text-white">
+<div class="flex items-center gap-xs"><span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">favorite</span> 256</div>
+<div class="flex items-center gap-xs"><span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">chat_bubble</span> 42</div>
+</div>
+</div>
+</div>
+</section>
+</main>
+</div>
+<!-- Bottom Navigation (Mobile Only) -->
+<nav class="fixed bottom-0 w-full z-50 flex justify-around items-center px-margin-mobile py-sm md:hidden bg-surface dark:bg-inverse-surface shadow-lg rounded-t-xl">
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary" href="#">
+<span class="material-symbols-outlined">map</span>
+<span class="text-caption font-caption">地图</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary" href="#">
+<span class="material-symbols-outlined">forum</span>
+<span class="text-caption font-caption">动态</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary" href="#">
+<span class="material-symbols-outlined">route</span>
+<span class="text-caption font-caption">路线</span>
+</a>
+<a class="flex flex-col items-center justify-center bg-primary-container text-on-primary-container rounded-full px-4 py-1 scale-90 duration-150" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">account_circle</span>
+<span class="text-caption font-caption">我的</span>
+</a>
+</nav>
+<!-- Contextual FAB for Route Management Screen -->
+<button class="fixed bottom-24 right-margin-mobile md:hidden bg-primary text-on-primary w-14 h-14 rounded-full flex items-center justify-center orange-glow shadow-lg z-40 active:scale-90 transition-transform">
+<span class="material-symbols-outlined text-3xl">add</span>
+</button>
+</body></html>
+
+<!-- 个人中心 - 移动端 -->
+<!DOCTYPE html>
+
+<html lang="zh-CN"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&amp;family=Plus+Jakarta+Sans:wght@100..900&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .pulse-shadow {
+            box-shadow: 0px 4px 12px rgba(255, 107, 53, 0.3);
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f9f9f9;
+        }
+        .headline-font {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-container-lowest": "#ffffff",
+                        "error": "#ba1a1a",
+                        "on-error-container": "#93000a",
+                        "surface-container": "#eeeeee",
+                        "surface-bright": "#f9f9f9",
+                        "secondary": "#24619d",
+                        "on-tertiary-fixed-variant": "#454843",
+                        "primary-container": "#ff6b35",
+                        "on-error": "#ffffff",
+                        "on-secondary-fixed": "#001c37",
+                        "error-container": "#ffdad6",
+                        "on-primary-fixed-variant": "#832600",
+                        "tertiary-fixed": "#e1e3dc",
+                        "surface-container-low": "#f3f3f3",
+                        "surface-container-high": "#e8e8e8",
+                        "on-tertiary-fixed": "#191c18",
+                        "tertiary": "#5c5f5a",
+                        "surface-variant": "#e2e2e2",
+                        "on-secondary-container": "#004b84",
+                        "secondary-fixed-dim": "#a1c9ff",
+                        "on-secondary": "#ffffff",
+                        "surface": "#f9f9f9",
+                        "secondary-fixed": "#d2e4ff",
+                        "on-primary": "#ffffff",
+                        "on-tertiary": "#ffffff",
+                        "on-secondary-fixed-variant": "#004880",
+                        "inverse-primary": "#ffb59d",
+                        "secondary-container": "#87bcfe",
+                        "primary-fixed-dim": "#ffb59d",
+                        "inverse-surface": "#2f3131",
+                        "background": "#f9f9f9",
+                        "outline": "#8d7168",
+                        "on-tertiary-container": "#2f322e",
+                        "on-primary-container": "#5f1900",
+                        "surface-container-highest": "#e2e2e2",
+                        "outline-variant": "#e1bfb5",
+                        "surface-dim": "#dadada",
+                        "tertiary-fixed-dim": "#c5c7c1",
+                        "on-background": "#1a1c1c",
+                        "on-surface": "#1a1c1c",
+                        "inverse-on-surface": "#f1f1f1",
+                        "tertiary-container": "#989a94",
+                        "primary": "#ab3500",
+                        "primary-fixed": "#ffdbd0",
+                        "on-surface-variant": "#594139",
+                        "on-primary-fixed": "#390c00",
+                        "surface-tint": "#ab3500"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "xl": "32px",
+                        "xs": "4px",
+                        "lg": "24px",
+                        "2xl": "48px",
+                        "md": "16px",
+                        "gutter": "16px",
+                        "base": "4px",
+                        "margin-mobile": "16px",
+                        "margin-desktop": "32px",
+                        "sm": "8px"
+                    },
+                    "fontFamily": {
+                        "headline-lg": ["Plus Jakarta Sans"],
+                        "display-lg": ["Plus Jakarta Sans"],
+                        "body-lg": ["Inter"],
+                        "label-md": ["Inter"],
+                        "headline-md": ["Plus Jakarta Sans"],
+                        "headline-lg-mobile": ["Plus Jakarta Sans"],
+                        "caption": ["Inter"],
+                        "body-md": ["Inter"]
+                    },
+                    "fontSize": {
+                        "headline-lg": ["32px", {"lineHeight": "40px", "fontWeight": "700"}],
+                        "display-lg": ["40px", {"lineHeight": "48px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                        "label-md": ["14px", {"lineHeight": "20px", "fontWeight": "600"}],
+                        "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                        "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "700"}],
+                        "caption": ["12px", {"lineHeight": "16px", "fontWeight": "400"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface text-on-surface pb-24">
+<!-- TopNavBar -->
+<header class="sticky top-0 w-full z-50 flex justify-between items-center px-margin-mobile h-16 shadow-sm bg-surface">
+<div class="flex items-center gap-sm">
+<span class="text-headline-md font-headline-md font-bold text-primary">CityPulse</span>
+</div>
+<div class="flex items-center gap-md">
+<button class="flex items-center justify-center w-10 h-10 rounded-full hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="notifications">notifications</span>
+</button>
+<button class="flex items-center justify-center w-10 h-10 rounded-full hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="location_on">location_on</span>
+</button>
+</div>
+</header>
+<main class="px-margin-mobile pt-sm space-y-lg">
+<!-- Profile Hero Card -->
+<section class="relative overflow-hidden rounded-xl shadow-sm bg-surface-container-lowest p-lg">
+<div class="flex items-center gap-md mb-lg">
+<div class="relative">
+<img alt="User avatar" class="w-20 h-20 rounded-full object-cover border-4 border-primary-fixed" data-alt="A professional close-up portrait of a young urban explorer with a friendly smile, set against a blurred city street background during the golden hour. The lighting is warm and cinematic, emphasizing a vibrant, soft-tech lifestyle aesthetic with high-key whites and bright orange accents. The overall mood is optimistic, energetic, and modern, fitting for a premium city discovery application." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBTRKsZl-rkY8hOg3E54Bl1kgZ_WjwhreaY8E9OvwmBf-6qH6qzn5lDOUkMegn686qVBeJmm_5UgcseaBsZyL4gJZi5Jp7VqYMfQGPjp7RfhRLY8MiqJX6Z1sWIsrvBRL0BCjdn-bXbB_QWPlVuNUpFD0UYImHyScg3rgPPCcYyakUTiGS0YfDwIZVlFGJTGPAcUR4VI7jIGxOiE3VPfLtlEtw07BSQfs0tE-PluO4UJNQNrKh03sw7QjNoFdl9X73S2T571DRBHaI"/>
+<div class="absolute -bottom-1 -right-1 bg-primary text-on-primary px-2 py-0.5 rounded-full font-label-md text-caption border-2 border-surface-container-lowest">
+                        Lv.12
+                    </div>
+</div>
+<div class="flex-1">
+<h1 class="font-headline-md text-headline-md text-on-surface">Alex River</h1>
+<p class="font-body-md text-body-md text-on-surface-variant">City Explorer • Connector</p>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-md">
+<div class="bg-surface-container-low rounded-lg p-md flex flex-col items-center justify-center">
+<span class="font-headline-md text-headline-md text-primary">248km</span>
+<span class="font-caption text-caption text-on-surface-variant uppercase tracking-wider">Distance</span>
+</div>
+<div class="bg-surface-container-low rounded-lg p-md flex flex-col items-center justify-center">
+<span class="font-headline-md text-headline-md text-primary">42</span>
+<span class="font-caption text-caption text-on-surface-variant uppercase tracking-wider">Spots</span>
+</div>
+</div>
+</section>
+<!-- Main Action -->
+<button class="w-full flex items-center justify-center gap-sm bg-primary text-on-primary font-headline-md text-body-lg py-md rounded-xl pulse-shadow hover:opacity-90 transition-all active:scale-95">
+<span class="material-symbols-outlined" data-icon="add_circle">add_circle</span>
+            New Route
+        </button>
+<!-- Saved Routes Section -->
+<section class="space-y-md">
+<div class="flex justify-between items-end">
+<h2 class="font-headline-md text-headline-md text-on-surface">Saved Routes</h2>
+<button class="text-primary font-label-md text-label-md">See all</button>
+</div>
+<div class="flex gap-md overflow-x-auto pb-sm no-scrollbar">
+<!-- Route Card 1 -->
+<div class="min-w-[280px] bg-surface-container-lowest rounded-xl shadow-sm overflow-hidden flex-shrink-0">
+<div class="h-32 bg-surface-container relative">
+<img alt="Route image" class="w-full h-full object-cover" data-alt="An aerial high-angle view of a vibrant city park with winding walking paths and modern landscape architecture. The morning sunlight creates long, soft shadows, and the lush green trees contrast with the sleek gray pavement. The scene is bright and airy, reflecting an organized urban energy and a premium lifestyle discovery atmosphere with a soft-tech aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAJlkDjl3g13z7bTBtpsatVqS0stn6QQsQSVw5quXliGNuHPn2l6vcXeddW1cCLbeO6I_M03WLxPWab2Dc3IrN-eAVbi-c_4PYZUIV9eVlsEhc8N2wIXwp7RzmpJ_ZJ-rtKbCxHYYkEr1xkCzdTag6cKNsLqkid9Vckl5P0q5S8O7B17qQw_TcFf14iUpBnFfvLezRAbKwi6ttamDGhhd6DHyblkInrXrVxP3iXd_EzqDgGhPJdLYqGUv_QVmTeyh5ld_EgcajroBU"/>
+<div class="absolute top-sm right-sm bg-surface-container-lowest/90 backdrop-blur rounded-full px-sm py-xs flex items-center gap-xs">
+<span class="material-symbols-outlined text-primary text-[14px]" data-icon="star" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="font-label-md text-caption">4.8</span>
+</div>
+</div>
+<div class="p-md space-y-xs">
+<h3 class="font-headline-md text-body-md font-bold">Neon Riverside Drift</h3>
+<div class="flex items-center gap-md text-on-surface-variant">
+<span class="flex items-center gap-xs font-caption text-caption">
+<span class="material-symbols-outlined text-[16px]" data-icon="schedule">schedule</span> 45m
+                            </span>
+<span class="flex items-center gap-xs font-caption text-caption">
+<span class="material-symbols-outlined text-[16px]" data-icon="straighten">straighten</span> 3.2km
+                            </span>
+</div>
+</div>
+</div>
+<!-- Route Card 2 -->
+<div class="min-w-[280px] bg-surface-container-lowest rounded-xl shadow-sm overflow-hidden flex-shrink-0">
+<div class="h-32 bg-surface-container relative">
+<img alt="Route image" class="w-full h-full object-cover" data-alt="A clean, minimalist city street scene featuring modern architecture and a clear blue sky. The lighting is bright and high-contrast, highlighting the textures of glass and concrete. The perspective is from a pedestrian level, looking down a wide, organized boulevard, conveying a sense of urban exploration and trusted reliability in a corporate modern style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAfqKz3OraKftXhgykj55gXR0-sDPRffyKXhHinjz0G8mu4A0G0VIkrMONjCYlqXqdw-Eh8QMSf7XVzLsC2jMDC0jpXt6A2OQcHLjA1EI5TXqfX93ThqWbt0JF7zQBXy9Om6Ak5MdVLT7qijWrgK84t6_DX7XQne19SutB0ydqhJIW6XrQfS7UepqjEBfHajAWrnrYjgZpNAvKHYnYhwY9o495ReBgeW4PYOHzIfO-K0R-5iKMU9A97kulIVtpHU8k6zW9NRn1gSzM"/>
+<div class="absolute top-sm right-sm bg-surface-container-lowest/90 backdrop-blur rounded-full px-sm py-xs flex items-center gap-xs">
+<span class="material-symbols-outlined text-primary text-[14px]" data-icon="star" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="font-label-md text-caption">4.5</span>
+</div>
+</div>
+<div class="p-md space-y-xs">
+<h3 class="font-headline-md text-body-md font-bold">Old Quarter Loop</h3>
+<div class="flex items-center gap-md text-on-surface-variant">
+<span class="flex items-center gap-xs font-caption text-caption">
+<span class="material-symbols-outlined text-[16px]" data-icon="schedule">schedule</span> 60m
+                            </span>
+<span class="flex items-center gap-xs font-caption text-caption">
+<span class="material-symbols-outlined text-[16px]" data-icon="straighten">straighten</span> 4.8km
+                            </span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- My Posts Section (Bento Style) -->
+<section class="space-y-md">
+<div class="flex justify-between items-end">
+<h2 class="font-headline-md text-headline-md text-on-surface">My Posts</h2>
+<button class="text-primary font-label-md text-label-md">Manage</button>
+</div>
+<div class="grid grid-cols-2 gap-sm">
+<div class="relative aspect-square rounded-xl overflow-hidden shadow-sm">
+<img alt="Post 1" class="w-full h-full object-cover" data-alt="A stylish urban lifestyle photo showing a person’s feet in modern sneakers walking over a colorful street mural. The colors are vibrant and high-energy, with a focus on bright oranges and deep blues. The composition is dynamic and captures the fluid rhythm of a breathing city. The overall visual style is corporate modern with a warm, lifestyle twist." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBsdLvc-eyRpXStr56t0M_6p-akyPqRG9JTwyMrOva79h7vjwOvi0Ltc8LcaUDcPWtEZfHmEFDwVagdEaFLmRhGBUmJ4WSMLcQia0BSk39_8K8Dhd8KMYr1wuuSoiAVFVlUdYqFE8GeKaadAcLGncycaGm5yTgh2ABCrgNhTX7Wk0lMVWaZj2bDwcCii7Owl9FH8Mr0Ho0V6Y3aS16ifJFjhh9z_lqV5U9kxaiMrWJvhvUaRbScbRPdfe2MG-FEk6RbFixMxhjpMIg"/>
+<div class="absolute bottom-sm left-sm bg-black/30 backdrop-blur px-sm py-xs rounded-full text-white font-caption text-caption flex items-center gap-xs">
+<span class="material-symbols-outlined text-[12px]" data-icon="favorite" style="font-variation-settings: 'FILL' 1;">favorite</span> 128
+                    </div>
+</div>
+<div class="grid grid-rows-2 gap-sm">
+<div class="relative rounded-xl overflow-hidden shadow-sm bg-surface-container-high">
+<img alt="Post 2" class="w-full h-full object-cover" data-alt="A high-contrast night scene of a city intersection with bright streaks of light from passing cars. The atmosphere is high-energy and vibrant, with deep navy shadows and glowing orange light trails. The image captures the proactive and reliable pulse of a modern metropolis in a sleek, tech-influenced style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDjg6xhajrJWZkKH4ommMWH15aqp_G6VVCvtpivXkHw3vEVhZDa6M0XiNlWPB3qXVycrckYrUb2SMnD0NrfmFJw7ZicF8E93xHeHt3Yxj_hnaAvJH-lPLsZaUUpylrhuig6hpcdK-No0AjhjXVAQjvU-c5jXy3J_lmAYmUZOTL-5ThVSNdLOwc6KW5EzcvwpwuGk2kyDV7U3C2kFAaPNrgC3M4wb0E13EZhtaMyu7f-vJeHcuHq72rPmKcDKAwjPyuKXm_XwuJqleQ"/>
+</div>
+<div class="relative rounded-xl overflow-hidden shadow-sm bg-primary-container flex items-center justify-center p-md">
+<p class="text-on-primary font-headline-md text-center text-body-md leading-tight">Found a hidden cafe in the district!</p>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 w-full z-50 flex justify-around items-center px-margin-mobile py-sm md:hidden bg-surface shadow-lg rounded-t-xl">
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="map">map</span>
+<span class="font-caption text-caption">Map</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="forum">forum</span>
+<span class="font-caption text-caption">Feed</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="route">route</span>
+<span class="font-caption text-caption">Routes</span>
+</a>
+<a class="flex flex-col items-center justify-center bg-primary-container text-on-primary-container rounded-full px-4 py-1 scale-90 duration-150" href="#">
+<span class="material-symbols-outlined" data-icon="account_circle" style="font-variation-settings: 'FILL' 1;">account_circle</span>
+<span class="font-caption text-caption">Me</span>
+</a>
+</nav>
+<script>
+        // Micro-interactions and effects
+        document.querySelectorAll('button, a').forEach(el => {
+            el.addEventListener('mousedown', () => {
+                el.style.transform = 'scale(0.95)';
+            });
+            el.addEventListener('mouseup', () => {
+                el.style.transform = 'scale(1)';
+            });
+            el.addEventListener('mouseleave', () => {
+                el.style.transform = 'scale(1)';
+            });
+        });
+
+        // Add scroll behavior to header shadow
+        window.addEventListener('scroll', () => {
+            const header = document.querySelector('header');
+            if (window.scrollY > 10) {
+                header.classList.add('shadow-md');
+            } else {
+                header.classList.remove('shadow-md');
+            }
+        });
+    </script>
+</body></html>
+
+<!-- 社区动态 - CityPulse -->
+<!DOCTYPE html>
+
+<html lang="zh-CN"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>CityPulse 社区动态</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&amp;family=Inter:wght@400;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .masonry-grid {
+            column-count: 2;
+            column-gap: 16px;
+        }
+        @media (min-width: 768px) {
+            .masonry-grid {
+                column-count: 3;
+            }
+        }
+        @media (min-width: 1024px) {
+            .masonry-grid {
+                column-count: 4;
+            }
+        }
+        .masonry-item {
+            break-inside: avoid;
+            margin-bottom: 16px;
+        }
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-secondary-fixed-variant": "#004880",
+                        "outline": "#8d7168",
+                        "on-error-container": "#93000a",
+                        "on-primary-fixed": "#390c00",
+                        "tertiary-fixed-dim": "#c5c7c1",
+                        "on-primary-fixed-variant": "#832600",
+                        "surface-container-low": "#f3f3f3",
+                        "surface-tint": "#ab3500",
+                        "surface-container-lowest": "#ffffff",
+                        "on-secondary": "#ffffff",
+                        "inverse-on-surface": "#f1f1f1",
+                        "error": "#ba1a1a",
+                        "tertiary-fixed": "#e1e3dc",
+                        "outline-variant": "#e1bfb5",
+                        "primary": "#ab3500",
+                        "on-background": "#1a1c1c",
+                        "on-primary-container": "#5f1900",
+                        "surface-bright": "#f9f9f9",
+                        "surface-dim": "#dadada",
+                        "on-secondary-container": "#004b84",
+                        "on-tertiary": "#ffffff",
+                        "surface-variant": "#e2e2e2",
+                        "primary-fixed": "#ffdbd0",
+                        "on-surface-variant": "#594139",
+                        "surface-container": "#eeeeee",
+                        "inverse-surface": "#2f3131",
+                        "inverse-primary": "#ffb59d",
+                        "tertiary-container": "#989a94",
+                        "on-secondary-fixed": "#001c37",
+                        "on-tertiary-fixed-variant": "#454843",
+                        "on-tertiary-container": "#2f322e",
+                        "background": "#f9f9f9",
+                        "tertiary": "#5c5f5a",
+                        "primary-fixed-dim": "#ffb59d",
+                        "secondary-fixed-dim": "#a1c9ff",
+                        "on-surface": "#1a1c1c",
+                        "surface-container-highest": "#e2e2e2",
+                        "surface": "#f9f9f9",
+                        "secondary-fixed": "#d2e4ff",
+                        "on-tertiary-fixed": "#191c18",
+                        "primary-container": "#ff6b35",
+                        "secondary": "#24619d",
+                        "surface-container-high": "#e8e8e8",
+                        "secondary-container": "#87bcfe",
+                        "error-container": "#ffdad6",
+                        "on-error": "#ffffff",
+                        "on-primary": "#ffffff"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "xl": "32px",
+                        "margin-desktop": "32px",
+                        "xs": "4px",
+                        "lg": "24px",
+                        "base": "4px",
+                        "2xl": "48px",
+                        "gutter": "16px",
+                        "md": "16px",
+                        "sm": "8px",
+                        "margin-mobile": "16px"
+                    },
+                    "fontFamily": {
+                        "caption": ["Inter"],
+                        "headline-lg": ["Plus Jakarta Sans"],
+                        "headline-lg-mobile": ["Plus Jakarta Sans"],
+                        "label-md": ["Inter"],
+                        "headline-md": ["Plus Jakarta Sans"],
+                        "body-md": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "display-lg": ["Plus Jakarta Sans"]
+                    },
+                    "fontSize": {
+                        "caption": ["12px", {"lineHeight": "16px", "fontWeight": "400"}],
+                        "headline-lg": ["32px", {"lineHeight": "40px", "fontWeight": "700"}],
+                        "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "700"}],
+                        "label-md": ["14px", {"lineHeight": "20px", "fontWeight": "600"}],
+                        "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                        "display-lg": ["40px", {"lineHeight": "48px", "letterSpacing": "-0.02em", "fontWeight": "700"}]
+                    }
+                },
+            },
+        }
+    </script>
+</head>
+<body class="bg-background text-on-background font-body-md selection:bg-primary-fixed selection:text-on-primary-fixed">
+<!-- Top Navigation Bar -->
+<header class="sticky top-0 w-full z-50 flex justify-between items-center px-margin-mobile md:px-margin-desktop h-16 shadow-sm bg-surface dark:bg-inverse-surface">
+<div class="flex items-center gap-md">
+<span class="text-headline-md font-headline-md font-bold text-primary dark:text-inverse-primary">CityPulse</span>
+</div>
+<!-- Desktop Search -->
+<div class="hidden md:flex flex-1 max-w-md mx-xl">
+<div class="relative w-full">
+<span class="material-symbols-outlined absolute left-sm top-1/2 -translate-y-1/2 text-on-surface-variant">search</span>
+<input class="w-full bg-surface-container border-none rounded-full py-sm pl-xl pr-md text-label-md focus:ring-2 focus:ring-primary-container" placeholder="搜索隐藏宝藏或路线..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-md">
+<button class="relative p-sm text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-1 right-1 w-2 h-2 bg-primary rounded-full"></span>
+</button>
+<button class="p-sm text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined">location_on</span>
+</button>
+<img alt="User avatar" class="w-8 h-8 rounded-full border border-outline-variant object-cover" data-alt="A professional headshot of a young urban explorer with a friendly smile, set against a soft-focus city skyline at sunset. The lighting is warm and golden, reinforcing the brand's optimistic and reliable personality. The style is clean and high-end, typical of a modern corporate-lifestyle application profile." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDToEwJ8f5wiR5SEw5rLzxgXE2AihYC04nR_C41LZJ16TAHkgntNYY-S6SzkqSFEDBsYWrYUsHf-bvavbYIV46puzEw6G4qDRpwKWx7AS6VsxQbP6ttwRJOo0dc_VSLk4ahKVuUMUyOecBtUuxhrzdyfVSsHnRD5dZsGpzHqpzR-289Qaz5Z4-UiNitWWK8PVakqcWQ-w9buVllJyK_QWB6ob3IrOV7OzUW3zObPMkZkrrgAFIMk2wPgWiqJbFmn0pZxXXX3qM31jY"/>
+</div>
+</header>
+<div class="flex">
+<!-- Side Navigation (Desktop) -->
+<aside class="hidden md:flex flex-col h-[calc(100vh-64px)] w-64 border-r border-outline-variant bg-surface dark:bg-inverse-surface p-md gap-lg sticky top-16">
+<nav class="flex flex-col gap-sm">
+<a class="flex items-center gap-md bg-secondary-container text-on-secondary-container rounded-lg px-md py-sm scale-95 transition-transform" href="#">
+<span class="material-symbols-outlined">explore</span>
+<span class="text-label-md font-label-md">Discover</span>
+</a>
+<a class="flex items-center gap-md text-on-surface-variant hover:bg-surface-container-high rounded-lg px-md py-sm transition-all" href="#">
+<span class="material-symbols-outlined">map</span>
+<span class="text-label-md font-label-md">Routes</span>
+</a>
+<a class="flex items-center gap-md text-on-surface-variant hover:bg-surface-container-high rounded-lg px-md py-sm transition-all" href="#">
+<span class="material-symbols-outlined">group</span>
+<span class="text-label-md font-label-md">Community</span>
+</a>
+<a class="flex items-center gap-md text-on-surface-variant hover:bg-surface-container-high rounded-lg px-md py-sm transition-all" href="#">
+<span class="material-symbols-outlined">person</span>
+<span class="text-label-md font-label-md">Profile</span>
+</a>
+</nav>
+<div class="mt-auto flex flex-col gap-sm">
+<button class="w-full bg-primary text-on-primary py-sm px-md rounded-xl font-label-md shadow-md hover:shadow-lg transition-all active:scale-95">
+                    Post Update
+                </button>
+<div class="h-[1px] bg-outline-variant my-sm"></div>
+<a class="flex items-center gap-md text-on-surface-variant hover:bg-surface-container-high rounded-lg px-md py-sm" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="text-label-md font-label-md">Settings</span>
+</a>
+<a class="flex items-center gap-md text-on-surface-variant hover:bg-surface-container-high rounded-lg px-md py-sm" href="#">
+<span class="material-symbols-outlined">help</span>
+<span class="text-label-md font-label-md">Help</span>
+</a>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="flex-1 min-h-screen bg-background pb-20 md:pb-lg">
+<!-- Feed Filter Tabs -->
+<div class="sticky top-16 z-40 bg-background/80 backdrop-blur-md px-margin-mobile md:px-margin-desktop py-md">
+<div class="flex items-center gap-md overflow-x-auto hide-scrollbar">
+<button class="px-lg py-sm rounded-full bg-primary-container text-on-primary-container font-label-md whitespace-nowrap">
+                        Trending
+                    </button>
+<button class="px-lg py-sm rounded-full bg-surface-container-high text-on-surface-variant hover:bg-surface-variant transition-colors font-label-md whitespace-nowrap">
+                        Following
+                    </button>
+<button class="px-lg py-sm rounded-full bg-surface-container-high text-on-surface-variant hover:bg-surface-variant transition-colors font-label-md whitespace-nowrap">
+                        Nearby
+                    </button>
+<div class="ml-auto flex gap-sm">
+<button class="p-sm rounded-full bg-surface-container border border-outline-variant text-on-surface-variant">
+<span class="material-symbols-outlined text-[20px]">tune</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Masonry Grid Layout -->
+<div class="px-margin-mobile md:px-margin-desktop mt-sm">
+<div class="masonry-grid">
+<!-- Card 1: Route -->
+<div class="masonry-item">
+<article class="bg-surface rounded-xl overflow-hidden shadow-[0px_4px_20px_rgba(0,0,0,0.05)] hover:shadow-[0px_8px_32px_rgba(0,0,0,0.12)] transition-all group cursor-pointer">
+<div class="relative overflow-hidden">
+<img class="w-full h-auto object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A cinematic low-angle shot of a narrow cobblestone alley in a historic Asian city, decorated with glowing paper lanterns and lush green plants hanging from balconies. Soft dusk lighting creates a magical, inviting atmosphere with vibrant orange and deep blue contrasts. The image captures the essence of a 'hidden gem' urban route." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD3EyRXOshcVZY7v3dbYcGa7zDUixlMcuHt3hMENEpsXkUt6ryzf6sviApIYT1f8uFWsAfp8CXtoollf63JW6EkC9PXZL9xXy-PLl-jPd0X90otTJuBRtnByvVICu3s6ATn5FwI96XEk6XTl1_mAOipUGUk1K1J6f8f-tLp6_9iTfGnLBliJnX2I9oIDvbXEO4RvNGQSavyrqAL-zaWEBIX3hn2uxR2zXsA8NYC86Mf7hjkeSpfFNHPkQLmrmbKuLbPIHpltrq_aw8"/>
+<div class="absolute top-sm left-sm">
+<span class="bg-primary-container/90 backdrop-blur text-on-primary-container text-caption font-label-md px-sm py-xs rounded-lg flex items-center gap-xs">
+<span class="material-symbols-outlined text-[14px]">route</span> 精选路线
+                                    </span>
+</div>
+</div>
+<div class="p-md">
+<h3 class="font-headline-md text-label-md text-on-surface mb-sm line-clamp-2">老城区的秘密花园：避开游客的午后漫步</h3>
+<div class="flex items-center justify-between mt-md">
+<div class="flex items-center gap-sm">
+<img class="w-6 h-6 rounded-full" data-alt="Close-up portrait of a female travel blogger with a stylish camera, vibrant orange background, soft professional studio lighting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAKkHzvYqDHRKNUS68NLhCZvjz483szYyMbnJjNlo0scVxvmPuL1brv8oabIRI56aUuuXKKzvnmIMmYGZXugZWI6KX9hrxzITdkmQBtldNrPPDH_ctTYzaHs0RjrujmzfCgQqawXxEsfsr39Q0UyvLQ-c_5zgCtC_925mJ5x6114iHaVhvpH_H7bmyi_DC9Nb0m2KIyNtbmtU-OdxIosiBAxaZg0_1KrHaVRqsSEYUcdR4qpZBOE--OjZ4382cLpUOe1MKKE1LNnHw"/>
+<span class="text-caption text-on-surface-variant">林木子</span>
+</div>
+<div class="flex items-center gap-sm text-on-surface-variant">
+<div class="flex items-center gap-xs">
+<span class="material-symbols-outlined text-[16px]">favorite</span>
+<span class="text-caption">1.2k</span>
+</div>
+<div class="flex items-center gap-xs">
+<span class="material-symbols-outlined text-[16px]">bookmark</span>
+<span class="text-caption">450</span>
+</div>
+</div>
+</div>
+</div>
+</article>
+</div>
+<!-- Card 2: Hidden Gem -->
+<div class="masonry-item">
+<article class="bg-surface rounded-xl overflow-hidden shadow-[0px_4px_20px_rgba(0,0,0,0.05)] hover:shadow-[0px_8px_32px_rgba(0,0,0,0.12)] transition-all group cursor-pointer">
+<div class="relative overflow-hidden">
+<img class="w-full h-auto object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A minimalist, modern cafe interior with large glass windows overlooking a rainy city street. The aesthetic is clean and industrial-chic with warm wood accents and Sage Green decorative elements. High-contrast lighting focuses on a steaming cup of latte art, evoking a sense of calm and discovery." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBH9bNHLn0QmyHjdVo_7ILEyHB_CiaEggKPMDuqRkYB4nTEcm_DDr_X1v7LK0ct8aypCivN9Jh88gt4KLBqq5yXdXiuPU0ri7sAyoUDnL04XkDH0lgK6WMFG25Ot0XYAeLCz3wt_YgvTSeazuzXO7OjG0vfcsvYDvP-VqL4O75xCHjsd-SpmVgubRPB9G23SicAdZnUxOCvUy7VUp8tI8AlNcGgK3KXXMO5iH-8KDKrfIF_9nWOl2ZEo4lGlmK3YVbD87rL7ecuK_M"/>
+<div class="absolute top-sm left-sm">
+<span class="bg-secondary/90 backdrop-blur text-on-secondary text-caption font-label-md px-sm py-xs rounded-lg flex items-center gap-xs">
+<span class="material-symbols-outlined text-[14px]">local_cafe</span> 隐藏宝藏
+                                    </span>
+</div>
+</div>
+<div class="p-md">
+<h3 class="font-headline-md text-label-md text-on-surface mb-sm line-clamp-2">雨后的城市书店：在这里可以发呆一整天</h3>
+<div class="flex items-center justify-between mt-md">
+<div class="flex items-center gap-sm">
+<img class="w-6 h-6 rounded-full" data-alt="Casual profile picture of a young man wearing glasses and a navy beanie, creative designer aesthetic, bright natural daylight." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDI6fIjrY3XaGCJQrkruyFhpU8ve0jvwhlO1_yV0lpVwnKScLzkgFWReS4EixE-svjS9buHwN14Qehsg7rACsR6H0ABGtbMxenVXHsi0DJEGhQHQ8O44REclFei_NT_fPT0WLOUd-1_Q9emh6xbas2n_gHUProFIP6fCMFb0N4Luf4XkVpp98hFoJj3dCvyo6vORdMWGOV_Nd7AjyhUqMZoIe0yxvifTvWH1d9lbUvCwWbiqqMbYRAcDwBMaR7fPoJraEMhk-_3rLE"/>
+<span class="text-caption text-on-surface-variant">陈小航</span>
+</div>
+<div class="flex items-center gap-sm text-on-surface-variant">
+<div class="flex items-center gap-xs">
+<span class="material-symbols-outlined text-[16px]">favorite</span>
+<span class="text-caption">856</span>
+</div>
+</div>
+</div>
+</div>
+</article>
+</div>
+<!-- Card 3: Photo Spot -->
+<div class="masonry-item">
+<article class="bg-surface rounded-xl overflow-hidden shadow-[0px_4px_20px_rgba(0,0,0,0.05)] hover:shadow-[0px_8px_32px_rgba(0,0,0,0.12)] transition-all group cursor-pointer">
+<div class="relative overflow-hidden">
+<img class="w-full h-auto object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A breathtaking night view of a futuristic skyline with neon lights reflecting in a river. The primary colors are vibrant orange and deep navy blue. Long exposure photography creates light trails of city traffic, emphasizing the energetic rhythm of the urban environment." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBN4kPYlEV9G5-w-vuAfCIB1-2kjvCMsOB0qhYfjRILoC_XOLIHxtWdXW-BxklH43BVagVIRQpHD3RYTfDwWpdAd558nxSNSY7KF2e-WqDNZMAHwD-OoUXHjD4H_fU67CtCTff4HubO4wGfdzXKfLOIiev5n58Or3VnuUG5sqGjOZkb_t0t99FM_nWbKeaF5VJYD171WOFc4tAYMoUHYTV_T5h_Jf0c6_8_Ol1qQpycdEpa5DQy0uHT5qDMGD52if12OanLgAQYFco"/>
+<div class="absolute top-sm left-sm">
+<span class="bg-tertiary-container/90 backdrop-blur text-on-tertiary-container text-caption font-label-md px-sm py-xs rounded-lg flex items-center gap-xs">
+<span class="material-symbols-outlined text-[14px]">photo_camera</span> 拍照圣地
+                                    </span>
+</div>
+</div>
+<div class="p-md">
+<h3 class="font-headline-md text-label-md text-on-surface mb-sm line-clamp-2">赛博朋克现实版：这个天台能俯瞰整座城市</h3>
+<div class="flex items-center justify-between mt-md">
+<div class="flex items-center gap-sm">
+<img class="w-6 h-6 rounded-full" data-alt="Portrait of an urban photographer with a modern tech-wear jacket, cool tone lighting, industrial background." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBTDF6z8kL2xCi7cWkWBTMYcHJyqcutlUclIRuzmQTq8Ba6VtU0uW8QpWE2vOVtTrm0PiIfnRBfH73RGMVOs93NfEdvuu0FBHxVh2xkgm0GcL90fQFF-a3TwnKk--1-9toUuvAR0kgZ7ehe1kEyC6fhHb1fD65NG0fAUOM3uY8a3L3wvJkH3Fexdof6Kh3zqE0LclW4o7xV-QYXfivYKdKG69L_XmWSee0FvFSnk8ERpjvFYfuqMdjSaoRtahjWP7RY-sLhoq6LvVI"/>
+<span class="text-caption text-on-surface-variant">摄影师王大</span>
+</div>
+<div class="flex items-center gap-sm text-on-surface-variant">
+<div class="flex items-center gap-xs">
+<span class="material-symbols-outlined text-[16px]">favorite</span>
+<span class="text-caption">3.4k</span>
+</div>
+</div>
+</div>
+</div>
+</article>
+</div>
+<!-- Card 4: Event -->
+<div class="masonry-item">
+<article class="bg-surface rounded-xl overflow-hidden shadow-[0px_4px_20px_rgba(0,0,0,0.05)] hover:shadow-[0px_8px_32px_rgba(0,0,0,0.12)] transition-all group cursor-pointer">
+<div class="relative overflow-hidden">
+<img class="w-full h-auto object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A vibrant outdoor community market scene during the golden hour. Stalls are filled with colorful local crafts and street food. The atmosphere is high-energy and social, with diverse groups of people interacting. The lighting is warm, capturing the 'Pulse' of the city." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBZPzMH1GeOxrOrS7uR7eWwUTaqhmi3sQvH96rljE1vSTYcbkV2Ik1854dcK_84cf1Q6uEHY-p9REFYlRN43Zeo_e0baEW1l_CYEhcUqrLgIEu-rQqSQfPnu4MS66EM4wJ3vL4XmvkJkZ9lsIvpB91pRxoSBYskcs_gzTP-O3IdF8ldFOZ4YfwQh40JlJrI1LszMISPKN32XFDskopTCvzhbaMZbKllQx5fU-y6-tiggAqmQc9YEiXhWqq9TWYsO6tZq6Ym2TLPZZ0"/>
+<div class="absolute top-sm left-sm">
+<span class="bg-primary/90 backdrop-blur text-on-primary text-caption font-label-md px-sm py-xs rounded-lg flex items-center gap-xs">
+<span class="material-symbols-outlined text-[14px]">event</span> 热门活动
+                                    </span>
+</div>
+</div>
+<div class="p-md">
+<h3 class="font-headline-md text-label-md text-on-surface mb-sm line-clamp-2">周末市集：发现本土艺术家的无限创意</h3>
+<div class="flex items-center justify-between mt-md">
+<div class="flex items-center gap-sm">
+<img class="w-6 h-6 rounded-full" data-alt="Smiling young woman in a casual summer outfit, bright daylight, blurred market background." src="https://lh3.googleusercontent.com/aida-public/AB6AXuACgbrwAh8-jleeQpJRWY5n2YDukCFuBoJR5wBiDw8WzbiU5nw1tPKawDinLuP3vYekXoUFDqDiVxm3YTIdjcEmrcI4M4-_mpypVF73AFvJjuooHmwlBgGYBs-tJeYK7MUGQ3C8rUDHSVYKxZujCci2iLB0KpxCg9KDO-nKB-7KYS8Gg0NJ7NPzSBM1HNaVVCnTEaIIDVTzh-JOHgLE9JwziwlOcL-Ob0fdT_Jw7m5KsGHJmaecMo_YikrrO9bB2gQ9nt7Pc5qI2bc"/>
+<span class="text-caption text-on-surface-variant">市集爱好者</span>
+</div>
+<div class="flex items-center gap-sm text-on-surface-variant">
+<div class="flex items-center gap-xs">
+<span class="material-symbols-outlined text-[16px]">favorite</span>
+<span class="text-caption">2.1k</span>
+</div>
+</div>
+</div>
+</div>
+</article>
+</div>
+<!-- Card 5: Architecture -->
+<div class="masonry-item">
+<article class="bg-surface rounded-xl overflow-hidden shadow-[0px_4px_20px_rgba(0,0,0,0.05)] hover:shadow-[0px_8px_32px_rgba(0,0,0,0.12)] transition-all group cursor-pointer">
+<div class="relative overflow-hidden">
+<img class="w-full h-auto object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A striking modern architectural shot showing repetitive geometric patterns of a concrete building façade. High-contrast midday sun creates dramatic deep shadows. The composition is clean and organized, reflecting the corporate modern visual style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCR_flAsUfix2DYcnn55jFnOkvm1kGO_nk9xIeWYIoDcJG3oruMOhRQgN3BrdQc-aoRQ8hNp-nm7UNAwViJrSk7VNm77izmnOehNfN0cItpq5IW9QxN8TK5oo8uJ-alXQIsJ_G6u-Ox2hA6Xeo2NeoE3LuQcUbxaAgQOJQ00gyFyrKq17NhW1kXmFrXSBK0DIaWqZhNjpycsnys9YGF7GdQ-fiAEozwEKJIbIcMe5gBC2_vBzGxsRhZi7Q19K5I3HymSX-y7lZhb20"/>
+<div class="absolute top-sm left-sm">
+<span class="bg-secondary-container/90 backdrop-blur text-on-secondary-container text-caption font-label-md px-sm py-xs rounded-lg flex items-center gap-xs">
+<span class="material-symbols-outlined text-[14px]">apartment</span> 建筑美学
+                                    </span>
+</div>
+</div>
+<div class="p-md">
+<h3 class="font-headline-md text-label-md text-on-surface mb-sm line-clamp-2">被低估的现代主义建筑：光影的交错之美</h3>
+<div class="flex items-center justify-between mt-md">
+<div class="flex items-center gap-sm">
+<img class="w-6 h-6 rounded-full" data-alt="Middle-aged man with artistic glasses, creative professional vibe, soft neutral lighting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB5UnbgLt6dFFEZyWUyhPfiMoK6ufiX5V0h76jCXDS-fVSwgfgr5lYgMXSLoS_FKujgQrRi83F5NI9dgqyCoVP2srvSGpRIyrsU-FATtCHRxCTwfKXvRdEDENEHLnstNPpS4l9jHiBHw8Nnz1-0STRW6MTJOFz2BnC8FIyEbZkIrdeXoue4UW26ve1N_TGemnxOq5p4BffTWSs86ufcW-3qU9rWRA2TPgBlyO2brlS8uITUJd9pENcJqu5tXidpcObMI4GTj-LQ5fc"/>
+<span class="text-caption text-on-surface-variant">极简达人</span>
+</div>
+<div class="flex items-center gap-sm text-on-surface-variant">
+<div class="flex items-center gap-xs">
+<span class="material-symbols-outlined text-[16px]">favorite</span>
+<span class="text-caption">962</span>
+</div>
+</div>
+</div>
+</div>
+</article>
+</div>
+</div>
+</div>
+</main>
+</div>
+<!-- Floating Action Button (FAB) - Home/Dashboard Context -->
+<button class="fixed bottom-24 right-margin-mobile md:bottom-8 md:right-8 bg-primary-container text-on-primary-container w-14 h-14 rounded-full flex items-center justify-center shadow-[0px_4px_12px_rgba(255,107,53,0.3)] hover:scale-110 active:scale-90 transition-all z-40">
+<span class="material-symbols-outlined text-[28px]">add</span>
+</button>
+<!-- Bottom Navigation Bar (Mobile) -->
+<nav class="fixed bottom-0 w-full z-50 flex justify-around items-center px-margin-mobile py-sm md:hidden shadow-lg bg-surface dark:bg-inverse-surface rounded-t-xl">
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary" href="#">
+<span class="material-symbols-outlined">map</span>
+<span class="text-caption font-caption">Map</span>
+</a>
+<a class="flex flex-col items-center justify-center bg-primary-container text-on-primary-container rounded-full px-4 py-1 scale-90 duration-150" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">forum</span>
+<span class="text-caption font-caption">Feed</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary" href="#">
+<span class="material-symbols-outlined">route</span>
+<span class="text-caption font-caption">Routes</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary" href="#">
+<span class="material-symbols-outlined">account_circle</span>
+<span class="text-caption font-caption">Me</span>
+</a>
+</nav>
+<script>
+        // Simple Interaction for navigation clicks
+        document.querySelectorAll('nav a, header button').forEach(el => {
+            el.addEventListener('click', (e) => {
+                const ripples = document.createElement('span');
+                ripples.classList.add('ripple');
+                // Could add more complex ripple logic here if desired
+            });
+        });
+
+        // Infinite scroll mock-up
+        window.addEventListener('scroll', () => {
+            if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 500) {
+                // In a real app, logic to load more masonry-items would go here
+            }
+        });
+    </script>
+</body></html>
+
+<!-- Design System -->
+<!DOCTYPE html>
+
+<html lang="zh-CN"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>CityPulse Community</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-container-lowest": "#ffffff",
+                        "error": "#ba1a1a",
+                        "on-error-container": "#93000a",
+                        "surface-container": "#eeeeee",
+                        "surface-bright": "#f9f9f9",
+                        "secondary": "#24619d",
+                        "on-tertiary-fixed-variant": "#454843",
+                        "primary-container": "#ff6b35",
+                        "on-error": "#ffffff",
+                        "on-secondary-fixed": "#001c37",
+                        "error-container": "#ffdad6",
+                        "on-primary-fixed-variant": "#832600",
+                        "tertiary-fixed": "#e1e3dc",
+                        "surface-container-low": "#f3f3f3",
+                        "surface-container-high": "#e8e8e8",
+                        "on-tertiary-fixed": "#191c18",
+                        "tertiary": "#5c5f5a",
+                        "surface-variant": "#e2e2e2",
+                        "on-secondary-container": "#004b84",
+                        "secondary-fixed-dim": "#a1c9ff",
+                        "on-secondary": "#ffffff",
+                        "surface": "#f9f9f9",
+                        "secondary-fixed": "#d2e4ff",
+                        "on-primary": "#ffffff",
+                        "on-tertiary": "#ffffff",
+                        "on-secondary-fixed-variant": "#004880",
+                        "inverse-primary": "#ffb59d",
+                        "secondary-container": "#87bcfe",
+                        "primary-fixed-dim": "#ffb59d",
+                        "inverse-surface": "#2f3131",
+                        "background": "#f9f9f9",
+                        "outline": "#8d7168",
+                        "on-tertiary-container": "#2f322e",
+                        "on-primary-container": "#5f1900",
+                        "surface-container-highest": "#e2e2e2",
+                        "outline-variant": "#e1bfb5",
+                        "surface-dim": "#dadada",
+                        "tertiary-fixed-dim": "#c5c7c1",
+                        "on-background": "#1a1c1c",
+                        "on-surface": "#1a1c1c",
+                        "inverse-on-surface": "#f1f1f1",
+                        "tertiary-container": "#989a94",
+                        "primary": "#ab3500",
+                        "primary-fixed": "#ffdbd0",
+                        "on-surface-variant": "#594139",
+                        "on-primary-fixed": "#390c00",
+                        "surface-tint": "#ab3500"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "xl": "32px",
+                        "xs": "4px",
+                        "lg": "24px",
+                        "2xl": "48px",
+                        "md": "16px",
+                        "gutter": "16px",
+                        "base": "4px",
+                        "margin-mobile": "16px",
+                        "margin-desktop": "32px",
+                        "sm": "8px"
+                    },
+                    "fontFamily": {
+                        "headline-lg": ["Plus Jakarta Sans"],
+                        "display-lg": ["Plus Jakarta Sans"],
+                        "body-lg": ["Inter"],
+                        "label-md": ["Inter"],
+                        "headline-md": ["Plus Jakarta Sans"],
+                        "headline-lg-mobile": ["Plus Jakarta Sans"],
+                        "caption": ["Inter"],
+                        "body-md": ["Inter"]
+                    },
+                    "fontSize": {
+                        "headline-lg": ["32px", {"lineHeight": "40px", "fontWeight": "700"}],
+                        "display-lg": ["40px", {"lineHeight": "48px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                        "label-md": ["14px", {"lineHeight": "20px", "fontWeight": "600"}],
+                        "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                        "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "700"}],
+                        "caption": ["12px", {"lineHeight": "16px", "fontWeight": "400"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            background-color: #f9f9f9;
+            color: #1a1c1c;
+            font-family: 'Inter', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .custom-shadow {
+            box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.05);
+        }
+        .fab-shadow {
+            box-shadow: 0px 4px 12px rgba(255, 107, 53, 0.3);
+        }
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="flex flex-col min-h-screen">
+<header class="sticky top-0 w-full z-50 flex justify-between items-center px-margin-mobile md:px-margin-desktop h-16 shadow-sm bg-surface dark:bg-inverse-surface">
+<div class="flex items-center gap-sm">
+<span class="text-headline-md font-headline-md font-bold text-primary dark:text-inverse-primary">CityPulse</span>
+</div>
+<div class="flex items-center gap-md">
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer">notifications</span>
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer">location_on</span>
+<div class="w-8 h-8 rounded-full bg-surface-container-highest overflow-hidden border border-outline-variant">
+<img alt="User avatar" data-alt="A close-up professional portrait of a smiling young adult with a friendly expression. The background is a soft, out-of-focus urban park during the golden hour, creating a warm and approachable mood. The lighting is natural and glowing, following the design system's clean, high-key light-mode aesthetic. The color palette is composed of soft earth tones and vibrant orange accents." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA9578ms284ZxwhmI5f32w9vcrQwxvh9mgOZzmdR1hPOm6fTn5rNkWkWnEYHY-vv5r0jpmqj-pmkeGaUEcDaQ7IOwN8KCEa5zdLdNNlgwwHIXvEDhITs7MSIPV9WY6-hlfp7H98-f2Lp8Ef6uPwKhbBWNMN3zZfI2GiwGWyA9QY-icRQo9EWalArUN2Z4EsmaixhtNBl7-hgy666NveR563Z7sX-juVXApzEie-4OratDVnJFJun4l9Ma39ZkkwGtPY-lmUJ5pD23o"/>
+</div>
+</div>
+</header>
+<div class="sticky top-16 z-40 bg-surface/80 backdrop-blur-md border-b border-surface-container-high">
+<div class="flex justify-around items-center h-12">
+<button class="flex flex-col items-center justify-center relative h-full">
+<span class="font-label-md text-label-md text-primary">Trending</span>
+<div class="absolute bottom-0 w-8 h-1 bg-primary rounded-t-full"></div>
+</button>
+<button class="flex flex-col items-center justify-center h-full">
+<span class="font-label-md text-label-md text-on-surface-variant">Following</span>
+</button>
+<button class="flex flex-col items-center justify-center h-full">
+<span class="font-label-md text-label-md text-on-surface-variant">Nearby</span>
+</button>
+</div>
+</div>
+<main class="flex-1 px-margin-mobile py-lg pb-32">
+<div class="space-y-lg">
+<article class="bg-surface-container-lowest rounded-xl overflow-hidden custom-shadow">
+<div class="p-md flex items-center justify-between">
+<div class="flex items-center gap-sm">
+<div class="w-10 h-10 rounded-full overflow-hidden">
+<img alt="Author" data-alt="A clean, minimalist portrait of a man with a friendly, energetic gaze, captured in soft, natural daylight. The background is a blurred cityscape with vibrant orange architectural highlights, aligning with the urban explorer theme. High-key lighting emphasizes a bright and optimistic mood, consistent with the soft-tech UI style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAHuV9RAVh7W-ybPuuhJrt6M6Eh91iGo69wCfJmaqogD8zrI9KxUFtGwwuxpNBfUvhcDMEX5V_LmPc0GhMVxDsiHF5m96YKWp609EuiT9Kmx1NzHOg4RbV75XEM99MtMDM0iQYO9ODI3EaEgMEdOr4TPcGibPN8K1kF152_k23RkwO-oqbrDYExuphlKfBP0l77rgStJ2QmzaUDfxIQx3u8A53GzIzXm_P17cmm5cBfaH9agqxUnR3_vVhxx83BHC7KXnXOk7esjp4"/>
+</div>
+<div>
+<p class="font-label-md text-label-md text-on-surface">Alex River</p>
+<p class="font-caption text-caption text-on-surface-variant">2 hours ago • Hidden Gem</p>
+</div>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant">more_horiz</span>
+</div>
+<div class="aspect-video w-full overflow-hidden">
+<img alt="City View" class="w-full h-full object-cover" data-alt="A stunning, high-contrast photograph of a vibrant urban alleyway filled with neon signs and lush plants, captured during twilight. The composition emphasizes depth and layers, with warm primary orange light reflecting off wet surfaces. The atmosphere is energetic and mysterious, perfectly capturing the rhythm of a breathing city. The image is polished and professional, suitable for a lifestyle discovery app." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC4cwfqAD4x-c6_atURaon6qYb7fu2w9UToKQVocBzA-YDPcI8zN-7HISiHLFZrTMcM6HwOdgMEj9W0pBl9GQQrJt9ZaHwJs_fRP-ZtE7Iqa8y4Voq0s1N1gln9ON8bR2aZOX71uVlkXQ_QS1_8vB_mMj0UTolvvn0d8VcP2OCRivdP0rE5g499CH6jBcCm4tdnwhQg1KVahkcOSnht8uymPmWWD72twr8czU4Bs5X9SWyE91E-JuQG69EH17dHUMqMqlrnPxvLPTs"/>
+</div>
+<div class="p-md">
+<h3 class="font-headline-md text-headline-md text-on-surface mb-xs">Found the best rooftop sunset spot in District 4!</h3>
+<p class="font-body-md text-body-md text-on-surface-variant line-clamp-2">Just discovered this quiet little pocket of the city that overlooks the entire harbor. If you're looking for peace amidst the chaos, this is it.</p>
+<div class="mt-md flex items-center justify-between">
+<div class="flex gap-md">
+<button class="flex items-center gap-xs text-on-surface-variant">
+<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">favorite</span>
+<span class="font-label-md text-label-md">1.2k</span>
+</button>
+<button class="flex items-center gap-xs text-on-surface-variant">
+<span class="material-symbols-outlined text-[20px]">forum</span>
+<span class="font-label-md text-label-md">84</span>
+</button>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant">share</span>
+</div>
+</div>
+</article>
+<article class="bg-surface-container-lowest rounded-xl overflow-hidden custom-shadow">
+<div class="p-md flex items-center justify-between">
+<div class="flex items-center gap-sm">
+<div class="w-10 h-10 rounded-full overflow-hidden">
+<img alt="Author" data-alt="A close-up portrait of a young woman with a joyful, proactive expression. The lighting is high-key and bright, with a minimalist, clean white studio background that creates a professional SaaS aesthetic. Subtle warm orange color grading ties into the CityPulse brand identity." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD0kBkNRm5F7aEgaENPIoLk7ZlqxYmHbKcEkJSLczopgzHDfY6HPv2OHsY4AtjUUcv9F6xBIhc0cFeUbQzqAYkI3M1qqOJGAsp-UUC174YynPRLZurQh5-SdUnSej7iOaAZAgs0K9Z9uI4u26crDO1m4qDTULEhwwybQ01hfMiRFfiDtqoBG877D6urQFfg155BQSUYlD5a_pPDfBWQf4gPaNak3lvKp4OVoy0eKNAxsHap-pnGJt0OE1mfTnZFTePg-rrW8PHSM9g"/>
+</div>
+<div>
+<p class="font-label-md text-label-md text-on-surface">Elena Zhou</p>
+<p class="font-caption text-caption text-on-surface-variant">5 hours ago • Community Hub</p>
+</div>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant">more_horiz</span>
+</div>
+<div class="aspect-video w-full overflow-hidden">
+<img alt="Community Event" class="w-full h-full object-cover" data-alt="A lively group of diverse urban explorers gathered in a modern, glass-walled community space. The scene is illuminated by soft, natural morning light, creating a sense of organized energy and connection. The interior features minimalist furniture and bright orange accents, consistent with the soft-tech brand style. The mood is optimistic and communal." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDKqDy7M15oM-5jno8BIbOA9CzH_a9yiRFa1PpblMo6bkJOqsQgew_Dh9fS9fwXieVi871gHfONBRKvEtpx96h815w2coKHS7f8Ldfwj4kRXDgptDDBufWO4iqYH5Ot9aWBAJaaTf8MZ6_WQl0Xx9DmgDKB7sRxErzfxIGMf8GmMg_wDvXI-yIZD3EhBeBhNuuUKweR0LPfT-Z8x7lBPVwKIolOXoNU4f6hmE5FS8hyG8VTij0qrFfv0CEasqCGAM1XPUF2ARZ3O5I"/>
+</div>
+<div class="p-md">
+<h3 class="font-headline-md text-headline-md text-on-surface mb-xs">Morning Coffee Meetup was a success!</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">Met so many new faces today. Thanks to everyone who came out to share their favorite city routes. Let's do this again next week!</p>
+<div class="mt-md flex items-center justify-between">
+<div class="flex gap-md">
+<button class="flex items-center gap-xs text-on-surface-variant">
+<span class="material-symbols-outlined text-[20px]">favorite</span>
+<span class="font-label-md text-label-md">432</span>
+</button>
+<button class="flex items-center gap-xs text-on-surface-variant">
+<span class="material-symbols-outlined text-[20px]">forum</span>
+<span class="font-label-md text-label-md">29</span>
+</button>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant">share</span>
+</div>
+</div>
+</article>
+<article class="bg-surface-container-lowest rounded-xl overflow-hidden custom-shadow">
+<div class="p-md flex items-center justify-between">
+<div class="flex items-center gap-sm">
+<div class="w-10 h-10 rounded-full overflow-hidden">
+<img alt="Author" data-alt="A focused portrait of a man in urban gear, looking thoughtfully into the distance. The lighting is cool-toned with sharp highlights, giving it a reliable and companion-like feel. The background shows a modern architectural structure with clean lines and high contrast, echoing the corporate modern style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD-_sjk4YbncSK0mZ6PQfEeOdm7QALBXG8FNA7Y62IlRNhRSLfXt-hJYhU8U_tB1nhhIcsi1nkb-8VvdYtF8bVM9Uw1h55mlc30LtDu_O7GW6k_jMRvERhR7u32bGPCXRQLPWfH4G36cWQydC3ZuyAfZvElgeqv5mQgNoyjhSY1Qe7e3OVyeBLpZIgr7UdRb29Mr-XCNkZEzOtcmzx0CnQVCLall93ttx6uK2B30PhVK6IstnVFHXgzRAuAuqgRTAeEFuUFqBLP0zw"/>
+</div>
+<div>
+<p class="font-label-md text-label-md text-on-surface">Marcus Knight</p>
+<p class="font-caption text-caption text-on-surface-variant">8 hours ago • Pro Route</p>
+</div>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant">more_horiz</span>
+</div>
+<div class="aspect-video w-full overflow-hidden relative">
+<img alt="City Route" class="w-full h-full object-cover" data-alt="A high-speed, dynamic view of a modern city bridge at night, with trailing light streaks from passing cars. The palette is dominated by deep navy blues and sharp, vibrant orange light trails. The photography is high-end and energetic, representing urban movement and proactive discovery. The scene is crisp and high-definition." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB1Bap8ubF5k2Pg9fpF1H1T4Pxuwc2d6lqFCvY8fgK4zwTnPE0tACHRpgNqIkgCCwL_mwJhSQnJYpmn9erWiVtKE5tEtzXuOxYOz9ZqRJ9TJyIoYYpxiAXujAuNCUm5BLJKMT9ZGi2k7-UFpimTKEt7vmRJcHfknpKzkGNL_W_CN2MD-sC2lZDOqDOAb0oimiyX_eDyXMDd_-mviCd-QpaB65oj5BVEU-Bxwoie9xVN7PpTgDAuw3h98YbGq9cvnDZTh-CdhESw27c"/>
+<div class="absolute top-4 right-4 bg-primary text-on-primary px-3 py-1 rounded-full text-caption font-label-md flex items-center gap-xs">
+<span class="material-symbols-outlined text-sm">trending_up</span>
+                        Trending
+                    </div>
+</div>
+<div class="p-md">
+<h3 class="font-headline-md text-headline-md text-on-surface mb-xs">Fastest commute route through the tech park?</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">Avoid the main gate between 8:30 and 9:00. Take the side path through the park—it's 5 minutes faster and way more scenic!</p>
+<div class="mt-md flex items-center justify-between">
+<div class="flex gap-md">
+<button class="flex items-center gap-xs text-on-surface-variant">
+<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">favorite</span>
+<span class="font-label-md text-label-md">2.5k</span>
+</button>
+<button class="flex items-center gap-xs text-on-surface-variant">
+<span class="material-symbols-outlined text-[20px]">forum</span>
+<span class="font-label-md text-label-md">156</span>
+</button>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant">share</span>
+</div>
+</div>
+</article>
+</div>
+</main>
+<button class="fixed bottom-24 right-margin-mobile z-50 bg-primary-container text-on-primary-container h-14 px-6 rounded-full flex items-center gap-sm fab-shadow active:scale-95 transition-transform">
+<span class="material-symbols-outlined">add_circle</span>
+<span class="font-label-md text-label-md">Post Update</span>
+</button>
+<nav class="fixed bottom-0 w-full z-50 flex justify-around items-center px-margin-mobile py-sm md:hidden bg-surface dark:bg-inverse-surface shadow-lg rounded-t-xl">
+<button class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined">map</span>
+<span class="text-caption font-caption">Map</span>
+</button>
+<button class="flex flex-col items-center justify-center bg-primary-container text-on-primary-container rounded-full px-4 py-1 scale-90">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">forum</span>
+<span class="text-caption font-caption">Feed</span>
+</button>
+<button class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined">route</span>
+<span class="text-caption font-caption">Routes</span>
+</button>
+<button class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined">account_circle</span>
+<span class="text-caption font-caption">Me</span>
+</button>
+</nav>
+<script>
+        document.querySelectorAll('article').forEach(card => {
+            card.addEventListener('touchstart', () => {
+                card.style.transform = 'scale(0.98)';
+                card.style.transition = 'transform 0.1s ease';
+            });
+            card.addEventListener('touchend', () => {
+                card.style.transform = 'scale(1)';
+            });
+        });
+
+        const tabs = document.querySelectorAll('.sticky button');
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                tabs.forEach(t => {
+                    t.querySelector('span').classList.remove('text-primary');
+                    t.querySelector('span').classList.add('text-on-surface-variant');
+                    const indicator = t.querySelector('.absolute');
+                    if(indicator) indicator.remove();
+                });
+                tab.querySelector('span').classList.remove('text-on-surface-variant');
+                tab.querySelector('span').classList.add('text-primary');
+                tab.innerHTML += '<div class="absolute bottom-0 w-8 h-1 bg-primary rounded-t-full"></div>';
+            });
+        });
+    </script>
+</body></html>
+
+<!-- 社区动态 - 移动端 -->
+<!DOCTYPE html><html lang="zh-CN"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-container-lowest": "#ffffff",
+                        "error": "#ba1a1a",
+                        "on-error-container": "#93000a",
+                        "surface-container": "#eeeeee",
+                        "surface-bright": "#f9f9f9",
+                        "secondary": "#24619d",
+                        "on-tertiary-fixed-variant": "#454843",
+                        "primary-container": "#ff6b35",
+                        "on-error": "#ffffff",
+                        "on-secondary-fixed": "#001c37",
+                        "error-container": "#ffdad6",
+                        "on-primary-fixed-variant": "#832600",
+                        "tertiary-fixed": "#e1e3dc",
+                        "surface-container-low": "#f3f3f3",
+                        "surface-container-high": "#e8e8e8",
+                        "on-tertiary-fixed": "#191c18",
+                        "tertiary": "#5c5f5a",
+                        "surface-variant": "#e2e2e2",
+                        "on-secondary-container": "#004b84",
+                        "secondary-fixed-dim": "#a1c9ff",
+                        "on-secondary": "#ffffff",
+                        "surface": "#f9f9f9",
+                        "secondary-fixed": "#d2e4ff",
+                        "on-primary": "#ffffff",
+                        "on-tertiary": "#ffffff",
+                        "on-secondary-fixed-variant": "#004880",
+                        "inverse-primary": "#ffb59d",
+                        "secondary-container": "#87bcfe",
+                        "primary-fixed-dim": "#ffb59d",
+                        "inverse-surface": "#2f3131",
+                        "background": "#f9f9f9",
+                        "outline": "#8d7168",
+                        "on-tertiary-container": "#2f322e",
+                        "on-primary-container": "#5f1900",
+                        "surface-container-highest": "#e2e2e2",
+                        "outline-variant": "#e1bfb5",
+                        "surface-dim": "#dadada",
+                        "tertiary-fixed-dim": "#c5c7c1",
+                        "on-background": "#1a1c1c",
+                        "on-surface": "#1a1c1c",
+                        "inverse-on-surface": "#f1f1f1",
+                        "tertiary-container": "#989a94",
+                        "primary": "#ab3500",
+                        "primary-fixed": "#ffdbd0",
+                        "on-surface-variant": "#594139",
+                        "on-primary-fixed": "#390c00",
+                        "surface-tint": "#ab3500"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "xl": "32px",
+                        "xs": "4px",
+                        "lg": "24px",
+                        "2xl": "48px",
+                        "md": "16px",
+                        "gutter": "16px",
+                        "base": "4px",
+                        "margin-mobile": "16px",
+                        "margin-desktop": "32px",
+                        "sm": "8px"
+                    },
+                    "fontFamily": {
+                        "headline-lg": ["Plus Jakarta Sans"],
+                        "display-lg": ["Plus Jakarta Sans"],
+                        "body-lg": ["Inter"],
+                        "label-md": ["Inter"],
+                        "headline-md": ["Plus Jakarta Sans"],
+                        "headline-lg-mobile": ["Plus Jakarta Sans"],
+                        "caption": ["Inter"],
+                        "body-md": ["Inter"]
+                    },
+                    "fontSize": {
+                        "headline-lg": ["32px", {"lineHeight": "40px", "fontWeight": "700"}],
+                        "display-lg": ["40px", {"lineHeight": "48px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                        "label-md": ["14px", {"lineHeight": "20px", "fontWeight": "600"}],
+                        "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                        "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "700"}],
+                        "caption": ["12px", {"lineHeight": "16px", "fontWeight": "400"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .route-path {
+            stroke-dasharray: 1000;
+            stroke-dashoffset: 1000;
+            animation: dash 3s ease-in-out forwards;
+        }
+        @keyframes dash {
+            to { stroke-dashoffset: 0; }
+        }
+        .timeline-line {
+            background: repeating-linear-gradient(to bottom, #ab3500 0, #ab3500 4px, transparent 4px, transparent 8px);
+        }
+        .scroll-hide::-webkit-scrollbar { display: none; }
+    </style>
+</head>
+<body class="bg-background text-on-surface font-body-md antialiased mb-24">
+<!-- Hero Map/Image Section -->
+<section class="relative h-[45vh] w-full overflow-hidden">
+<div class="absolute inset-0 bg-surface-container-high">
+<img class="w-full h-full object-cover" data-alt="A detailed aerial view of the historic Xuhui district in Shanghai, showcasing a blend of traditional European-style architecture and lush greenery. The scene is captured in the soft, warm golden hour light, highlighting the vibrant textures of brick buildings and tree-lined avenues. A subtle digital overlay shows a winding pedestrian route in bright orange, integrating seamlessly into the urban fabric with a modern, high-tech aesthetic." data-location="Shanghai Xuhui District" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCBdqi61z48rwo1T_KoUQ5k9eD0brbNxfTVZzoorarbpK9HK7vNtcdFrOlS10UkILjRB5G6OwLYWgcijcawJWsAu3oUFGhX7A6P1el2ocYpPXRFhy36FGLcIZbtRSLdg02fiQvDGbl9xc7EQqngHTx0uebr_PsP-p9rLt8t2gQ08lk8yVu54U9uu0ZMSh_cynRiExWM1mGzjlwhQR18FlCFp14USE3UgxtYGS8vn5Jq8Z6Re9l4rk-q3yLW0XUrfDn6u-X5exo4oRk">
+</div>
+<!-- Back Button Overlay -->
+<div class="absolute top-md left-margin-mobile flex items-center gap-sm">
+<button class="w-10 h-10 rounded-full bg-white/90 backdrop-blur-md flex items-center justify-center shadow-md">
+<span class="material-symbols-outlined text-primary">arrow_back</span>
+</button>
+</div>
+<!-- Floating FAB Actions (Share) -->
+<div class="absolute top-md right-margin-mobile flex items-center gap-sm">
+<button class="w-10 h-10 rounded-full bg-white/90 backdrop-blur-md flex items-center justify-center shadow-md">
+<span class="material-symbols-outlined text-primary">share</span>
+</button>
+</div>
+</section>
+<!-- Content Wrapper -->
+<main class="relative -mt-xl px-margin-mobile">
+<div class="bg-surface rounded-t-[32px] pt-lg pb-xl shadow-[0_-12px_40px_rgba(0,0,0,0.08)]">
+<!-- Header Info -->
+<div class="flex flex-col gap-sm mb-lg">
+<div class="flex justify-between items-start">
+<h1 class="text-headline-lg-mobile font-headline-lg-mobile text-on-surface tracking-tight">徐汇周日漫步</h1>
+<div class="bg-primary-container text-on-primary-container px-sm py-xs rounded-full flex items-center gap-xs">
+<span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">bolt</span>
+<span class="text-caption font-label-md">CityPulse Top 10</span>
+</div>
+</div>
+<!-- Stats Row -->
+<div class="flex items-center gap-md py-sm border-b border-outline-variant/30">
+<div class="flex items-center gap-xs">
+<span class="material-symbols-outlined text-primary">distance</span>
+<span class="text-label-md">3.2km</span>
+</div>
+<div class="flex items-center gap-xs">
+<span class="material-symbols-outlined text-primary">schedule</span>
+<span class="text-label-md">2.5h</span>
+</div>
+<div class="flex items-center gap-xs">
+<span class="material-symbols-outlined text-primary">bar_chart</span>
+<span class="text-label-md">Medium</span>
+</div>
+</div>
+<!-- Author Profile -->
+<div class="flex items-center justify-between mt-sm">
+<div class="flex items-center gap-md">
+<img alt="User profile photo" class="w-10 h-10 rounded-full object-cover ring-2 ring-primary/20" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDFfR_UD-emMEGq4UXZzfc6s1gHOUJ6JvGOLKJNDfIRtvhGrKO_iBePTJIh3HKBhfrJ0MwQjFZXKCSyohsCDvbUN9FFSIWcBgth2Wl75zphwmVXwFnH-24qzJ4B5JOvduJT-HKO8ykBQ1SECgWBM8Svwi5H6b_9_ts8lm-3Prjr_y8e9ahi6DJ4ti5syaW6GLXwLKnTYozh5-iopXbcMgKMyCrbr2xY3ifMNUCv7UH14GemL7bLlAuLQZX--QucXK8cRaqv76hmZl8">
+<div>
+<p class="text-label-md text-on-surface">City Explorer</p>
+<p class="text-caption text-on-surface-variant">Level 12 Connector</p>
+</div>
+</div>
+<button class="bg-secondary text-on-secondary px-md py-sm rounded-full text-label-md font-label-md hover:bg-secondary/90 transition-all">
+                        Follow
+                    </button>
+</div>
+</div>
+<!-- Vertical Timeline Stops -->
+<div class="relative flex flex-col gap-xl">
+<!-- Vertical Line -->
+<div class="absolute left-[19px] top-6 bottom-6 w-0.5 timeline-line opacity-30"></div>
+<!-- Stop 1 -->
+<div class="relative pl-12 transition-all duration-700 opacity-100 translate-y-0">
+<div class="absolute left-0 top-1 w-10 h-10 bg-surface border-4 border-primary rounded-full flex items-center justify-center z-10">
+<span class="text-label-md font-bold text-primary">01</span>
+</div>
+<h3 class="text-headline-md font-headline-md mb-xs text-on-surface">Blackstone Apartments</h3>
+<p class="text-body-md text-on-surface-variant mb-md leading-relaxed">
+                        A historic Art Deco landmark from 1924, now home to a stunning music-themed bookstore and boutique cafes.
+                    </p>
+<div class="flex gap-sm overflow-x-auto scroll-hide pb-2">
+<img class="w-48 h-32 object-cover rounded-xl shadow-sm flex-shrink-0" data-alt="A cinematic photograph of the Blackstone Apartments' intricate facade in Shanghai. The building's Art Deco details are highlighted by soft morning sunlight, with classic European-style windows and ornate masonry. The mood is sophisticated and nostalgic, using a palette of warm ochre and cool grays, consistent with a premium urban exploration aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDVCnv-OCGhsqGF47B6vXxC186Zxmz1e_Dlx8nsU3KyW1UP0fu6w14KLx1uHnmCwVhV1JNdh55W0WeBjIU6wfAwSIwPNWGZZUDiqSX9Y2mNQyiNJxlaldzEKmwJHKZ6SHUuj7AAir4VwFU-9zoVE3VF8MF735dyagENOxMUxubEIga5WgpVZApE1WX-urx8_8cdVv2kEOahbOWI2UCH3ZBd7tsF8otBbkqAjv6UNeWY88UTljd29fbGPjrgIHXpI80KUXQxrUPVKbA">
+<img class="w-48 h-32 object-cover rounded-xl shadow-sm flex-shrink-0" data-alt="Interior view of a modern bookstore within a historic Shanghai building. High ceilings, wooden shelves filled with books, and warm pendant lighting create an inviting, intellectual atmosphere. The colors are rich and earthy, with deep navy and orange accents reflecting the CityPulse brand identity in a soft-tech lifestyle setting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuARGIaXo9CIc7yC5e3cPI1k9cLJ9zcMZX3TDmOKrR0RP7o-yxrVrviv8UmOi7H-1-nOnM2Ubq1r5IUmnTWNqNd3UJnhP0pKmqxT74Q7V6FrW3MATRzIrzzyWxE-pTGJd0HR-1aLpKfpXJE4MNZl0PMvKWiujRkyEQOMNVBBKo0HYUnnHV4PKV_gnnpW16jwrpYoqBHyzt_YUyyqKx5Gebp7DUOdxsABN5dJEKvAC-qfr3tLeiZtNvwsVKlgs7V4I4X-3jdWoRZmnl4">
+</div>
+</div>
+<!-- Stop 2 -->
+<div class="relative pl-12 transition-all duration-700 opacity-100 translate-y-0">
+<div class="absolute left-0 top-1 w-10 h-10 bg-surface border-4 border-primary rounded-full flex items-center justify-center z-10">
+<span class="text-label-md font-bold text-primary">02</span>
+</div>
+<h3 class="text-headline-md font-headline-md mb-xs text-on-surface">Fuxing Road</h3>
+<p class="text-body-md text-on-surface-variant mb-md leading-relaxed">
+                        Walk under the canopy of London Planes. This stretch captures the quintessential spirit of old French Concession.
+                    </p>
+<div class="relative h-40 w-full rounded-xl overflow-hidden shadow-sm">
+<img class="w-full h-full object-cover" data-alt="A perspective shot down a tranquil, tree-lined street in Shanghai during autumn. Golden plane tree leaves create a vibrant natural tunnel over the paved road. People are seen leisurely walking and cycling in the distance. The lighting is bright and cheerful, emphasizing a sense of urban discovery and community warmth." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBnQYv8ZR_0Q65fevSnCn8y2JYPHTAa9JxNFSUhlucljXx-Yio4jFNahud2pUW-ebGojgCPxeZqICvQYRBcg_4SEL5tAhWE2RgBqKZHBaC6gbmskkzeDOmmLyKahoILhlTXAG1MbCATXJ5RZbNupTwFb7tfH-hSpgnYz80VorITvb61CJzrImpp3903dA37tZHVpWFHRmUBJ1RiZFnF0N3AbOCV6lqLy7kBFl50G6hWjtQlBI9hhxGPo3cQOHSZswSAtOPAq3y0yC8">
+</div>
+</div>
+<!-- Stop 3 -->
+<div class="relative pl-12 transition-all duration-700 opacity-100 translate-y-0">
+<div class="absolute left-0 top-1 w-10 h-10 bg-surface border-4 border-primary rounded-full flex items-center justify-center z-10">
+<span class="text-label-md font-bold text-primary">03</span>
+</div>
+<h3 class="text-headline-md font-headline-md mb-xs text-on-surface">Wukang Mansion</h3>
+<p class="text-body-md text-on-surface-variant mb-md leading-relaxed">
+                        The "Flatiron" of Shanghai. Designed by Hudec, this majestic ship-shaped building is the perfect end to our walk.
+                    </p>
+<div class="flex gap-sm overflow-x-auto scroll-hide pb-2">
+<img class="w-full h-48 object-cover rounded-xl shadow-sm" data-alt="The iconic Wukang Mansion in Shanghai, photographed from a street-level angle that emphasizes its unique wedge-shaped architecture. The red brick facade stands out against a clear blue sky. The image has a crisp, professional quality with high contrast and vibrant saturation, capturing the energetic pulse of the city." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA1M5KjmC5lcvWYK1k3pT3a-1bwhdjUV3GXx1pBAPTg1qXWo3mP0U3gNRBdaLpxGZC-Eqr5e88HbBEcl0WyZTSRLIdqQP_BwAyFUzCooYGUOdlWRIYxaHbjIiyJum9zlRG3qD9vvgqCm--71pLhWkb4pmnWWqh1WVTvWfmJHV-YSMWZv9j7MK-ZpsALLGuXlyf3OWO7l7PAVEYsCvvZjHqcwH2EcCogbcYTFMl7rLZ9QC3moahBv5Da8KbxUG100tmJqVuh_XwVFQc">
+</div>
+</div>
+</div>
+<!-- Comment Section -->
+<section class="mt-2xl">
+<div class="flex items-center justify-between mb-lg">
+<h4 class="text-headline-md font-headline-md text-on-surface">Community Notes</h4>
+<span class="text-label-md text-primary">View All (24)</span>
+</div>
+<div class="flex flex-col gap-lg">
+<!-- Single Comment -->
+<div class="flex gap-md">
+<img alt="User profile photo" class="w-10 h-10 rounded-full flex-shrink-0" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAZv33Aw31DKqcdDkfr3LABc51w3x5FDMw614-zB48fDrmLzlwTM88-TImcKFmssIDQn3v4ILZm60QVUFZkzop8pOHEAglagrK-EBtnMLMo74LFr-_Yh25VfckZLm5_7QS1k9FxtPBJioZj4ZsdyGRyrObTOOAz_oPaW06MmdE4ZXhRLel5ea75FdMOgCebihg_3E6WLt4hDJ5yoNfgE8Fm2ys7d1h6LQwtozCEqGkMm-nbXClabQvdVbu-kb0Kdqi8HHgYH_YRb-k">
+<div class="flex flex-col gap-xs">
+<div class="flex items-center gap-sm">
+<span class="text-label-md font-bold">Leo Wang</span>
+<span class="text-caption text-on-surface-variant">2h ago</span>
+</div>
+<p class="text-body-md text-on-surface-variant bg-surface-container-low p-md rounded-xl rounded-tl-none">
+                                Great route! The coffee shop at Blackstone is currently offering a seasonal special. Don't miss it! ☕️
+                            </p>
+</div>
+</div>
+</div>
+<!-- Input Mock -->
+<div class="mt-lg flex items-center gap-md">
+<div class="flex-1 bg-surface-container-high rounded-full px-lg py-sm flex items-center gap-sm text-on-surface-variant">
+<span class="material-symbols-outlined text-[20px]">edit</span>
+<span class="text-body-md">Share your thoughts...</span>
+</div>
+</div>
+</section>
+</div>
+</main>
+<!-- Bottom Action Bar (Contextual for Details) -->
+<div class="fixed bottom-0 left-0 right-0 bg-surface/80 backdrop-blur-xl border-t border-outline-variant/20 px-margin-mobile py-md flex items-center gap-md z-[60] shadow-2xl">
+<button class="flex flex-col items-center gap-xs px-sm">
+<span class="material-symbols-outlined text-primary">favorite</span>
+<span class="text-caption font-label-md">1.2k</span>
+</button>
+<button class="flex flex-col items-center gap-xs px-sm">
+<span class="material-symbols-outlined text-on-surface-variant">bookmark</span>
+<span class="text-caption font-label-md">Save</span>
+</button>
+<button class="flex-1 bg-primary text-on-primary py-md rounded-full font-headline-md text-body-md flex items-center justify-center gap-md shadow-lg shadow-primary/30 active:scale-95 transition-transform"><span class="material-symbols-outlined">navigation</span>开始导航</button>
+</div>
+<!-- BottomNavBar (Hidden/Suppressed logic: Only showing as visual reference if needed, but per prompt we need to end with interactive buttons and use BottomNavBar. Adjusting to prioritize focus) -->
+<nav class="fixed bottom-0 w-full z-50 flex justify-around items-center px-margin-mobile py-sm md:hidden bg-surface shadow-lg rounded-t-xl">
+<div class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary">
+<span class="material-symbols-outlined">map</span>
+<span class="text-caption font-caption">Map</span>
+</div>
+<div class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary">
+<span class="material-symbols-outlined">forum</span>
+<span class="text-caption font-caption">Feed</span>
+</div>
+<div class="flex flex-col items-center justify-center bg-primary-container text-on-primary-container rounded-full px-4 py-1 scale-90 duration-150">
+<span class="material-symbols-outlined">route</span>
+<span class="text-caption font-caption">Routes</span>
+</div>
+<div class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary">
+<span class="material-symbols-outlined">account_circle</span>
+<span class="text-caption font-caption">Me</span>
+</div>
+</nav>
+<script>
+        // Simple Interaction: Smooth scroll/reveal logic
+        document.addEventListener('DOMContentLoaded', () => {
+            const stops = document.querySelectorAll('.pl-12');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('opacity-100', 'translate-y-0');
+                        entry.target.classList.remove('opacity-0', 'translate-y-4');
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            stops.forEach(stop => {
+                stop.classList.add('transition-all', 'duration-700', 'opacity-0', 'translate-y-4');
+                observer.observe(stop);
+            });
+        });
+    </script>
+
+
+</body></html>
+
+<!-- 路线详情 - 移动端 -->
+<!DOCTYPE html>
+
+<html lang="zh-CN"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-secondary-fixed-variant": "#004880",
+                        "outline": "#8d7168",
+                        "on-error-container": "#93000a",
+                        "on-primary-fixed": "#390c00",
+                        "tertiary-fixed-dim": "#c5c7c1",
+                        "on-primary-fixed-variant": "#832600",
+                        "surface-container-low": "#f3f3f3",
+                        "surface-tint": "#ab3500",
+                        "surface-container-lowest": "#ffffff",
+                        "on-secondary": "#ffffff",
+                        "inverse-on-surface": "#f1f1f1",
+                        "error": "#ba1a1a",
+                        "tertiary-fixed": "#e1e3dc",
+                        "outline-variant": "#e1bfb5",
+                        "primary": "#ab3500",
+                        "on-background": "#1a1c1c",
+                        "on-primary-container": "#5f1900",
+                        "surface-bright": "#f9f9f9",
+                        "surface-dim": "#dadada",
+                        "on-secondary-container": "#004b84",
+                        "on-tertiary": "#ffffff",
+                        "surface-variant": "#e2e2e2",
+                        "primary-fixed": "#ffdbd0",
+                        "on-surface-variant": "#594139",
+                        "surface-container": "#eeeeee",
+                        "inverse-surface": "#2f3131",
+                        "inverse-primary": "#ffb59d",
+                        "tertiary-container": "#989a94",
+                        "on-secondary-fixed": "#001c37",
+                        "on-tertiary-fixed-variant": "#454843",
+                        "on-tertiary-container": "#2f322e",
+                        "background": "#f9f9f9",
+                        "tertiary": "#5c5f5a",
+                        "primary-fixed-dim": "#ffb59d",
+                        "secondary-fixed-dim": "#a1c9ff",
+                        "on-surface": "#1a1c1c",
+                        "surface-container-highest": "#e2e2e2",
+                        "surface": "#f9f9f9",
+                        "secondary-fixed": "#d2e4ff",
+                        "on-tertiary-fixed": "#191c18",
+                        "primary-container": "#ff6b35",
+                        "secondary": "#24619d",
+                        "surface-container-high": "#e8e8e8",
+                        "secondary-container": "#87bcfe",
+                        "error-container": "#ffdad6",
+                        "on-error": "#ffffff",
+                        "on-primary": "#ffffff"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "xl": "32px",
+                        "margin-desktop": "32px",
+                        "xs": "4px",
+                        "lg": "24px",
+                        "base": "4px",
+                        "2xl": "48px",
+                        "gutter": "16px",
+                        "md": "16px",
+                        "sm": "8px",
+                        "margin-mobile": "16px"
+                    },
+                    "fontFamily": {
+                        "caption": ["Inter"],
+                        "headline-lg": ["Plus Jakarta Sans"],
+                        "headline-lg-mobile": ["Plus Jakarta Sans"],
+                        "label-md": ["Inter"],
+                        "headline-md": ["Plus Jakarta Sans"],
+                        "body-md": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "display-lg": ["Plus Jakarta Sans"]
+                    },
+                    "fontSize": {
+                        "caption": ["12px", {"lineHeight": "16px", "fontWeight": "400"}],
+                        "headline-lg": ["32px", {"lineHeight": "40px", "fontWeight": "700"}],
+                        "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "700"}],
+                        "label-md": ["14px", {"lineHeight": "20px", "fontWeight": "600"}],
+                        "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                        "display-lg": ["40px", {"lineHeight": "48px", "letterSpacing": "-0.02em", "fontWeight": "700"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            background-color: #f9f9f9;
+            color: #1a1c1c;
+            overflow: hidden;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .map-container {
+            height: calc(100vh - 64px);
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #e2e2e2;
+            border-radius: 10px;
+        }
+        .marker-pulse {
+            box-shadow: 0 0 0 0 rgba(255, 107, 53, 0.4);
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 107, 53, 0.7); }
+            70% { transform: scale(1.1); box-shadow: 0 0 0 10px rgba(255, 107, 53, 0); }
+            100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 107, 53, 0); }
+        }
+    </style>
+</head>
+<body class="flex flex-col h-screen font-body-md text-body-md">
+<!-- TopNavBar -->
+<header class="sticky top-0 w-full z-50 flex justify-between items-center px-margin-mobile md:px-margin-desktop h-16 shadow-sm bg-surface dark:bg-inverse-surface">
+<div class="flex items-center gap-md">
+<span class="text-headline-md font-headline-md font-bold text-primary dark:text-inverse-primary">CityPulse</span>
+<div class="hidden md:flex ml-lg relative">
+<input class="bg-surface-container-high border-none rounded-full py-2 pl-10 pr-4 w-80 focus:ring-2 focus:ring-primary text-label-md" placeholder="搜索咖啡店、公园..." type="text"/>
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant">search</span>
+</div>
+</div>
+<nav class="hidden md:flex items-center gap-lg">
+<a class="text-primary font-bold border-b-2 border-primary pb-1 font-label-md" href="#">Discover</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors duration-200 font-label-md" href="#">Routes</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors duration-200 font-label-md" href="#">Community</a>
+</nav>
+<div class="flex items-center gap-md">
+<button class="material-symbols-outlined text-on-surface-variant hover:text-primary">notifications</button>
+<button class="material-symbols-outlined text-on-surface-variant hover:text-primary">location_on</button>
+<div class="w-8 h-8 rounded-full overflow-hidden bg-surface-container-highest">
+<img alt="User avatar" class="w-full h-full object-cover" data-alt="A professional headshot of a friendly urban explorer with a warm smile. The background is a blurred city street with warm evening lighting. The portrait is clean, high-contrast, and modern, reflecting a premium digital service aesthetic with soft-tech tones." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCn0rgbzQfNBB5lYExOxgJxMHSJrD6d26W8P_25WvRiZanVPj9As5cZqsBiK4YTuQehnGJL1VwnmMqi-5hxCUP6IrjMLvcJ5qqPY0xjPKtgbN6iCuxSDxT5U70R6qClK4QG-nPcUp6mXyjEOcVR5HUwsDPWKz2IK7_vRpTGQWv9Wd9BhKeYwiuf8rpII349Ke4QqYmpuElCX968VnMtjBkEiYzXFMDw22RbL_-s-K_amAiDcZg5NWWy-twlrczYixE7Pmbq-IgoLuE"/>
+</div>
+</div>
+</header>
+<main class="flex flex-1 overflow-hidden">
+<!-- Sidebar Navigation -->
+<aside class="hidden md:flex flex-col h-full w-64 border-r border-outline-variant bg-surface dark:bg-inverse-surface p-md gap-lg">
+<div class="flex flex-col gap-sm">
+<div class="flex items-center gap-md bg-secondary-container text-on-secondary-container rounded-lg px-md py-sm transition-transform active:scale-95 cursor-pointer">
+<span class="material-symbols-outlined">explore</span>
+<span class="font-label-md">探索发现</span>
+</div>
+<div class="flex items-center gap-md text-on-surface-variant hover:bg-surface-container-high rounded-lg px-md py-sm transition-all cursor-pointer">
+<span class="material-symbols-outlined">map</span>
+<span class="font-label-md">路线规划</span>
+</div>
+<div class="flex items-center gap-md text-on-surface-variant hover:bg-surface-container-high rounded-lg px-md py-sm transition-all cursor-pointer">
+<span class="material-symbols-outlined">group</span>
+<span class="font-label-md">社区动态</span>
+</div>
+<div class="flex items-center gap-md text-on-surface-variant hover:bg-surface-container-high rounded-lg px-md py-sm transition-all cursor-pointer">
+<span class="material-symbols-outlined">person</span>
+<span class="font-label-md">个人中心</span>
+</div>
+</div>
+<div class="mt-auto flex flex-col gap-sm">
+<button class="bg-primary text-on-primary py-sm px-md rounded-xl font-label-md shadow-lg shadow-primary-container/30 hover:brightness-110 transition-all">
+                    发布动态
+                </button>
+<div class="flex items-center gap-md text-on-surface-variant hover:bg-surface-container-high rounded-lg px-md py-sm transition-all cursor-pointer">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-label-md">设置</span>
+</div>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<section class="flex-1 flex flex-col md:flex-row relative">
+<!-- Map Side -->
+<div class="flex-1 relative map-container bg-surface-dim">
+<div class="absolute inset-0 z-0 overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="A high-angle, stylized architectural map view of a modern metropolitan district. The imagery uses a sophisticated color palette of slate grays and deep navies, with vibrant orange highlights for active transit lines. The lighting is crisp and clear, emphasizing clean lines and urban organization in a soft-tech corporate style." data-location="Shanghai" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDYjb33IpeTe658_5W1EZ0KvMcySZkIM5WffWUJFPebQ0G8rIHfX84_GC04XHkJaH3_p2y3spbO1rTwsGntwUnI1XJYXseKE6DflnNJka4vcHu4jzCgc_7_IGmhEGX72_769TQg4ntqzz4swW8WA0qCEdqheRL932ccogyQ2-B3XhkL3ObLoVsoCsPPkLNhy_Gu3qjfJwljqIet9ILNBcwirX6jw8rZhz1v3UeCZ8tdMoi-LNieSXnVSJO2ecX-00qUzmHkaiQEdOc"/>
+</div>
+<!-- Floating Overlays -->
+<div class="absolute top-md left-md right-md z-10 flex flex-wrap gap-sm items-center">
+<div class="flex bg-white/90 backdrop-blur-md p-1 rounded-full shadow-lg border border-white/50">
+<button class="px-md py-sm bg-primary text-white rounded-full font-label-md flex items-center gap-xs">
+<span class="material-symbols-outlined text-[18px]">map</span> 地图模式
+                        </button>
+<button class="px-md py-sm text-on-surface hover:bg-surface-container-high rounded-full font-label-md flex items-center gap-xs">
+<span class="material-symbols-outlined text-[18px]">list</span> 列表模式
+                        </button>
+</div>
+<div class="flex gap-sm overflow-x-auto no-scrollbar ml-auto md:ml-0">
+<div class="flex bg-white/90 backdrop-blur-md p-1 rounded-full shadow-lg border border-white/50">
+<button class="px-md py-sm bg-primary text-white rounded-full font-caption whitespace-nowrap">全部</button>
+<button class="px-md py-sm text-on-surface-variant hover:bg-surface-container-high rounded-full font-caption whitespace-nowrap">餐饮美食</button>
+<button class="px-md py-sm text-on-surface-variant hover:bg-surface-container-high rounded-full font-caption whitespace-nowrap">休闲娱乐</button>
+<button class="px-md py-sm text-on-surface-variant hover:bg-surface-container-high rounded-full font-caption whitespace-nowrap">名胜古迹</button>
+</div>
+</div>
+</div>
+<!-- Map Markers -->
+<div class="absolute top-1/3 left-1/4 group cursor-pointer">
+<div class="relative flex flex-col items-center">
+<div class="bg-primary marker-pulse w-10 h-10 rounded-full flex items-center justify-center border-2 border-white text-white shadow-xl">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">restaurant</span>
+</div>
+<div class="mt-sm bg-white px-md py-xs rounded-lg shadow-md border border-outline-variant scale-0 group-hover:scale-100 transition-transform origin-top">
+<span class="text-caption font-bold">城市之光餐厅</span>
+</div>
+</div>
+</div>
+<div class="absolute top-1/2 left-2/3 group cursor-pointer">
+<div class="relative flex flex-col items-center">
+<div class="bg-secondary w-10 h-10 rounded-full flex items-center justify-center border-2 border-white text-white shadow-xl">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">park</span>
+</div>
+<div class="mt-sm bg-white px-md py-xs rounded-lg shadow-md border border-outline-variant scale-0 group-hover:scale-100 transition-transform origin-top">
+<span class="text-caption font-bold">静谧公园</span>
+</div>
+</div>
+</div>
+<div class="absolute bottom-1/4 left-1/2 group cursor-pointer">
+<div class="relative flex flex-col items-center">
+<div class="bg-primary w-10 h-10 rounded-full flex items-center justify-center border-2 border-white text-white shadow-xl">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">shopping_bag</span>
+</div>
+<div class="mt-sm bg-white px-md py-xs rounded-lg shadow-md border border-outline-variant scale-0 group-hover:scale-100 transition-transform origin-top">
+<span class="text-caption font-bold">先锋买手店</span>
+</div>
+</div>
+</div>
+<button class="absolute bottom-xl right-margin-desktop bg-primary-container text-on-primary-container w-14 h-14 rounded-full flex items-center justify-center shadow-lg hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-[28px]" style="font-variation-settings: 'FILL' 1;">my_location</span>
+</button>
+</div>
+<!-- Recommendation Panel -->
+<div class="w-full md:w-[400px] h-full bg-surface border-l border-outline-variant flex flex-col z-20">
+<div class="p-lg border-b border-outline-variant">
+<h2 class="text-headline-md font-headline-md text-on-surface">附近推荐</h2>
+<p class="text-on-surface-variant font-body-md mt-xs">基于您的地理位置和兴趣</p>
+</div>
+<div class="flex-1 overflow-y-auto custom-scrollbar p-lg space-y-lg">
+<!-- Card 1 -->
+<div class="group bg-white rounded-xl shadow-[0px_4px_20px_rgba(0,0,0,0.05)] hover:shadow-[0px_8px_32px_rgba(0,0,0,0.12)] transition-shadow overflow-hidden cursor-pointer">
+<div class="h-48 relative">
+<img class="w-full h-full object-cover" data-alt="A stylish, sun-drenched interior of a modern urban cafe with large windows and minimalist furniture. The lighting is warm and golden, creating an inviting atmosphere. The design is contemporary and clean, featuring plants and sleek wooden surfaces that embody a sophisticated lifestyle aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCY7gwHfP5YoEyitiRfC03qRt2YeD2KwWQHFZwHLUkja5pARo5n2ohxy2IzL-ugwRYjsEbfFtAqIE8MMckrZBDLW1SSv2yR_yT1lI5H7rbAK-eQvSPPlSvJ9vU-EytpcZK3w9ngb3eZXxO3j1_thO65SsXe9n5QAaQwe-HIDQnULtpOsRxNMfgjfbNt-Z4jNRCVptGxK6vD7bEkgigORtW22B1PhNpPTmgQ1TIdRTWMAbLyZPT-Bno6kT5PrS8qPCjb51LYa_t4Urg"/>
+<div class="absolute top-sm left-sm bg-white/90 backdrop-blur-sm px-sm py-xs rounded-full flex items-center gap-xs">
+<span class="w-2 h-2 rounded-full bg-[#4CAF50]"></span>
+<span class="text-caption font-bold text-on-surface">营业中</span>
+</div>
+</div>
+<div class="p-md">
+<div class="flex justify-between items-start">
+<div>
+<h3 class="font-headline-md text-[18px] text-on-surface group-hover:text-primary transition-colors">琥珀手冲咖啡</h3>
+<div class="flex items-center gap-xs mt-xs">
+<span class="material-symbols-outlined text-primary text-[16px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="text-label-md font-bold">4.8</span>
+<span class="text-on-surface-variant text-caption">• 2.4km</span>
+</div>
+</div>
+<button class="material-symbols-outlined text-on-surface-variant hover:text-primary transition-colors">favorite</button>
+</div>
+<div class="mt-md flex gap-xs">
+<span class="bg-surface-container-high text-on-surface-variant px-sm py-xs rounded-full text-caption">精品手冲</span>
+<span class="bg-surface-container-high text-on-surface-variant px-sm py-xs rounded-full text-caption">安静舒适</span>
+</div>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="group bg-white rounded-xl shadow-[0px_4px_20px_rgba(0,0,0,0.05)] hover:shadow-[0px_8px_32px_rgba(0,0,0,0.12)] transition-shadow overflow-hidden cursor-pointer">
+<div class="h-48 relative">
+<img class="w-full h-full object-cover" data-alt="A lush green urban park with modern art installations and paved pathways under a bright blue sky. People are leisurely walking and enjoying the outdoors. The image is high-contrast with vibrant greens and blues, creating a sense of energy and well-being consistent with a high-end urban lifestyle app." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC8u46R5Tb7SaNE6LCc6XccYanYcwqt6R1Ab5ZYk5zoTvACMi5adUKljTcBwC6pLKQT_Ohok2FAMVQSXfpjPEuDTl1yW-q2st8M7DP8v3EJzPH3UlSSeaIbAlN4tZyZRFq0yMWilDLhd2jvx8-PdiAPwXewBp2sxDTzBRI0FZkepVR9BQx7UJVzwptUcYf7xVoj5ALdDI18EVJoHLJr1h18gdyHEZ2ulHUfG-vSda8L0D94B8q-v-gKXC-3Z-YBz1VuznUssPJnPEo"/>
+<div class="absolute top-sm left-sm bg-white/90 backdrop-blur-sm px-sm py-xs rounded-full flex items-center gap-xs">
+<span class="w-2 h-2 rounded-full bg-[#4CAF50]"></span>
+<span class="text-caption font-bold text-on-surface">营业中</span>
+</div>
+</div>
+<div class="p-md">
+<div class="flex justify-between items-start">
+<div>
+<h3 class="font-headline-md text-[18px] text-on-surface group-hover:text-primary transition-colors">滨江森林公园</h3>
+<div class="flex items-center gap-xs mt-xs">
+<span class="material-symbols-outlined text-primary text-[16px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="text-label-md font-bold">4.6</span>
+<span class="text-on-surface-variant text-caption">• 1.8km</span>
+</div>
+</div>
+<button class="material-symbols-outlined text-on-surface-variant hover:text-primary transition-colors">favorite</button>
+</div>
+<div class="mt-md flex gap-xs">
+<span class="bg-surface-container-high text-on-surface-variant px-sm py-xs rounded-full text-caption">自然景观</span>
+<span class="bg-surface-container-high text-on-surface-variant px-sm py-xs rounded-full text-caption">适合漫步</span>
+</div>
+</div>
+</div>
+<!-- Card 3 -->
+<div class="group bg-white rounded-xl shadow-[0px_4px_20px_rgba(0,0,0,0.05)] hover:shadow-[0px_8px_32px_rgba(0,0,0,0.12)] transition-shadow overflow-hidden cursor-pointer">
+<div class="h-48 relative">
+<img class="w-full h-full object-cover" data-alt="A high-end retail interior featuring curated designer products on minimalist shelving. The space is illuminated with sophisticated track lighting that accents the products. The visual style is premium and professional, with a focus on textures and clean spatial organization, using a soft gray and white color palette." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB7RiaJPF4B2MksOuKmDGjZZ9HNK3G_qkc28ddZ2wtOaPYOmSgNNEAMnNEAyxL_cC-eekuITtKI3WLANLV-T6S8JcEkMhwlEUWUXkcEVp0rsGgq4xfw6phry1DA1rJNifV6KctxqUIRKG8MOTfHWffOHs1WZzkxYn0cSlkwNyBj1mj3tav3lg7JHe0tSruqCWEPqYb_naC2n-ghexhy_Uze1ro3H8HEocO6_gQlNWUSCX079iPo-BEEwpPFkxKKXrLdajQnOGWwLBM"/>
+<div class="absolute top-sm left-sm bg-white/90 backdrop-blur-sm px-sm py-xs rounded-full flex items-center gap-xs">
+<span class="w-2 h-2 rounded-full bg-[#FFB300]"></span>
+<span class="text-caption font-bold text-on-surface">即将闭店</span>
+</div>
+</div>
+<div class="p-md">
+<div class="flex justify-between items-start">
+<div>
+<h3 class="font-headline-md text-[18px] text-on-surface group-hover:text-primary transition-colors">方格概念空间</h3>
+<div class="flex items-center gap-xs mt-xs">
+<span class="material-symbols-outlined text-primary text-[16px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="text-label-md font-bold">4.9</span>
+<span class="text-on-surface-variant text-caption">• 0.5km</span>
+</div>
+</div>
+<button class="material-symbols-outlined text-on-surface-variant hover:text-primary transition-colors">favorite</button>
+</div>
+<div class="mt-md flex gap-xs">
+<span class="bg-surface-container-high text-on-surface-variant px-sm py-xs rounded-full text-caption">潮流艺术</span>
+<span class="bg-surface-container-high text-on-surface-variant px-sm py-xs rounded-full text-caption">必去榜</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- BottomNavBar (Mobile Only) -->
+<nav class="fixed bottom-0 w-full z-50 flex justify-around items-center px-margin-mobile py-sm md:hidden bg-surface dark:bg-inverse-surface shadow-lg rounded-t-xl">
+<div class="flex flex-col items-center justify-center bg-primary-container text-on-primary-container rounded-full px-4 py-1 active:scale-90 duration-150">
+<span class="material-symbols-outlined">map</span>
+<span class="text-caption font-caption">地图</span>
+</div>
+<div class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary">
+<span class="material-symbols-outlined">forum</span>
+<span class="text-caption font-caption">社区</span>
+</div>
+<div class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary">
+<span class="material-symbols-outlined">route</span>
+<span class="text-caption font-caption">路线</span>
+</div>
+<div class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary">
+<span class="material-symbols-outlined">account_circle</span>
+<span class="text-caption font-caption">我的</span>
+</div>
+</nav>
+<script>
+        // Simple interactivity for demonstration
+        document.querySelectorAll('.group').forEach(card => {
+            card.addEventListener('click', () => {
+                const title = card.querySelector('h3').innerText;
+                console.log(`Navigating to details for: ${title}`);
+            });
+        });
+
+        // Search bar focus effect
+        const searchInput = document.querySelector('input[type="text"]');
+        if (searchInput) {
+            searchInput.addEventListener('focus', () => {
+                searchInput.classList.add('w-96');
+            });
+            searchInput.addEventListener('blur', () => {
+                searchInput.classList.remove('w-96');
+            });
+        }
+    </script>
+</body></html>
+
+<!-- 探索大厅 - CityPulse -->
+<!DOCTYPE html>
+
+<html lang="zh-CN"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&amp;family=Plus+Jakarta+Sans:wght@100..900&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        
+        #bottom-sheet {
+            transition: transform 0.4s cubic-bezier(0.33, 1, 0.68, 1);
+        }
+        .pulse-marker {
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.1); opacity: 0.8; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-container-lowest": "#ffffff",
+                        "error": "#ba1a1a",
+                        "on-error-container": "#93000a",
+                        "surface-container": "#eeeeee",
+                        "surface-bright": "#f9f9f9",
+                        "secondary": "#24619d",
+                        "on-tertiary-fixed-variant": "#454843",
+                        "primary-container": "#ff6b35",
+                        "on-error": "#ffffff",
+                        "on-secondary-fixed": "#001c37",
+                        "error-container": "#ffdad6",
+                        "on-primary-fixed-variant": "#832600",
+                        "tertiary-fixed": "#e1e3dc",
+                        "surface-container-low": "#f3f3f3",
+                        "surface-container-high": "#e8e8e8",
+                        "on-tertiary-fixed": "#191c18",
+                        "tertiary": "#5c5f5a",
+                        "surface-variant": "#e2e2e2",
+                        "on-secondary-container": "#004b84",
+                        "secondary-fixed-dim": "#a1c9ff",
+                        "on-secondary": "#ffffff",
+                        "surface": "#f9f9f9",
+                        "secondary-fixed": "#d2e4ff",
+                        "on-primary": "#ffffff",
+                        "on-tertiary": "#ffffff",
+                        "on-secondary-fixed-variant": "#004880",
+                        "inverse-primary": "#ffb59d",
+                        "secondary-container": "#87bcfe",
+                        "primary-fixed-dim": "#ffb59d",
+                        "inverse-surface": "#2f3131",
+                        "background": "#f9f9f9",
+                        "outline": "#8d7168",
+                        "on-tertiary-container": "#2f322e",
+                        "on-primary-container": "#5f1900",
+                        "surface-container-highest": "#e2e2e2",
+                        "outline-variant": "#e1bfb5",
+                        "surface-dim": "#dadada",
+                        "tertiary-fixed-dim": "#c5c7c1",
+                        "on-background": "#1a1c1c",
+                        "on-surface": "#1a1c1c",
+                        "inverse-on-surface": "#f1f1f1",
+                        "tertiary-container": "#989a94",
+                        "primary": "#ab3500",
+                        "primary-fixed": "#ffdbd0",
+                        "on-surface-variant": "#594139",
+                        "on-primary-fixed": "#390c00",
+                        "surface-tint": "#ab3500"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "xl": "32px",
+                        "xs": "4px",
+                        "lg": "24px",
+                        "2xl": "48px",
+                        "md": "16px",
+                        "gutter": "16px",
+                        "base": "4px",
+                        "margin-mobile": "16px",
+                        "margin-desktop": "32px",
+                        "sm": "8px"
+                    },
+                    "fontFamily": {
+                        "headline-lg": ["Plus Jakarta Sans"],
+                        "display-lg": ["Plus Jakarta Sans"],
+                        "body-lg": ["Inter"],
+                        "label-md": ["Inter"],
+                        "headline-md": ["Plus Jakarta Sans"],
+                        "headline-lg-mobile": ["Plus Jakarta Sans"],
+                        "caption": ["Inter"],
+                        "body-md": ["Inter"]
+                    },
+                    "fontSize": {
+                        "headline-lg": ["32px", {"lineHeight": "40px", "fontWeight": "700"}],
+                        "display-lg": ["40px", {"lineHeight": "48px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                        "label-md": ["14px", {"lineHeight": "20px", "fontWeight": "600"}],
+                        "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                        "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "700"}],
+                        "caption": ["12px", {"lineHeight": "16px", "fontWeight": "400"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-surface font-body-md overflow-hidden">
+<!-- Header / Top Navigation (Hidden on Mobile Search View) -->
+<header class="sticky top-0 w-full z-50 flex justify-between items-center px-margin-mobile md:px-margin-desktop h-16 shadow-sm bg-surface">
+<div class="text-headline-md font-headline-md font-bold text-primary">CityPulse</div>
+<div class="flex items-center gap-sm">
+<span class="material-symbols-outlined text-on-surface-variant">notifications</span>
+<span class="material-symbols-outlined text-on-surface-variant">location_on</span>
+<div class="w-8 h-8 rounded-full overflow-hidden border border-outline-variant">
+<img alt="User avatar" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBt72fjZk8GnJzCvh4RIXy9ys2diM4oMlGtuYH-kil1lJgchJZmSkyB2DF987-xmNL-1IFbVVAFPwF0chZCVvvU5kbMBakPmcsiATuz4V5Bfb8vLnxIyONSsMoJUbM1ckYcz_BChYur4CvmHvtws7p70ZUFxmTpzRx8P-GA0ewklR6WZcurzWidZk4aTeWRWWFvjM4H1oxigC4yNI1wfuYx90af9mg2Pk6kqyO0_eoBpyEAyRudABfUwg8DxB9FSmoTPGsuTiTaaAc"/>
+</div>
+</div>
+</header>
+<!-- Main Map Container -->
+<main class="relative h-[calc(100vh-128px)] w-full overflow-hidden">
+<!-- Background Map View -->
+<div class="absolute inset-0 bg-surface-container">
+<img class="w-full h-full object-cover opacity-80 grayscale-[0.2]" data-alt="A highly detailed aerial view of a vibrant urban district in Shanghai during a clear afternoon. The map-like perspective shows a clean grid of streets, lush green parks interspersed with modern architectural landmarks, and flowing traffic. The color palette features soft grays of asphalt, vibrant greens of urban foliage, and bright white building rooftops under a high-key, optimistic lighting setup. The aesthetic is clean, professional, and captures the energetic rhythm of a modern metropolis." data-location="Shanghai" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAzHbHYlaFe1uMxD6tktIYcNMjYdfqTG9wj3g38l9xKKsxFMW0C7C7rgt7cztfQKnCdb-CNl-bAKT19Rl97Kk7m5Ywb4sxDmpx3YjAxQFG2LtT1tUETPAkTXuKkVLJX63FPHGUsxHcWHKZj3UIjsiobLC4fEcuSFR_1BcvJ1kF78pZb05YM1e74a1u-LSVUBHYq86MaDZsZBXZGFTtTrPK-pwzi7OdeV-MRYZ5WPDcbNszkc0UPMH2TXLn8YdchPYtvQXFAaQMX0vo"/>
+<!-- Map Markers -->
+<!-- Marker 1: Food (Pulse) -->
+<div class="absolute top-[35%] left-[45%] pulse-marker cursor-pointer flex flex-col items-center">
+<div class="bg-primary p-2 rounded-full shadow-[0px_4px_12px_rgba(255,107,53,0.3)] border-2 border-white">
+<span class="material-symbols-outlined text-white text-[18px]">coffee</span>
+</div>
+<div class="bg-white px-2 py-0.5 rounded-full shadow-sm mt-1">
+<span class="text-caption font-label-md text-primary">琥珀手冲</span>
+</div>
+</div>
+<!-- Marker 2: Landmark -->
+<div class="absolute top-[20%] left-[20%] cursor-pointer flex flex-col items-center">
+<div class="bg-secondary p-2 rounded-full shadow-md border-2 border-white">
+<span class="material-symbols-outlined text-white text-[18px]">park</span>
+</div>
+<div class="bg-white px-2 py-0.5 rounded-full shadow-sm mt-1">
+<span class="text-caption font-label-md text-secondary">滨江森林</span>
+</div>
+</div>
+<!-- Marker 3: Community -->
+<div class="absolute top-[55%] left-[70%] cursor-pointer flex flex-col items-center">
+<div class="bg-secondary p-2 rounded-full shadow-md border-2 border-white">
+<span class="material-symbols-outlined text-white text-[18px]">museum</span>
+</div>
+</div>
+</div>
+<!-- Floating UI Overlays -->
+<div class="absolute top-4 left-0 right-0 px-margin-mobile flex flex-col gap-sm pointer-events-none">
+<!-- Search Bar -->
+<div class="pointer-events-auto w-full bg-surface/90 backdrop-blur-md h-12 rounded-xl shadow-lg border border-white/50 flex items-center px-md gap-sm">
+<span class="material-symbols-outlined text-primary">search</span>
+<input class="bg-transparent border-none focus:ring-0 text-body-md w-full placeholder:text-on-surface-variant/60" placeholder="探索城市脉动..." type="text"/>
+<span class="material-symbols-outlined text-on-surface-variant">mic</span>
+</div>
+<!-- Category Chips -->
+<div class="pointer-events-auto flex gap-xs overflow-x-auto hide-scrollbar pb-2">
+<button class="flex items-center gap-xs px-md py-2 bg-primary text-white rounded-full shadow-md whitespace-nowrap">
+<span class="material-symbols-outlined text-[18px]">restaurant</span>
+<span class="text-label-md">美食 Food</span>
+</button>
+<button class="flex items-center gap-xs px-md py-2 bg-white text-on-surface-variant rounded-full shadow-sm border border-outline-variant/30 whitespace-nowrap">
+<span class="material-symbols-outlined text-[18px]">local_activity</span>
+<span class="text-label-md">休闲 Leisure</span>
+</button>
+<button class="flex items-center gap-xs px-md py-2 bg-white text-on-surface-variant rounded-full shadow-sm border border-outline-variant/30 whitespace-nowrap">
+<span class="material-symbols-outlined text-[18px]">explore</span>
+<span class="text-label-md">地标 Landmarks</span>
+</button>
+<button class="flex items-center gap-xs px-md py-2 bg-white text-on-surface-variant rounded-full shadow-sm border border-outline-variant/30 whitespace-nowrap">
+<span class="material-symbols-outlined text-[18px]">shopping_bag</span>
+<span class="text-label-md">购物 Shopping</span>
+</button>
+</div>
+</div>
+<!-- Toggle View FAB -->
+<div class="absolute right-4 bottom-24 pointer-events-auto flex flex-col gap-sm">
+<button class="w-12 h-12 bg-white text-on-surface rounded-xl shadow-md flex items-center justify-center">
+<span class="material-symbols-outlined">my_location</span>
+</button>
+<button class="flex items-center gap-sm px-md py-3 bg-secondary text-white rounded-full shadow-lg">
+<span class="material-symbols-outlined text-[20px]">list</span>
+<span class="text-label-md">列表视图</span>
+</button>
+</div>
+<!-- Bottom Sheet (Swipeable Panel) -->
+<div class="absolute bottom-0 left-0 right-0 bg-surface rounded-t-[24px] shadow-[0px_-8px_32px_rgba(0,0,0,0.12)] z-40 h-[530px] transform translate-y-[calc(60vh-140px)]" id="bottom-sheet">
+<!-- Drag Handle -->
+<div class="flex flex-col items-center py-sm" id="drag-handle">
+<div class="w-10 h-1.5 bg-surface-container-highest rounded-full mb-4"></div>
+<div class="flex justify-between items-center w-full px-margin-mobile mb-4">
+<h2 class="text-headline-md font-headline-md">周边推荐</h2>
+<span class="text-label-md text-primary">查看全部</span>
+</div>
+</div>
+<!-- Scrollable Content -->
+<div class="overflow-y-auto h-[calc(60vh-80px)] px-margin-mobile pb-24 hide-scrollbar">
+<div class="flex flex-col gap-lg">
+<!-- Featured Card 1 -->
+<div class="bg-surface-container-low rounded-xl overflow-hidden group">
+<div class="relative h-48 w-full">
+<img class="w-full h-full object-cover" data-alt="A cozy, sun-drenched specialty coffee shop in a modern urban alley. Large floor-to-ceiling windows reveal a clean, minimalist interior with warm wooden accents and a professional barista preparing pour-over coffee. The lighting is soft and golden, creating a welcoming lifestyle vibe. The atmosphere is serene and trendy, reflecting a corporate modern aesthetic with a soft-tech twist, dominated by warm neutrals and vibrant orange accents from the branding." src="https://lh3.googleusercontent.com/aida-public/AB6AXuArEC53H864D_ax8YFI-3rTf8EH_A73izz3Cz0UH71co0cSso8DdkPMuu6trpiTY_LSbEUrp0hby_9KMzY9jqJRM0OVVCL4yg0F4FCN3nRt3gRiRKzaeA4NArtq2OOwGBmG9QKm4E0gail5bQVadMoT4BPETT-QDSUVxlu0Qb_7kwhZ8XJ4SSzPzM8qFAbSnDNCiXQZcfkpu0p4F0pgeaoQI5klqTO3B1B19k10K2J8IJzwkoBf2Bap3kDjCIJj767sF1EfeEULp4Y"/>
+<div class="absolute top-3 right-3 bg-white/90 backdrop-blur-sm px-2 py-1 rounded-lg flex items-center gap-xs">
+<span class="material-symbols-outlined text-primary text-[14px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="text-caption font-bold text-on-surface">4.9</span>
+</div>
+<div class="absolute bottom-3 left-3 bg-primary text-white text-caption font-label-md px-3 py-1 rounded-full">
+                                正在流行 Pulse
+                            </div>
+</div>
+<div class="p-md">
+<div class="flex justify-between items-start mb-1">
+<h3 class="text-headline-md font-bold">琥珀手冲咖啡 (Amber Drip)</h3>
+<span class="text-caption text-on-surface-variant">450m</span>
+</div>
+<div class="flex gap-xs items-center mb-sm">
+<span class="bg-[#e8f5e9] text-[#2e7d32] px-2 py-0.5 rounded text-caption font-bold">正在营业</span>
+<span class="text-caption text-on-surface-variant">静安区 · 精品咖啡</span>
+</div>
+<p class="text-body-md text-on-surface-variant line-clamp-2">上海必喝的手冲榜首，招牌琥珀冷萃口感醇厚，环境非常适合办公与社交。</p>
+</div>
+</div>
+<!-- Featured Card 2 -->
+<div class="bg-surface-container-low rounded-xl overflow-hidden group">
+<div class="relative h-48 w-full">
+<img class="w-full h-full object-cover" data-alt="A lush, expansive urban riverside forest park during the golden hour. Sunlight filters through dense tree canopies onto a clean, winding walking path. The Huangpu River is visible in the background with a soft mist. The lighting is dramatic and warm, emphasizing the textures of the forest and the peaceful, natural setting. The image is captured in a high-quality landscape photography style, conveying tranquility and a sense of discovery." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDmwt6bLrnJrDc3MsMSwJMBsMNIBVfm7GeDZGgMbgLi5QjDwuqkmeBaMbAJfl2YJdxYf5yHrnc49uHvvhMPe3sgPWLuiCCfSwQ4cjTFhZcdVUrtZEkOvGFXA7QAMpDBczC24j6OdICLUDEEv09LcjaAuR6Nl2ZM3190cv-49Qayc9QMnrB39Tk19pG8ygHmtXwPlKz0pXzBpfllldpy2N-zjKcOKaA3xmFJbZJNWgbh2s90jVZrpXAKUDoFuuwEZGm2hw6Kt9CaKbA"/>
+<div class="absolute top-3 right-3 bg-white/90 backdrop-blur-sm px-2 py-1 rounded-lg flex items-center gap-xs">
+<span class="material-symbols-outlined text-primary text-[14px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="text-caption font-bold text-on-surface">4.7</span>
+</div>
+</div>
+<div class="p-md">
+<div class="flex justify-between items-start mb-1">
+<h3 class="text-headline-md font-bold">滨江森林公园 (Riverside Park)</h3>
+<span class="text-caption text-on-surface-variant">1.2km</span>
+</div>
+<div class="flex gap-xs items-center mb-sm">
+<span class="bg-[#e8f5e9] text-[#2e7d32] px-2 py-0.5 rounded text-caption font-bold">今日开放</span>
+<span class="text-caption text-on-surface-variant">浦东新区 · 自然景观</span>
+</div>
+<p class="text-body-md text-on-surface-variant line-clamp-2">城市里的天然氧吧，适合周末露营与骑行，可以近距离观看三江交汇的壮观景象。</p>
+</div>
+</div>
+<!-- More content spacer -->
+<div class="h-12"></div>
+</div>
+</div>
+</div>
+</main>
+<!-- Bottom Navigation Bar -->
+<nav class="fixed bottom-0 w-full z-50 flex justify-around items-center px-margin-mobile py-sm md:hidden bg-surface rounded-t-xl shadow-lg">
+<div class="flex flex-col items-center justify-center bg-primary-container text-on-primary-container rounded-full px-4 py-1">
+<span class="material-symbols-outlined" data-icon="map">map</span>
+<span class="text-caption font-caption">Map</span>
+</div>
+<div class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary">
+<span class="material-symbols-outlined" data-icon="forum">forum</span>
+<span class="text-caption font-caption">Feed</span>
+</div>
+<div class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary">
+<span class="material-symbols-outlined" data-icon="route">route</span>
+<span class="text-caption font-caption">Routes</span>
+</div>
+<div class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary">
+<span class="material-symbols-outlined" data-icon="account_circle">account_circle</span>
+<span class="text-caption font-caption">Me</span>
+</div>
+</nav>
+<script>
+        // Simple Bottom Sheet Interaction
+        const sheet = document.getElementById('bottom-sheet');
+        const handle = document.getElementById('drag-handle');
+        let isExpanded = false;
+
+        handle.addEventListener('click', () => {
+            if (isExpanded) {
+                sheet.style.transform = 'translateY(calc(60vh - 140px))';
+            } else {
+                sheet.style.transform = 'translateY(0)';
+            }
+            isExpanded = !isExpanded;
+        });
+
+        // Map Marker Interaction
+        document.querySelectorAll('.pulse-marker').forEach(marker => {
+            marker.addEventListener('click', () => {
+                sheet.style.transform = 'translateY(0)';
+                isExpanded = true;
+                // Highlight corresponding content logic could go here
+            });
+        });
+    </script>
+</body></html>

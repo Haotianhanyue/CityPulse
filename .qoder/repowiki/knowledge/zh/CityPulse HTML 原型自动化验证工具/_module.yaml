@@ -1,0 +1,8 @@
+schema_version: 1
+module_path: harness
+title: CityPulse HTML 原型自动化验证工具
+scope:
+    - harness/
+source_files: []
+depends_on: []
+related_to: []
