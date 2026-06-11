@@ -1,78 +1,76 @@
 # CityPulse Project Agents
 
 ## 项目概述
-CityPulse 是一款城市漫步探索应用，使用 Next.js 14 + TypeScript + Tailwind CSS + Framer Motion 构建，采用 App Router 架构。
+CityPulse 是一款城市漫步探索应用，使用 **Next.js 14 (App Router) + TypeScript + Tailwind CSS + Framer Motion** 构建。服务端状态统一走 **TanStack Query**，全局 UI 状态用 **Zustand**，数据持久化用 **Prisma**（开发 SQLite / 生产 PostgreSQL），并带 **mock 回退** 使其零配置即可运行。
 
-## 可用 Agents
+## AI 资产位置（Claude Code 原生）
+Agents 与 Skills 定义在 `.claude/` 下，可被 Claude Code 直接调用：
 
-### citypulse-reviewer
-代码审查 Agent，专注于 CityPulse 设计系统合规性检查。
-- **用途**: 审查代码变更是否符合设计规范
-- **触发**: 完成 UI 代码修改后使用
-- **检查项**: 色彩 Token、字体规范、响应式设计、可访问性、Next.js 最佳实践
+### Agents（`.claude/agents/`）
+| Agent | 用途 | 何时调用 |
+|-------|------|----------|
+| `citypulse-frontend` | 生成品牌合规的页面/组件，接好取数 hook | 写实际 .tsx 时 |
+| `citypulse-api` | Route Handler + repository + normalize + Zod | 新增/修改后端读写链路时 |
+| `citypulse-reviewer` | 设计系统/AppRouter/数据层/可访问性审查（只读） | 提交 UI 或 API 改动前 |
 
-### citypulse-designer
-UI 设计 Agent，生成符合 CityPulse 品牌的新页面和组件。
-- **用途**: 创建新页面、组件变体或功能设计
-- **触发**: 需要新增页面或功能时
-- **输出**: 符合设计系统的 React + Tailwind CSS 组件代码
+### Skills（`.claude/skills/`，`/<name>` 触发）
+| Skill | 用途 |
+|-------|------|
+| `/citypulse-ui` | 生成品牌 UI 组件（Token + Framer Motion） |
+| `/citypulse-page` | 脚手架新页面（含 Server/Client 判定与取数接线） |
+| `/citypulse-api` | 生成 Route Handler（薄壳 + repository / 写入 Zod） |
+| `/citypulse-data` | 接好「DB→UI」五层读路径（repository→normalize→route→api-client→hook） |
 
-### citypulse-api
-后端 API 开发 Agent，负责设计 RESTful 接口与数据库操作。
-- **用途**: 创建新 API 路由、优化数据库查询
-- **触发**: 需要新增或修改后端接口时
-- **输出**: Next.js Route Handler + Prisma Schema
+> `.qoder/` 下的旧 agents/skills 为 Qoder IDE 历史产物，已被 `.claude/` 取代，新工作请以 `.claude/` 为准。
 
-## 可用 Skills
+## 技术栈
+- Next.js 14 (App Router) + TypeScript 5 + Tailwind CSS 3 + Framer Motion 11
+- 服务端状态：TanStack Query | 全局 UI 状态：Zustand
+- 数据库：Prisma + SQLite(dev)/PostgreSQL(prod) | 认证：NextAuth v4 | 地图：Mapbox GL
+- 路径别名：`@/` → `./src/`
 
-### /citypulse-ui
-生成 CityPulse 品牌 UI 组件，确保设计系统一致性。
-
-### /citypulse-route
-生成路线相关的页面内容（详情页、时间线、地图、推荐卡片等）。
-
-### /citypulse-page
-生成新页面骨架，自动配置路由和布局。
-
-### /citypulse-api
-生成 Next.js API Route Handler，含请求验证和错误处理。
-
-## 开发约定
-
-### 技术栈
-- Next.js 14 (App Router) + TypeScript 5 + Tailwind CSS 3 + Framer Motion
-- 状态管理: Zustand | 数据获取: TanStack Query
-- 路径别名: `@/` 映射到 `./src/`
-
-### 文件结构
+## 文件结构
 ```
 src/
-├── app/                    # 路由 (App Router)
-│   ├── layout.tsx          # 根布局
-│   ├── page.tsx            # 首页 (探索大厅)
-│   ├── globals.css         # 全局样式
-│   ├── routes/page.tsx     # 路线列表
-│   ├── routes/[id]/page.tsx # 路线详情
-│   ├── community/page.tsx  # 社区动态
-│   ├── profile/page.tsx    # 个人中心
-│   └── api/                # API Routes
-├── components/             # 共享组件
-│   ├── ui/                 # 基础 UI (Button, Card, Chip, Icon)
-│   ├── layout/             # 布局 (BottomNav, Sidebar, TopNav)
-│   ├── BottomSheet.tsx     # 可拖拽底部面板
-│   ├── Timeline.tsx        # 时间线组件
-│   ├── RouteCard.tsx       # 路线卡片
-│   └── FeedCard.tsx        # 社区 Feed 卡片
-├── store/                  # Zustand 状态
-├── data/                   # Mock 数据
-└── types/                  # TypeScript 类型
+├── app/                      # 路由 (App Router)
+│   ├── layout.tsx            # 根布局（Auth→Query→Theme→Socket Provider 链）
+│   ├── page.tsx              # 探索大厅 (Client, useExplore)
+│   ├── routes/page.tsx       # 路线列表 (Client, useRoutes)
+│   ├── routes/[id]/page.tsx  # 路线详情 (Server, getRouteById)
+│   ├── community/page.tsx    # 社区瀑布流 (Client, useFeed 无限滚动)
+│   ├── profile/page.tsx      # 个人中心 (Server)
+│   └── api/                  # Route Handlers（薄壳，调 repository）
+├── lib/
+│   ├── db.ts                 # Prisma 单例
+│   ├── repository.ts         # 读路径：查询+过滤+分页+mock 回退
+│   ├── normalize.ts          # Prisma 行 → src/types 展示模型
+│   ├── api-client.ts         # 浏览器端 fetch 封装
+│   ├── time.ts               # relativeTime 等工具
+│   └── auth.ts               # NextAuth 配置
+├── hooks/                    # TanStack Query hooks (useRoutes/useFeed/useExplore)
+├── components/
+│   ├── ui/                   # 基础 UI (Button/Card/Chip/Icon/States)
+│   ├── layout/               # 布局 (BottomNav/Sidebar/TopNav)
+│   ├── QueryProvider.tsx     # TanStack Query Provider
+│   └── ...                   # BottomSheet/Timeline/RouteCard/FeedCard/MapView 等
+├── store/                    # Zustand 状态
+├── data/mock.ts              # mock 数据（同时作为 repository 回退源）
+└── types/                    # TypeScript 类型 + Paginated/Collection
 ```
 
-### 编码规范
-- 所有页面使用 `lang="zh-CN"` 中文语言标记
-- 颜色必须使用 `tailwind.config.ts` 中定义的设计 Token
-- 标题字体: Plus Jakarta Sans (`font-headline-*`)，正文字体: Inter (`font-body-*`)
-- 图标: Material Symbols Outlined (Variable Font)
-- 移动端优先，使用 `md:` 前缀做桌面端适配
-- 组件文件使用 PascalCase，工具文件使用 camelCase
-- "use client" 仅在需要 hooks/事件/动画时使用
+## 数据流（务必遵循）
+读路径恒为五层；新增一种数据时全部补齐：
+```
+Prisma → repository(src/lib/repository.ts) → normalize(src/lib/normalize.ts)
+       → API route(src/app/api/*) → api-client(src/lib/api-client.ts) → hook(src/hooks/*) → 页面
+```
+- 服务端组件可直接 `await getX()`，不经 hook；客户端页面用 Query hook。
+- repository 对 Prisma 空结果/异常回退 mock，返回 `Paginated<T>`/`Collection<T>` 展示模型。
+
+## 编码规范
+- 页面 `lang="zh-CN"`；颜色/字体/间距只用 `tailwind.config.ts` 的设计 Token。
+- 标题字体 Plus Jakarta Sans（`font-headline-*`），正文 Inter（`font-body-*`）；图标 Material Symbols Outlined（`<Icon>`）。
+- 移动优先，`md:` 适配桌面；暗色随 CSS 变量自动切换，一般无需 `dark:`。
+- `"use client"` 仅在 hooks/事件/动画/客户端取数时使用；客户端组件不导出 `metadata`。
+- 组件文件 PascalCase，工具文件 camelCase。
+- 改完用 `node_modules/.bin/tsc --noEmit` 验证类型；改 Prisma schema 后 `prisma generate`。

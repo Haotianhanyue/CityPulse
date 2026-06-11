@@ -1,0 +1,125 @@
+@import "../../styles/tokens.scss";
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.online {
+  display: flex;
+  align-items: center;
+  gap: 8rpx;
+  background: $surface-container-high;
+  padding: 6rpx 20rpx;
+  border-radius: $radius-full;
+
+  .dot {
+    width: 14rpx;
+    height: 14rpx;
+    border-radius: 50%;
+    background: #34a853;
+  }
+  .online-text {
+    font-size: 22rpx;
+    color: $on-surface-variant;
+  }
+}
+
+.page-sub {
+  display: block;
+  font-size: 26rpx;
+  margin-top: 8rpx;
+  margin-bottom: $md;
+}
+
+.chips {
+  white-space: nowrap;
+  margin-bottom: $md;
+
+  .chip {
+    display: inline-block;
+    padding: 12rpx 28rpx;
+    margin-right: $sm;
+    border-radius: $radius-full;
+    background: $surface-lowest;
+    border: 1rpx solid rgba(225, 191, 181, 0.4);
+    color: $on-surface-variant;
+    font-size: 26rpx;
+  }
+  .chip-active {
+    background: $primary;
+    color: #fff;
+    border-color: $primary;
+  }
+}
+
+.state {
+  display: block;
+  text-align: center;
+  padding: $xl 0;
+}
+
+.feed-card {
+  background: $surface-lowest;
+  border-radius: $radius-xl;
+  overflow: hidden;
+  box-shadow: $shadow-sm;
+  margin-bottom: $md;
+
+  .cover {
+    width: 100%;
+    height: 360rpx;
+    display: block;
+    background: $surface-variant;
+  }
+  .body {
+    padding: $md;
+  }
+  .badge {
+    display: inline-block;
+    font-size: 22rpx;
+    padding: 4rpx 16rpx;
+    border-radius: $radius-full;
+    margin-bottom: $sm;
+  }
+  .cat-blue { background: $secondary-container; color: $secondary; }
+  .cat-green { background: #e6f4ea; color: $success; }
+  .cat-purple { background: #f3e8fd; color: #7b2cbf; }
+  .cat-orange { background: lighten($primary-container, 28%); color: $primary; }
+  .cat-sky { background: #e7f0ff; color: #1a56db; }
+
+  .title {
+    display: block;
+    font-size: 30rpx;
+    font-weight: 600;
+    color: $on-surface;
+    margin-bottom: $sm;
+  }
+  .footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .author {
+    display: flex;
+    align-items: center;
+    gap: $sm;
+  }
+  .avatar {
+    width: 44rpx;
+    height: 44rpx;
+    border-radius: 50%;
+    background: $surface-variant;
+  }
+  .author-name {
+    font-size: 24rpx;
+    color: $on-surface-variant;
+  }
+  .stats {
+    display: flex;
+    gap: $md;
+    font-size: 22rpx;
+    color: $on-surface-variant;
+  }
+}

@@ -1,0 +1,188 @@
+@import "../../styles/tokens.scss";
+
+.detail {
+  height: 100vh;
+  background: $surface;
+}
+
+.hero {
+  width: 100%;
+  height: 440rpx;
+  background: $surface-variant;
+}
+
+.content {
+  padding: $md;
+  padding-bottom: 160rpx;
+}
+
+.tags {
+  display: flex;
+  align-items: center;
+  gap: $sm;
+  margin-bottom: $sm;
+
+  .tag {
+    background: $secondary-container;
+    color: $secondary;
+    font-size: 22rpx;
+    padding: 4rpx 16rpx;
+    border-radius: $radius-full;
+  }
+  .loc {
+    font-size: 22rpx;
+  }
+}
+
+.title {
+  display: block;
+  font-size: 44rpx;
+  font-weight: 700;
+  line-height: 1.3;
+}
+.subtitle {
+  display: block;
+  font-size: 28rpx;
+  margin: $sm 0;
+}
+
+.meta {
+  display: flex;
+  gap: $md;
+  font-size: 26rpx;
+  color: $on-surface-variant;
+  margin-bottom: $md;
+}
+
+.author {
+  display: flex;
+  align-items: center;
+  gap: $sm;
+  background: $surface-lowest;
+  border-radius: $radius-lg;
+  padding: $sm $md;
+  box-shadow: $shadow-sm;
+  margin-bottom: $lg;
+
+  .a-avatar {
+    width: 72rpx;
+    height: 72rpx;
+    border-radius: 50%;
+    background: $surface-variant;
+  }
+  .a-name {
+    display: block;
+    font-size: 28rpx;
+    font-weight: 600;
+  }
+  .a-sub {
+    font-size: 22rpx;
+  }
+}
+
+.section {
+  display: block;
+  font-size: 32rpx;
+  font-weight: 700;
+  margin-bottom: $md;
+}
+
+.timeline {
+  .stop {
+    display: flex;
+    gap: $sm;
+  }
+  .dot-col {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .dot {
+    width: 44rpx;
+    height: 44rpx;
+    border-radius: 50%;
+    background: $primary;
+    color: #fff;
+    font-size: 24rpx;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .line {
+    flex: 1;
+    width: 2rpx;
+    background: $outline-variant;
+    margin: 4rpx 0;
+  }
+  .stop-body {
+    flex: 1;
+    padding-bottom: $lg;
+  }
+  .stop-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .stop-name {
+    font-size: 30rpx;
+    font-weight: 600;
+  }
+  .stop-time {
+    font-size: 22rpx;
+  }
+  .stop-img {
+    width: 100%;
+    height: 280rpx;
+    border-radius: $radius;
+    margin: $sm 0;
+    background: $surface-variant;
+  }
+  .stop-desc {
+    display: block;
+    font-size: 26rpx;
+    color: $on-surface-variant;
+    line-height: 1.6;
+  }
+  .stop-tip {
+    display: block;
+    font-size: 24rpx;
+    color: $primary;
+    margin-top: 8rpx;
+  }
+}
+
+.actions {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  gap: $sm;
+  padding: $sm $md;
+  background: $surface-lowest;
+  box-shadow: 0 -4rpx 16rpx rgba(0, 0, 0, 0.06);
+
+  .act {
+    flex: 1;
+    text-align: center;
+    padding: 20rpx 0;
+    border-radius: $radius;
+    border: 1rpx solid $outline-variant;
+    font-size: 26rpx;
+    color: $on-surface;
+  }
+  .act-on {
+    color: $primary;
+    border-color: $primary;
+  }
+  // 重置微信 Button 默认样式，使其与 .act 视觉一致
+  .act-share {
+    background: transparent;
+    line-height: 1.6;
+    margin: 0;
+  }
+  .act-share::after {
+    border: none;
+  }
+}

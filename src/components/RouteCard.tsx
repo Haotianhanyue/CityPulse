@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { Card } from "@/components/ui/Card";
 import { Icon } from "@/components/ui/Icon";
 import { Avatar } from "@/components/ui/Icon";
@@ -18,12 +19,13 @@ export function RouteCard({ route, variant = "horizontal" }: RouteCardProps) {
   if (variant === "vertical") {
     return (
       <Card hoverable className="max-w-xs flex-shrink-0 snap-center">
-        <div className="h-32 w-full bg-surface-variant overflow-hidden">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
+        <div className="relative h-32 w-full bg-surface-variant overflow-hidden">
+          <Image
             src={route.coverImage}
             alt={route.title}
-            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+            fill
+            sizes="(max-width: 768px) 80vw, 320px"
+            className="object-cover group-hover:scale-105 transition-transform duration-500"
           />
         </div>
         <div className="p-md">
@@ -47,12 +49,13 @@ export function RouteCard({ route, variant = "horizontal" }: RouteCardProps) {
     <Card hoverable>
       <div className="flex flex-col md:flex-row">
         {/* Image */}
-        <div className="md:w-1/3 h-48 md:h-auto bg-surface-variant overflow-hidden">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
+        <div className="relative md:w-1/3 h-48 md:h-auto bg-surface-variant overflow-hidden">
+          <Image
             src={route.coverImage}
             alt={route.title}
-            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+            fill
+            sizes="(max-width: 768px) 100vw, 33vw"
+            className="object-cover group-hover:scale-105 transition-transform duration-500"
           />
         </div>
 

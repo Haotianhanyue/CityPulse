@@ -1,35 +1,23 @@
 import { NextResponse, NextRequest } from "next/server";
-import { prisma } from "@/lib/db";
+import { getPOIs } from "@/lib/repository";
+import { cached } from "@/lib/cache";
 
 export const dynamic = "force-dynamic";
 
-// GET /api/explore - POI 发现
+// GET /api/explore - POI 发现（含数据库为空时的 mock 回退 + 缓存）
 export async function GET(request: NextRequest) {
-  try {
-    const { searchParams } = new URL(request.url);
-    const category = searchParams.get("category");
-    const lat = searchParams.get("lat");
-    const lng = searchParams.get("lng");
+  const { searchParams } = new URL(request.url);
+  const category = searchParams.get("category") ?? undefined;
+  const lat = searchParams.get("lat");
+  const lng = searchParams.get("lng");
+  const near = lat && lng ? { lat: Number(lat), lng: Number(lng) } : undefined;
 
-    const where: Record<string, unknown> = {};
-    if (category) where.category = category;
+  // 基于位置的查询不缓存；按分类浏览缓存 60s
+  const result = near
+    ? await getPOIs({ category, near })
+    : await cached(`explore:${category ?? "all"}`, 60_000, () =>
+        getPOIs({ category }),
+      );
 
-    const pois = await prisma.pOI.findMany({
-      where,
-      orderBy: { rating: "desc" },
-      take: 20,
-    });
-
-    return NextResponse.json({
-      data: pois,
-      total: pois.length,
-      center: lat && lng ? { lat: Number(lat), lng: Number(lng) } : null,
-    });
-  } catch (error) {
-    console.error("GET /api/explore error:", error);
-    return NextResponse.json(
-      { error: "Internal Server Error" },
-      { status: 500 }
-    );
-  }
+  return NextResponse.json({ ...result, center: near ?? null });
 }

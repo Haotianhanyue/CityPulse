@@ -1,4 +1,5 @@
 "use client";
+import Image from "next/image";
 import { motion } from "framer-motion";
 import { Icon } from "@/components/ui/Icon";
 import type { RouteStop } from "@/types";
@@ -59,12 +60,13 @@ export function Timeline({ stops }: TimelineProps) {
 
           {/* Image */}
           {stop.images.length > 0 && (
-            <div className="w-full h-48 md:h-64 rounded-xl overflow-hidden bg-surface-variant">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
+            <div className="relative w-full h-48 md:h-64 rounded-xl overflow-hidden bg-surface-variant">
+              <Image
                 src={stop.images[0]}
                 alt={stop.name}
-                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                fill
+                sizes="(max-width: 768px) 100vw, 720px"
+                className="object-cover group-hover:scale-105 transition-transform duration-500"
               />
             </div>
           )}

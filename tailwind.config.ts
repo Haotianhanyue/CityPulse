@@ -77,14 +77,16 @@ const config: Config = {
         "margin-mobile": "16px",
       },
       fontFamily: {
-        caption: ["Inter", "sans-serif"],
-        "headline-lg": ["Plus Jakarta Sans", "sans-serif"],
-        "headline-lg-mobile": ["Plus Jakarta Sans", "sans-serif"],
-        "label-md": ["Inter", "sans-serif"],
-        "headline-md": ["Plus Jakarta Sans", "sans-serif"],
-        "body-md": ["Inter", "sans-serif"],
-        "body-lg": ["Inter", "sans-serif"],
-        "display-lg": ["Plus Jakarta Sans", "sans-serif"],
+        // 走 next/font 自托管变量（layout.tsx 注入 --font-inter / --font-jakarta），
+        // 不再依赖运行时 Google Fonts @import
+        caption: ["var(--font-inter)", "sans-serif"],
+        "headline-lg": ["var(--font-jakarta)", "sans-serif"],
+        "headline-lg-mobile": ["var(--font-jakarta)", "sans-serif"],
+        "label-md": ["var(--font-inter)", "sans-serif"],
+        "headline-md": ["var(--font-jakarta)", "sans-serif"],
+        "body-md": ["var(--font-inter)", "sans-serif"],
+        "body-lg": ["var(--font-inter)", "sans-serif"],
+        "display-lg": ["var(--font-jakarta)", "sans-serif"],
       },
       fontSize: {
         caption: ["12px", { lineHeight: "16px", fontWeight: "400" }],

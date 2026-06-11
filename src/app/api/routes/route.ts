@@ -1,6 +1,8 @@
 import { NextResponse, NextRequest } from "next/server";
 import { prisma } from "@/lib/db";
 import { z } from "zod";
+import { getRoutes } from "@/lib/repository";
+import { cached } from "@/lib/cache";
 
 export const dynamic = "force-dynamic";
 
@@ -30,43 +32,22 @@ const createRouteSchema = z.object({
     .optional(),
 });
 
-// GET /api/routes - 获取路线列表
+// GET /api/routes - 获取路线列表（含数据库为空时的 mock 回退）
 export async function GET(request: NextRequest) {
-  try {
-    const { searchParams } = new URL(request.url);
-    const category = searchParams.get("category");
-    const search = searchParams.get("search");
-    const page = Number(searchParams.get("page") || 1);
-    const pageSize = Number(searchParams.get("pageSize") || 10);
-
-    const where: Record<string, unknown> = {};
-    if (category) where.category = category;
-    if (search) {
-      where.OR = [
-        { title: { contains: search } },
-        { location: { contains: search } },
-      ];
-    }
-
-    const [routes, total] = await Promise.all([
-      prisma.route.findMany({
-        where,
-        include: { author: true, stops: { orderBy: { order: "asc" } } },
-        orderBy: { createdAt: "desc" },
-        skip: (page - 1) * pageSize,
-        take: pageSize,
-      }),
-      prisma.route.count({ where }),
-    ]);
-
-    return NextResponse.json({ data: routes, total, page, pageSize });
-  } catch (error) {
-    console.error("GET /api/routes error:", error);
-    return NextResponse.json(
-      { error: "Internal Server Error" },
-      { status: 500 }
-    );
-  }
+  const { searchParams } = new URL(request.url);
+  const params = {
+    category: searchParams.get("category") ?? undefined,
+    search: searchParams.get("search") ?? undefined,
+    page: Number(searchParams.get("page") || 1),
+    pageSize: Number(searchParams.get("pageSize") || 10),
+  };
+  // 搜索结果不缓存（变化快），列表浏览缓存 30s
+  const result = params.search
+    ? await getRoutes(params)
+    : await cached(`routes:${JSON.stringify(params)}`, 30_000, () =>
+        getRoutes(params),
+      );
+  return NextResponse.json(result);
 }
 
 // POST /api/routes - 创建新路线

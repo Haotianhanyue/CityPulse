@@ -18,6 +18,7 @@ type NotificationPayload = {
 
 interface SocketContextValue {
   connected: boolean;
+  onlineCount: number;
   notifications: NotificationPayload[];
   unreadCount: number;
   markAsRead: (id: string) => void;
@@ -26,6 +27,7 @@ interface SocketContextValue {
 
 const SocketContext = createContext<SocketContextValue>({
   connected: false,
+  onlineCount: 0,
   notifications: [],
   unreadCount: 0,
   markAsRead: () => {},
@@ -38,12 +40,23 @@ export function useSocket() {
 
 export function SocketProvider({ children }: { children: ReactNode }) {
   const [connected, setConnected] = useState(false);
+  const [onlineCount, setOnlineCount] = useState(0);
   const [notifications, setNotifications] = useState<NotificationPayload[]>([]);
 
   useEffect(() => {
     // Socket.IO 连接逻辑
-    // 开发阶段: 模拟连接状态 + 模拟通知
-    const timer = setTimeout(() => setConnected(true), 500);
+    // 开发阶段: 模拟连接状态 + 模拟通知 + 模拟在线人数
+    const timer = setTimeout(() => {
+      setConnected(true);
+      setOnlineCount(1200 + Math.floor(Math.random() * 400));
+    }, 500);
+
+    // 模拟在线人数实时波动
+    const pulse = setInterval(() => {
+      setOnlineCount((c) =>
+        Math.max(800, c + Math.floor(Math.random() * 21) - 10),
+      );
+    }, 5000);
 
     // 模拟初始通知
     setNotifications([
@@ -63,7 +76,10 @@ export function SocketProvider({ children }: { children: ReactNode }) {
       },
     ]);
 
-    return () => clearTimeout(timer);
+    return () => {
+      clearTimeout(timer);
+      clearInterval(pulse);
+    };
   }, []);
 
   const markAsRead = useCallback((id: string) => {
@@ -76,6 +92,7 @@ export function SocketProvider({ children }: { children: ReactNode }) {
     <SocketContext.Provider
       value={{
         connected,
+        onlineCount,
         notifications,
         unreadCount: notifications.length,
         markAsRead,

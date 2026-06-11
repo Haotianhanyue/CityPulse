@@ -7,7 +7,11 @@ import { TopNav } from "@/components/layout/TopNav";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import { SocketProvider } from "@/components/SocketProvider";
 import { AuthProvider } from "@/components/AuthProvider";
+import { QueryProvider } from "@/components/QueryProvider";
+import { ToastProvider } from "@/components/ui/Toast";
 import { InstallPrompt } from "@/components/InstallPrompt";
+import { ServiceWorkerRegister } from "@/components/ServiceWorkerRegister";
+import { BackToTop } from "@/components/BackToTop";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -48,17 +52,25 @@ export default function RootLayout({
     >
       <body className="bg-background text-on-surface">
         <AuthProvider>
-          <ThemeProvider>
-            <SocketProvider>
-              <Sidebar />
-              <div className="md:ml-64 min-h-screen pb-20 md:pb-0">
-                <TopNav />
-                <main>{children}</main>
-              </div>
-              <BottomNav />
-              <InstallPrompt />
-            </SocketProvider>
-          </ThemeProvider>
+          <QueryProvider>
+            <ThemeProvider>
+              <ToastProvider>
+                <SocketProvider>
+                  <Sidebar />
+                  <div className="md:ml-64 min-h-screen pb-20 md:pb-0">
+                    <TopNav />
+                    <main className="mx-auto w-full max-w-[1280px]">
+                      {children}
+                    </main>
+                  </div>
+                  <BottomNav />
+                  <InstallPrompt />
+                  <BackToTop />
+                  <ServiceWorkerRegister />
+                </SocketProvider>
+              </ToastProvider>
+            </ThemeProvider>
+          </QueryProvider>
         </AuthProvider>
       </body>
     </html>

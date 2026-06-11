@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { Card } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
 import { Icon } from "@/components/ui/Icon";
@@ -127,12 +128,13 @@ export default function ProfilePage() {
         <div className="grid grid-cols-2 md:grid-cols-4 gap-md">
           {mockPosts.slice(0, 4).map((post) => (
             <Card key={post.id} hoverable>
-              <div className="h-32 bg-surface-variant overflow-hidden">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
+              <div className="relative h-32 bg-surface-variant overflow-hidden">
+                <Image
                   src={post.images[0]}
                   alt={post.title}
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                  fill
+                  sizes="(max-width: 768px) 50vw, 25vw"
+                  className="object-cover group-hover:scale-105 transition-transform duration-500"
                 />
               </div>
               <div className="p-sm">

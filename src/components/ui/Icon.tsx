@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { clsx } from "clsx";
 
 interface IconProps {
@@ -45,12 +46,14 @@ export function Avatar({
     lg: "w-10 h-10",
     xl: "w-20 h-20",
   };
+  const px = { sm: 24, md: 32, lg: 40, xl: 80 }[size];
 
   return (
-    // eslint-disable-next-line @next/next/no-img-element
-    <img
+    <Image
       src={src}
       alt={alt}
+      width={px}
+      height={px}
       className={clsx(
         "rounded-full object-cover",
         sizes[size],

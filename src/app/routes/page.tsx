@@ -1,9 +1,26 @@
+"use client";
+import { useState } from "react";
 import { Chip } from "@/components/ui/Chip";
 import { Button } from "@/components/ui/Button";
 import { RouteCard } from "@/components/RouteCard";
-import { mockRoutes } from "@/data/mock";
+import { CardSkeletons, EmptyState } from "@/components/ui/States";
+import { useRoutes } from "@/hooks/useRoutes";
+
+const filters = [
+  { label: "精选", icon: "auto_awesome" },
+  { label: "城市漫步", icon: "directions_walk" },
+  { label: "文化探访", icon: "museum" },
+  { label: "美食之旅", icon: "restaurant" },
+  { label: "夜骑", icon: "nights_stay" },
+];
 
 export default function RoutesPage() {
+  const [category, setCategory] = useState("精选");
+  const [search, setSearch] = useState("");
+
+  const { data, isLoading, isError } = useRoutes({ category, search });
+  const routes = data?.data ?? [];
+
   return (
     <div className="px-margin-mobile md:px-margin-desktop py-lg">
       {/* Header */}
@@ -20,11 +37,15 @@ export default function RoutesPage() {
 
       {/* Filter chips */}
       <div className="flex gap-sm mb-lg overflow-x-auto hide-scrollbar">
-        <Chip label="精选" active icon="auto_awesome" />
-        <Chip label="城市漫步" icon="directions_walk" />
-        <Chip label="文化探访" icon="museum" />
-        <Chip label="美食之旅" icon="restaurant" />
-        <Chip label="夜骑" icon="nights_stay" />
+        {filters.map((f) => (
+          <Chip
+            key={f.label}
+            label={f.label}
+            icon={f.icon}
+            active={category === f.label}
+            onClick={() => setCategory(f.label)}
+          />
+        ))}
       </div>
 
       {/* Search bar */}
@@ -34,6 +55,8 @@ export default function RoutesPage() {
         </span>
         <input
           type="text"
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
           placeholder="搜索路线、地点或社区成员..."
           className="flex-1 outline-none text-body-md font-body-md bg-transparent"
         />
@@ -45,18 +68,38 @@ export default function RoutesPage() {
       </div>
 
       {/* Route cards */}
-      <div className="space-y-lg">
-        {mockRoutes.map((route) => (
-          <RouteCard key={route.id} route={route} />
-        ))}
-      </div>
+      {isLoading ? (
+        <div className="space-y-lg">
+          <CardSkeletons count={3} className="h-48" />
+        </div>
+      ) : isError ? (
+        <EmptyState
+          icon="error"
+          title="加载失败"
+          description="无法获取路线数据，请稍后重试。"
+        />
+      ) : routes.length === 0 ? (
+        <EmptyState
+          icon="explore_off"
+          title="暂无匹配路线"
+          description="换个分类或搜索关键词试试。"
+        />
+      ) : (
+        <div className="space-y-lg">
+          {routes.map((route) => (
+            <RouteCard key={route.id} route={route} />
+          ))}
+        </div>
+      )}
 
       {/* Load more */}
-      <div className="mt-xl flex justify-center">
-        <Button variant="ghost" icon="expand_more">
-          加载更多
-        </Button>
-      </div>
+      {!isLoading && routes.length > 0 && (
+        <div className="mt-xl flex justify-center">
+          <Button variant="ghost" icon="expand_more">
+            加载更多
+          </Button>
+        </div>
+      )}
     </div>
   );
 }

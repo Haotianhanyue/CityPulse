@@ -1,9 +1,20 @@
+import Image from "next/image";
 import { Button } from "@/components/ui/Button";
 import { Icon } from "@/components/ui/Icon";
 import { Avatar } from "@/components/ui/Icon";
 import { Card } from "@/components/ui/Card";
 import { Timeline } from "@/components/Timeline";
-import { mockRoutes, mockComments, mockUser } from "@/data/mock";
+import {
+  LikeButton,
+  BookmarkButton,
+  ShareButton,
+} from "@/components/InteractionButtons";
+import { FollowButton } from "@/components/FollowButton";
+import { CommentComposer } from "@/components/CommentComposer";
+import { NavigateButton } from "@/components/NavigateButton";
+import { getRouteById, getRoutes } from "@/lib/repository";
+import { mockComments, mockUser } from "@/data/mock";
+import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -12,8 +23,17 @@ export const metadata: Metadata = {
     "穿梭于复兴中路与武康路之间，探寻历史韵味与梧桐光影的城市漫步路线。",
 };
 
-export default function RouteDetailPage() {
-  const route = mockRoutes[0];
+export default async function RouteDetailPage({
+  params,
+}: {
+  params: { id: string };
+}) {
+  const route = await getRouteById(params.id);
+  if (!route) notFound();
+
+  const related = (await getRoutes({ pageSize: 4 })).data
+    .filter((r) => r.id !== route.id)
+    .slice(0, 2);
 
   return (
     <div className="flex flex-col md:flex-row gap-xl px-margin-mobile md:px-margin-desktop py-lg pb-2xl">
@@ -79,9 +99,7 @@ export default function RouteDetailPage() {
               </p>
             </div>
           </div>
-          <Button variant="secondary" size="sm" icon="person_add">
-            关注
-          </Button>
+          <FollowButton name={route.author.name} />
         </Card>
 
         {/* Timeline */}
@@ -93,16 +111,14 @@ export default function RouteDetailPage() {
         </div>
 
         {/* Actions */}
-        <div className="flex items-center gap-lg mb-xl">
-          <Button icon="favorite" fullWidth>
-            {route.likes} 点赞
-          </Button>
-          <Button variant="secondary" icon="bookmark" fullWidth>
-            {route.bookmarks} 收藏
-          </Button>
-          <Button variant="ghost" icon="share" fullWidth>
-            分享
-          </Button>
+        <div className="flex items-center gap-md mb-xl">
+          <LikeButton id={route.id} count={route.likes} pill size={20} />
+          <BookmarkButton id={route.id} count={route.bookmarks} pill size={20} />
+          <ShareButton
+            data={{ title: route.title, text: route.subtitle }}
+            pill
+            size={20}
+          />
         </div>
 
         {/* Comments */}
@@ -112,18 +128,7 @@ export default function RouteDetailPage() {
           </h2>
 
           {/* Comment input */}
-          <div className="flex gap-md mb-lg">
-            <Avatar src={mockUser.avatar} alt={mockUser.name} size="md" />
-            <div className="flex-1">
-              <textarea
-                placeholder="分享你的探索体验..."
-                className="w-full p-md rounded-xl bg-surface-container-low outline-none resize-none h-20 text-body-md font-body-md"
-              />
-              <div className="flex justify-end mt-sm">
-                <Button size="sm">发布评论</Button>
-              </div>
-            </div>
-          </div>
+          <CommentComposer avatar={mockUser.avatar} name={mockUser.name} />
 
           {/* Comment list */}
           <div className="space-y-md">
@@ -180,22 +185,21 @@ export default function RouteDetailPage() {
         </Card>
 
         {/* Start navigation */}
-        <Button fullWidth icon="navigation" size="lg">
-          开始导航
-        </Button>
+        <NavigateButton destination={route.location} />
 
         {/* Related routes */}
         <div>
           <h3 className="text-label-md font-label-md mb-md">相关推荐</h3>
           <div className="space-y-sm">
-            {mockRoutes.slice(1).map((r) => (
+            {related.map((r) => (
               <Card key={r.id} hoverable className="flex gap-sm p-sm">
-                <div className="w-16 h-16 rounded-lg bg-surface-variant flex-shrink-0 overflow-hidden">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
+                <div className="relative w-16 h-16 rounded-lg bg-surface-variant flex-shrink-0 overflow-hidden">
+                  <Image
                     src={r.coverImage}
                     alt={r.title}
-                    className="w-full h-full object-cover"
+                    fill
+                    sizes="64px"
+                    className="object-cover"
                   />
                 </div>
                 <div className="min-w-0">

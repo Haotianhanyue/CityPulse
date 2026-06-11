@@ -1,8 +1,11 @@
 "use client";
+import { useState } from "react";
 import { Icon } from "@/components/ui/Icon";
 import { Avatar } from "@/components/ui/Icon";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { NotificationBell } from "@/components/NotificationBell";
+import { CameraCapture } from "@/components/CameraCapture";
+import { useToast } from "@/components/ui/Toast";
 import { useAppStore } from "@/store/useAppStore";
 import { clsx } from "clsx";
 
@@ -10,6 +13,8 @@ export function TopNav() {
   const fabMenuOpen = useAppStore((s) => s.fabMenuOpen);
   const toggleFabMenu = useAppStore((s) => s.toggleFabMenu);
   const closeFabMenu = useAppStore((s) => s.closeFabMenu);
+  const [cameraOpen, setCameraOpen] = useState(false);
+  const { toast } = useToast();
 
   return (
     <>
@@ -59,8 +64,12 @@ export function TopNav() {
                     拍摄照片
                   </span>
                   <button
-                    onClick={closeFabMenu}
-                    className="w-12 h-12 bg-surface rounded-full flex items-center justify-center shadow-md"
+                    onClick={() => {
+                      closeFabMenu();
+                      setCameraOpen(true);
+                    }}
+                    aria-label="拍摄照片"
+                    className="w-12 h-12 bg-surface rounded-full flex items-center justify-center shadow-md active:scale-90 transition-transform"
                   >
                     <Icon name="photo_camera" filled size={24} className="text-primary" />
                   </button>
@@ -70,8 +79,12 @@ export function TopNav() {
                     撰写动态
                   </span>
                   <button
-                    onClick={closeFabMenu}
-                    className="w-12 h-12 bg-surface rounded-full flex items-center justify-center shadow-md"
+                    onClick={() => {
+                      closeFabMenu();
+                      toast("撰写动态功能即将上线 ✍️", "info");
+                    }}
+                    aria-label="撰写动态"
+                    className="w-12 h-12 bg-surface rounded-full flex items-center justify-center shadow-md active:scale-90 transition-transform"
                   >
                     <Icon name="edit_square" filled size={24} className="text-secondary" />
                   </button>
@@ -81,6 +94,8 @@ export function TopNav() {
           )}
         </div>
       </header>
+
+      <CameraCapture open={cameraOpen} onClose={() => setCameraOpen(false)} />
     </>
   );
 }

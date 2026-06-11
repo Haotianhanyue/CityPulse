@@ -1,8 +1,10 @@
 "use client";
+import Image from "next/image";
 import { motion } from "framer-motion";
 import { Card } from "@/components/ui/Card";
 import { Icon } from "@/components/ui/Icon";
 import { Avatar } from "@/components/ui/Icon";
+import { LikeButton, ShareButton } from "@/components/InteractionButtons";
 import type { Post } from "@/types";
 
 interface FeedCardProps {
@@ -30,12 +32,13 @@ export function FeedCard({ post, index = 0 }: FeedCardProps) {
       <Card hoverable>
         {/* Image */}
         {post.images.length > 0 && (
-          <div className="w-full h-48 md:h-56 bg-surface-variant overflow-hidden">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
+          <div className="relative w-full h-48 md:h-56 bg-surface-variant overflow-hidden">
+            <Image
               src={post.images[0]}
               alt={post.title}
-              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+              fill
+              sizes="(max-width: 768px) 50vw, 25vw"
+              className="object-cover group-hover:scale-105 transition-transform duration-500"
             />
           </div>
         )}
@@ -65,14 +68,15 @@ export function FeedCard({ post, index = 0 }: FeedCardProps) {
           {/* Actions */}
           <div className="flex items-center justify-between text-caption font-caption text-on-surface-variant">
             <div className="flex items-center gap-md">
-              <div className="flex items-center gap-xs">
-                <Icon name="favorite_border" size={16} />
-                <span>{post.likes}</span>
-              </div>
+              <LikeButton id={post.id} count={post.likes} size={16} />
               <div className="flex items-center gap-xs">
                 <Icon name="mode_comment" size={16} />
                 <span>{post.comments}</span>
               </div>
+              <ShareButton
+                data={{ title: post.title, text: post.content }}
+                size={16}
+              />
             </div>
             <span>{post.createdAt}</span>
           </div>

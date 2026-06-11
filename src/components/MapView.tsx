@@ -2,6 +2,7 @@
 import { useEffect, useRef, useState } from "react";
 import mapboxgl from "mapbox-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
+import { MAP_STYLE, type LngLat } from "@/lib/mapbox";
 import type { POI } from "@/types";
 
 interface MapViewProps {
@@ -10,6 +11,8 @@ interface MapViewProps {
   zoom?: number;
   className?: string;
   onPoiClick?: (poi: POI) => void;
+  /** 步行路线折线坐标（来自 Mapbox Directions） */
+  routePath?: LngLat[];
 }
 
 const categoryIcons: Record<string, string> = {
@@ -25,6 +28,7 @@ export function MapView({
   zoom = 13,
   className = "w-full h-full",
   onPoiClick,
+  routePath,
 }: MapViewProps) {
   const mapContainer = useRef<HTMLDivElement>(null);
   const map = useRef<mapboxgl.Map | null>(null);
@@ -44,7 +48,7 @@ export function MapView({
 
     map.current = new mapboxgl.Map({
       container: mapContainer.current,
-      style: "mapbox://styles/mapbox/light-v11",
+      style: MAP_STYLE,
       center,
       zoom,
       attributionControl: false,
@@ -98,6 +102,45 @@ export function MapView({
       el.addEventListener("click", () => onPoiClick?.(poi));
     });
   }, [pois, loaded, onPoiClick]);
+
+  // 外部 center 变化时平滑飞行（如搜索定位 / 用户定位）
+  useEffect(() => {
+    if (!map.current || !loaded) return;
+    map.current.flyTo({ center, zoom, essential: true, duration: 1200 });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [center[0], center[1], loaded]);
+
+  // 绘制步行路线折线
+  useEffect(() => {
+    const m = map.current;
+    if (!m || !loaded) return;
+
+    const apply = () => {
+      const source = m.getSource("walking-route") as
+        | mapboxgl.GeoJSONSource
+        | undefined;
+      const data: GeoJSON.Feature = {
+        type: "Feature",
+        properties: {},
+        geometry: { type: "LineString", coordinates: routePath ?? [] },
+      };
+      if (source) {
+        source.setData(data);
+      } else if (routePath && routePath.length > 0) {
+        m.addSource("walking-route", { type: "geojson", data });
+        m.addLayer({
+          id: "walking-route",
+          type: "line",
+          source: "walking-route",
+          layout: { "line-join": "round", "line-cap": "round" },
+          paint: { "line-color": "#ab3500", "line-width": 4, "line-opacity": 0.85 },
+        });
+      }
+    };
+
+    if (m.isStyleLoaded()) apply();
+    else m.once("styledata", apply);
+  }, [routePath, loaded]);
 
   // 无 token 时的占位视图
   if (!process.env.NEXT_PUBLIC_MAPBOX_TOKEN) {

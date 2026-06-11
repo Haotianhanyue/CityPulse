@@ -1,0 +1,37 @@
+// CityPulse 设计 Token（与 Web 端 tailwind/globals 对齐）
+$primary: #ab3500;
+$primary-container: #ff6b35;
+$on-primary: #ffffff;
+$secondary: #24619d;
+$secondary-container: #87bcfe;
+$tertiary-container: #989a94;
+
+$surface: #f9f9f9;
+$surface-lowest: #ffffff;
+$surface-container: #eeeeee;
+$surface-container-high: #e8e8e8;
+$surface-variant: #e2e2e2;
+
+$on-surface: #1a1c1c;
+$on-surface-variant: #594139;
+$outline-variant: #e1bfb5;
+
+$success: #2e7d32;
+$danger: #ba1a1a;
+
+// 间距（rpx）
+$xs: 8rpx;
+$sm: 16rpx;
+$md: 32rpx;
+$lg: 48rpx;
+$xl: 64rpx;
+
+// 圆角
+$radius: 16rpx;
+$radius-lg: 24rpx;
+$radius-xl: 32rpx;
+$radius-full: 9999rpx;
+
+// 阴影
+$shadow-sm: 0 2rpx 12rpx rgba(0, 0, 0, 0.06);
+$shadow-md: 0 8rpx 24rpx rgba(0, 0, 0, 0.08);

@@ -1,4 +1,5 @@
 "use client";
+import Image from "next/image";
 import { clsx } from "clsx";
 import type { ReactNode } from "react";
 
@@ -37,12 +38,13 @@ export function CardImage({
   height = "h-48",
 }: CardImageProps) {
   return (
-    <div className={clsx("w-full overflow-hidden", height)}>
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img
+    <div className={clsx("relative w-full overflow-hidden", height)}>
+      <Image
         src={src}
         alt={alt}
-        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+        fill
+        sizes="(max-width: 768px) 100vw, 50vw"
+        className="object-cover group-hover:scale-105 transition-transform duration-500"
       />
     </div>
   );

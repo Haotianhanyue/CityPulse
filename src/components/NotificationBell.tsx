@@ -2,10 +2,18 @@
 import { useState } from "react";
 import { useSocket } from "@/components/SocketProvider";
 import { Icon } from "@/components/ui/Icon";
+import { useToast } from "@/components/ui/Toast";
+import { subscribeToPush, pushResultMessage } from "@/lib/push";
 
 export function NotificationBell() {
   const { notifications, unreadCount, markAsRead, clearAll } = useSocket();
   const [open, setOpen] = useState(false);
+  const { toast } = useToast();
+
+  const enablePush = async () => {
+    const result = await subscribeToPush();
+    toast(pushResultMessage(result), result === "subscribed" ? "success" : "info");
+  };
 
   return (
     <div className="relative">
@@ -30,12 +38,21 @@ export function NotificationBell() {
           <div className="absolute right-0 top-12 w-80 bg-surface rounded-xl shadow-xl border border-surface-variant z-50 overflow-hidden">
             <div className="flex items-center justify-between px-md py-sm border-b border-surface-variant">
               <span className="text-label-md font-label-md">通知</span>
-              <button
-                onClick={clearAll}
-                className="text-caption font-caption text-primary hover:underline"
-              >
-                全部已读
-              </button>
+              <div className="flex items-center gap-md">
+                <button
+                  onClick={enablePush}
+                  className="flex items-center gap-xs text-caption font-caption text-secondary hover:underline"
+                >
+                  <Icon name="notifications_active" size={14} />
+                  开启推送
+                </button>
+                <button
+                  onClick={clearAll}
+                  className="text-caption font-caption text-primary hover:underline"
+                >
+                  全部已读
+                </button>
+              </div>
             </div>
             <div className="max-h-64 overflow-y-auto">
               {notifications.length === 0 ? (

@@ -1,0 +1,103 @@
+@import "../../styles/tokens.scss";
+
+.hero {
+  background: $surface-lowest;
+  border-radius: $radius-xl;
+  box-shadow: $shadow-sm;
+  padding: $lg $md;
+  text-align: center;
+  margin-bottom: $lg;
+
+  .avatar {
+    width: 140rpx;
+    height: 140rpx;
+    border-radius: 50%;
+    border: 4rpx solid $primary-container;
+    background: $surface-variant;
+  }
+  .name {
+    display: block;
+    font-size: 38rpx;
+    font-weight: 700;
+    margin-top: $sm;
+  }
+  .title {
+    display: block;
+    font-size: 24rpx;
+    margin-top: 4rpx;
+  }
+
+  .level {
+    margin: $md 0;
+  }
+  .level-top {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 8rpx;
+    .lv { color: $primary; font-weight: 600; font-size: 26rpx; }
+    .xp { font-size: 22rpx; }
+  }
+  .bar {
+    height: 14rpx;
+    background: $surface-variant;
+    border-radius: $radius-full;
+    overflow: hidden;
+  }
+  .bar-fill {
+    height: 100%;
+    background: $primary;
+    border-radius: $radius-full;
+  }
+
+  .stats {
+    display: flex;
+    justify-content: space-around;
+    margin-top: $md;
+  }
+  .stat {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    .num { font-size: 36rpx; font-weight: 700; color: $on-surface; }
+    .lbl { font-size: 22rpx; margin-top: 4rpx; }
+  }
+}
+
+.block-title {
+  display: block;
+  font-size: 30rpx;
+  font-weight: 600;
+  margin-bottom: $md;
+}
+
+.saved {
+  white-space: nowrap;
+
+  .saved-card {
+    display: inline-block;
+    width: 280rpx;
+    margin-right: $md;
+    vertical-align: top;
+    background: $surface-lowest;
+    border-radius: $radius-lg;
+    overflow: hidden;
+    box-shadow: $shadow-sm;
+  }
+  .saved-img {
+    width: 100%;
+    height: 180rpx;
+    background: $surface-variant;
+  }
+  .saved-name {
+    display: block;
+    font-size: 26rpx;
+    font-weight: 600;
+    padding: $sm $sm 0;
+    white-space: normal;
+  }
+  .saved-meta {
+    display: block;
+    font-size: 22rpx;
+    padding: 4rpx $sm $sm;
+  }
+}

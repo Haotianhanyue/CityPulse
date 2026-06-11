@@ -86,3 +86,18 @@ export interface Comment {
 
 /** 导航项 */
 export type NavTab = "explore" | "feed" | "routes" | "profile";
+
+/** 分页响应（与 API Route 返回结构一致，供 TanStack Query 消费） */
+export interface Paginated<T> {
+  data: T[];
+  total: number;
+  page: number;
+  pageSize: number;
+  hasMore: boolean;
+}
+
+/** 非分页列表响应 */
+export interface Collection<T> {
+  data: T[];
+  total: number;
+}

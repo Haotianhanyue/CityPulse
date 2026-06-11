@@ -1,0 +1,7 @@
+# 小程序是独立工程，不参与 Web 后端部署
+miniprogram/
+# 历史/IDE/测试产物
+.history/
+harness/
+light-mode-screenshot.png
+dark-mode-screenshot.png
