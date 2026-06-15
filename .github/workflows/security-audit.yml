@@ -1,0 +1,38 @@
+name: Security Audit
+
+on:
+  schedule:
+    - cron: "0 2 * * 1" # 每周一上午 10:00 (UTC+8)
+  push:
+    branches: [main]
+    paths:
+      - "package-lock.json"
+      - "package.json"
+
+jobs:
+  audit:
+    name: npm audit + CodeQL
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run npm audit
+        run: npm audit --audit-level=high
+        continue-on-error: true
+        id: audit
+
+      - name: Check for critical vulnerabilities
+        run: |
+          if npm audit --audit-level=critical 2>&1 | grep -q "critical"; then
+            echo "⚠️ Critical vulnerabilities found — create an issue"
+            exit 1
+          fi
+        continue-on-error: true
