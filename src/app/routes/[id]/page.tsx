@@ -10,10 +10,10 @@ import {
   ShareButton,
 } from "@/components/InteractionButtons";
 import { FollowButton } from "@/components/FollowButton";
-import { CommentComposer } from "@/components/CommentComposer";
+import { RouteComments } from "@/components/RouteComments";
 import { NavigateButton } from "@/components/NavigateButton";
-import { getRouteById, getRoutes } from "@/lib/repository";
-import { mockComments, mockUser } from "@/data/mock";
+import { getRouteById, getRoutes, getCommentsByRouteId } from "@/lib/repository";
+import { mockUser } from "@/data/mock";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 
@@ -34,6 +34,8 @@ export default async function RouteDetailPage({
   const related = (await getRoutes({ pageSize: 4 })).data
     .filter((r) => r.id !== route.id)
     .slice(0, 2);
+
+  const initialComments = (await getCommentsByRouteId(route.id)).data;
 
   return (
     <div className="flex flex-col md:flex-row gap-xl px-margin-mobile md:px-margin-desktop py-lg pb-2xl">
@@ -122,50 +124,11 @@ export default async function RouteDetailPage({
         </div>
 
         {/* Comments */}
-        <div>
-          <h2 className="font-headline-lg text-headline-md text-on-surface mb-md">
-            社区评论 ({route.comments})
-          </h2>
-
-          {/* Comment input */}
-          <CommentComposer avatar={mockUser.avatar} name={mockUser.name} />
-
-          {/* Comment list */}
-          <div className="space-y-md">
-            {mockComments.map((comment) => (
-              <div key={comment.id} className="flex gap-md">
-                <Avatar
-                  src={comment.author.avatar}
-                  alt={comment.author.name}
-                  size="md"
-                />
-                <div className="flex-1">
-                  <div className="flex items-center gap-sm mb-xs">
-                    <span className="text-label-md font-label-md">
-                      {comment.author.name}
-                    </span>
-                    <span className="text-caption font-caption text-on-surface-variant">
-                      {comment.createdAt}
-                    </span>
-                  </div>
-                  <p className="text-body-md font-body-md text-on-surface-variant">
-                    {comment.content}
-                  </p>
-                  <div className="flex items-center gap-md mt-sm text-caption font-caption text-on-surface-variant">
-                    <div className="flex items-center gap-xs cursor-pointer hover:text-primary">
-                      <Icon name="thumb_up" size={14} />
-                      <span>{comment.likes}</span>
-                    </div>
-                    <div className="flex items-center gap-xs cursor-pointer hover:text-primary">
-                      <Icon name="reply" size={14} />
-                      <span>回复</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
+        <RouteComments
+          routeId={route.id}
+          initialComments={initialComments}
+          currentUser={mockUser}
+        />
       </div>
 
       {/* Sidebar - Map & Related */}

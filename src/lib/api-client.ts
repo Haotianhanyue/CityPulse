@@ -4,7 +4,7 @@
 // 仅供 TanStack Query 的 queryFn 在客户端调用，统一封装 fetch、
 // 查询参数拼接与错误处理。返回结构与 src/types 完全一致。
 // ============================================================
-import type { Route, Post, POI, Paginated, Collection } from "@/types";
+import type { Route, Post, POI, Comment, Paginated, Collection } from "@/types";
 
 async function getJSON<T>(path: string): Promise<T> {
   const res = await fetch(path, { headers: { Accept: "application/json" } });
@@ -55,4 +55,57 @@ export interface ExploreParams {
 
 export function fetchExplore(params: ExploreParams): Promise<Collection<POI>> {
   return getJSON(`/api/explore${toQuery(params)}`);
+}
+
+export function fetchRouteComments(id: string): Promise<Collection<Comment>> {
+  return getJSON(`/api/routes/${id}/comments`);
+}
+
+export async function postRouteComment(
+  id: string,
+  content: string,
+): Promise<Comment> {
+  return postComment(`/api/routes/${id}/comments`, content);
+}
+
+export function fetchPostComments(id: string): Promise<Collection<Comment>> {
+  return getJSON(`/api/feed/${id}/comments`);
+}
+
+export async function postPostComment(
+  id: string,
+  content: string,
+): Promise<Comment> {
+  return postComment(`/api/feed/${id}/comments`, content);
+}
+
+/** 评论发布的共用 POST 封装（路线 / 动态共享） */
+async function postComment(path: string, content: string): Promise<Comment> {
+  const res = await fetch(path, {
+    method: "POST",
+    headers: { "Content-Type": "application/json", Accept: "application/json" },
+    body: JSON.stringify({ content }),
+  });
+  if (!res.ok) {
+    throw new Error(`发布失败：${res.status} ${res.statusText}`);
+  }
+  const json = (await res.json()) as { data: Comment };
+  return json.data;
+}
+
+/** 创建路线（authorId 由服务端从 session 解析，前端不传） */
+export async function createRoute(body: unknown): Promise<Route> {
+  const res = await fetch(`/api/routes`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json", Accept: "application/json" },
+    body: JSON.stringify(body),
+  });
+  if (!res.ok) {
+    const msg = await res.json().catch(() => ({}));
+    throw new Error(
+      (msg as { error?: string }).error || `创建失败：${res.status}`,
+    );
+  }
+  const json = (await res.json()) as { data: Route };
+  return json.data;
 }

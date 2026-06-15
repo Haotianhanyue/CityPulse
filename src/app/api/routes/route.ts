@@ -3,6 +3,7 @@ import { prisma } from "@/lib/db";
 import { z } from "zod";
 import { getRoutes } from "@/lib/repository";
 import { cached } from "@/lib/cache";
+import { resolveUserId } from "@/lib/interactions";
 
 export const dynamic = "force-dynamic";
 
@@ -53,17 +54,17 @@ export async function GET(request: NextRequest) {
 // POST /api/routes - 创建新路线
 export async function POST(request: NextRequest) {
   try {
-    const body = await request.json();
-    const validated = createRouteSchema.parse(body);
-
-    // 从 session 获取 userId (简化处理)
-    const authorId = body.authorId;
+    // 身份从 session / x-guest-id 解析，绝不信任 body.authorId（防伪造）
+    const authorId = await resolveUserId(request);
     if (!authorId) {
       return NextResponse.json(
-        { error: "Unauthorized" },
+        { error: "需要登录后才能创建路线" },
         { status: 401 }
       );
     }
+
+    const body = await request.json();
+    const validated = createRouteSchema.parse(body);
 
     const route = await prisma.route.create({
       data: {
@@ -98,8 +99,8 @@ export async function POST(request: NextRequest) {
     }
     console.error("POST /api/routes error:", error);
     return NextResponse.json(
-      { error: "Internal Server Error" },
-      { status: 500 }
+      { error: "创建失败（需要数据库；mock 演示模式不支持写入）" },
+      { status: 503 }
     );
   }
 }

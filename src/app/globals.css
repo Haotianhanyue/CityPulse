@@ -115,6 +115,64 @@
     --color-inverse-primary: #ab3500;
   }
 
+  /* 主题：Matcha（茶园绿）— 亮色基底，温润绿 + 米白，文化探访 / 清新审美 */
+  .matcha {
+    --color-primary: #3f7d4f;
+    --color-surface-tint: #3f7d4f;
+    --color-on-primary: #ffffff;
+    --color-primary-container: #a7d7b4;
+    --color-on-primary-container: #14361f;
+    --color-secondary: #8a6d3b;
+    --color-on-secondary: #ffffff;
+    --color-secondary-container: #e8d8b8;
+    --color-on-secondary-container: #3d2f12;
+    --color-background: #f7f4ec;
+    --color-surface: #f7f4ec;
+    --color-surface-bright: #fffdf6;
+    --color-surface-container-lowest: #fffdf6;
+    --color-surface-container-low: #efeadd;
+    --color-surface-container: #e8e2d2;
+    --color-surface-container-high: #e1dac6;
+    --color-surface-container-highest: #d9d1ba;
+    --color-surface-variant: #ddd6c4;
+    --color-on-surface: #20251f;
+    --color-on-surface-variant: #4f5546;
+    --color-on-background: #20251f;
+    --color-outline: #6f7363;
+    --color-outline-variant: #c6bfa8;
+  }
+
+  /* 主题：Ink（深夜墨水）— 暗色基底，近黑 + 荧光橙，夜骑 / 夜间户外 */
+  .ink {
+    --color-background: #0c0d0d;
+    --color-surface: #161818;
+    --color-surface-bright: #232525;
+    --color-surface-dim: #0c0d0d;
+    --color-surface-container-lowest: #0a0b0b;
+    --color-surface-container-low: #141616;
+    --color-surface-container: #1b1d1d;
+    --color-surface-container-high: #232525;
+    --color-surface-container-highest: #2c2e2e;
+    --color-surface-variant: #1f2121;
+    --color-surface-tint: #ff6b35;
+    --color-on-surface: #f2f2f2;
+    --color-on-surface-variant: #b5b5b5;
+    --color-on-background: #f2f2f2;
+    --color-primary: #ff6b35;
+    --color-on-primary: #2a0a00;
+    --color-primary-container: #7a2600;
+    --color-on-primary-container: #ffd9c9;
+    --color-secondary: #87bcfe;
+    --color-on-secondary: #00325b;
+    --color-secondary-container: #143a5e;
+    --color-on-secondary-container: #cfe3ff;
+    --color-outline: #6a6a6a;
+    --color-outline-variant: #333636;
+    --color-inverse-surface: #e2e2e2;
+    --color-inverse-on-surface: #2f3131;
+    --color-inverse-primary: #ff6b35;
+  }
+
   body {
     @apply bg-background text-on-surface font-body-md antialiased;
   }
@@ -153,8 +211,8 @@
     width: 2px;
     background: repeating-linear-gradient(
       to bottom,
-      #ab3500 0,
-      #ab3500 4px,
+      var(--color-primary) 0,
+      var(--color-primary) 4px,
       transparent 4px,
       transparent 8px
     );

@@ -9,6 +9,8 @@ import type { NextRequest } from "next/server";
 import { getServerSession } from "next-auth";
 import { prisma } from "@/lib/db";
 import { authOptions } from "@/lib/auth";
+import { normalizeComment } from "@/lib/normalize";
+import type { Comment } from "@/types";
 
 async function ensureGuestUser(guestId: string): Promise<string> {
   const id = `guest_${guestId}`.slice(0, 64);
@@ -85,4 +87,38 @@ export async function toggleRouteBookmark(
     data: { bookmarks: { increment: 1 } },
   });
   return { active: true, count: r.bookmarks };
+}
+
+/** 为路线创建评论，并同步递增 Route.comments 计数。返回归一化后的评论。 */
+export async function createRouteComment(
+  userId: string,
+  routeId: string,
+  content: string,
+): Promise<Comment> {
+  const row = await prisma.comment.create({
+    data: { content, routeId, authorId: userId },
+    include: { author: true },
+  });
+  await prisma.route.update({
+    where: { id: routeId },
+    data: { comments: { increment: 1 } },
+  });
+  return normalizeComment(row);
+}
+
+/** 为动态创建评论，并同步递增 Post.comments 计数。返回归一化后的评论。 */
+export async function createPostComment(
+  userId: string,
+  postId: string,
+  content: string,
+): Promise<Comment> {
+  const row = await prisma.comment.create({
+    data: { content, postId, authorId: userId },
+    include: { author: true },
+  });
+  await prisma.post.update({
+    where: { id: postId },
+    data: { comments: { increment: 1 } },
+  });
+  return normalizeComment(row);
 }

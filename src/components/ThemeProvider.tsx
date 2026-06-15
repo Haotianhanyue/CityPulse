@@ -9,6 +9,7 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
       defaultTheme="system"
       enableSystem
       enableColorScheme
+      themes={["light", "dark", "matcha", "ink"]}
     >
       {children}
     </NextThemesProvider>
