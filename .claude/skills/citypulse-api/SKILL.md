@@ -1,6 +1,6 @@
 ---
 name: citypulse-api
-description: Generate a CityPulse Next.js Route Handler that delegates to the repository layer (with Prisma + mock fallback) and, for writes, Zod validation. Use when the user wants to add or change an /api endpoint in the CityPulse app.
+description: Generate a CityPulse Next.js Route Handler that delegates to the repository layer (with Prisma + mock fallback) and, for writes, Zod validation. Use when the user wants to add or change a single internal /api endpoint in the CityPulse app. For wiring a full database→UI read path use citypulse-data; for integrating an external/third-party data source use citypulse-data-bridge.
 ---
 
 # CityPulse API 端点

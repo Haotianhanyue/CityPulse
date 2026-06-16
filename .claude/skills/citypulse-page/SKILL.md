@@ -1,6 +1,6 @@
 ---
 name: citypulse-page
-description: Scaffold a new CityPulse page (App Router route) with the right layout, server-vs-client choice, and data wiring. Use when the user wants to add a new screen/route/page to the CityPulse app (e.g. a new tab, a settings page, a detail view).
+description: Scaffold a new CityPulse page (App Router route) with the right layout, server-vs-client choice, and wiring to existing data hooks. Use when the user wants to add a new screen/route/page to the CityPulse app (e.g. a new tab, a settings page, a detail view). This skill consumes existing hooks; building a NEW database→UI data path (repository→normalize→route→hook) is citypulse-data.
 ---
 
 # CityPulse 新页面
