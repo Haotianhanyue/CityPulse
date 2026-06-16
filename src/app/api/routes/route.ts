@@ -39,6 +39,7 @@ export async function GET(request: NextRequest) {
   const params = {
     category: searchParams.get("category") ?? undefined,
     search: searchParams.get("search") ?? undefined,
+    difficulty: searchParams.get("difficulty") ?? undefined,
     page: Number(searchParams.get("page") || 1),
     pageSize: Number(searchParams.get("pageSize") || 10),
   };

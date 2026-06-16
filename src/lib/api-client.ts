@@ -28,6 +28,7 @@ function toQuery(params: object): string {
 export interface RouteParams {
   category?: string;
   search?: string;
+  difficulty?: string;
   page?: number;
   pageSize?: number;
 }

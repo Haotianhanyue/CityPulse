@@ -7,6 +7,7 @@ import { Avatar } from "@/components/ui/Icon";
 import { RouteCard } from "@/components/RouteCard";
 import { AchievementWall } from "@/components/AchievementWall";
 import { ThemePicker } from "@/components/ThemePicker";
+import { ComingSoonButton } from "@/components/ComingSoonButton";
 import { mockUser, mockRoutes, mockPosts } from "@/data/mock";
 
 export default function ProfilePage() {
@@ -95,9 +96,12 @@ export default function ProfilePage() {
             </div>
           </div>
 
-          <Button icon="edit" variant="ghost" size="sm">
+          <ComingSoonButton
+            icon="edit"
+            message="资料编辑功能即将上线 ✨"
+          >
             编辑
-          </Button>
+          </ComingSoonButton>
         </div>
       </Card>
 

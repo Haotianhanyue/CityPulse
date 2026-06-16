@@ -44,7 +44,7 @@ export default function ExplorePage() {
   const [coords, setCoords] = useState<{ lat: number; lng: number } | undefined>();
   const { toast } = useToast();
 
-  const { data, isLoading } = useExplore({
+  const { data, isLoading, isError } = useExplore({
     category,
     lat: coords?.lat,
     lng: coords?.lng,
@@ -87,7 +87,7 @@ export default function ExplorePage() {
 
       {/* Search bar */}
       <div className="absolute top-20 left-0 right-0 z-20 px-margin-mobile md:px-margin-desktop">
-        <div className="flex items-center gap-md bg-surface-container-lowest rounded-full shadow-lg px-md py-sm">
+        <div className="flex items-center gap-md bg-surface-container-lowest rounded-full shadow-lg px-md py-sm focus-within:ring-2 focus-within:ring-primary/40 transition-shadow">
           <Icon name="search" size={24} className="text-on-surface-variant" />
           <input
             type="text"
@@ -97,12 +97,13 @@ export default function ExplorePage() {
               if (e.key === "Enter") runSearch();
             }}
             placeholder="搜索街道、广场或隐秘的咖啡店..."
+            aria-label="搜索地点"
             className="flex-1 outline-none text-body-md font-body-md bg-transparent"
           />
           <button
             onClick={locateMe}
             aria-label="定位到我的位置"
-            className="w-10 h-10 rounded-full bg-primary flex items-center justify-center active:scale-90 transition-transform"
+            className="w-10 h-10 rounded-full bg-primary flex items-center justify-center active:scale-90 transition-transform focus-visible:ring-2 focus-visible:ring-primary/40"
           >
             <Icon name="my_location" size={20} className="text-white" />
           </button>
@@ -129,6 +130,12 @@ export default function ExplorePage() {
             <Skeleton className="h-28" />
             <Skeleton className="h-28" />
           </div>
+        ) : isError ? (
+          <EmptyState
+            icon="error"
+            title="加载失败"
+            description="无法获取周边推荐，请稍后重试。"
+          />
         ) : pois.length === 0 ? (
           <EmptyState
             icon="wrong_location"

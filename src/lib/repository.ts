@@ -40,6 +40,7 @@ function paginate<T>(items: T[], page: number, pageSize: number): Paginated<T> {
 export interface RouteQuery {
   category?: string;
   search?: string;
+  difficulty?: string;
   page?: number;
   pageSize?: number;
 }
@@ -47,12 +48,14 @@ export interface RouteQuery {
 export async function getRoutes({
   category,
   search,
+  difficulty,
   page = 1,
   pageSize = 10,
 }: RouteQuery): Promise<Paginated<Route>> {
   try {
     const where: Prismalike = {};
     if (category && category !== ALL) where.category = category;
+    if (difficulty) where.difficulty = difficulty;
     if (search) {
       where.OR = [
         { title: { contains: search } },
@@ -83,6 +86,9 @@ export async function getRoutes({
     let items = mockRoutes;
     if (category && category !== ALL) {
       items = items.filter((r) => r.category === category);
+    }
+    if (difficulty) {
+      items = items.filter((r) => r.difficulty === difficulty);
     }
     if (search) {
       const q = search.toLowerCase();
