@@ -4,7 +4,7 @@ on:
   schedule:
     - cron: "0 2 * * 1" # 每周一上午 10:00 (UTC+8)
   push:
-    branches: [main]
+    branches: [master, main]
     paths:
       - "package-lock.json"
       - "package.json"
