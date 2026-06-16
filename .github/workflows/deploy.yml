@@ -1,9 +1,10 @@
 name: Deploy
 
-# CD：合入默认分支后自动部署。也可在 Actions 页手动触发。
+# CD：合入生产分支(master，仓库默认分支)后自动部署。也可在 Actions 页手动触发。
+# 仅监听单一生产分支，避免 main 等其他分支误触发生产发布。
 on:
   push:
-    branches: [master, main]
+    branches: [master]
   workflow_dispatch:
 
 # 同一时间只允许一个部署，且不取消进行中的部署（避免半途中断线上发布）

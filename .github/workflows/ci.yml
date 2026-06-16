@@ -105,8 +105,10 @@ jobs:
       - name: Generate Prisma Client
         run: npx prisma generate
 
-      - name: Apply schema to database
-        run: npx prisma db push
+      - name: Apply migrations to database
+        # 用 migrate deploy 验证 prisma/migrations 迁移链可干净应用——
+        # 与生产 deploy.yml 完全同路径，避免"CI 验 db push、生产用 migrate deploy"的分叉。
+        run: npx prisma migrate deploy
 
       - name: Seed database
         run: npm run db:seed
