@@ -45,6 +45,19 @@
 | skill | 状态 | 日期 | 结果 |
 |---|---|---|---|
 | cicd-engineer | ✅ 已实测 | 2026-06-16 | 对真实 `.github/workflows`（ci/deploy 等）跑审计，`expect_contains` 5/5 覆盖；钉出 2 处黄灯并**均已修复**：① deploy 收窄到单一生产分支 `[master]`；② 补 `prisma/migrations/` 初始迁移，CI `database` job 改用 `migrate deploy` 与生产同路径（原项目无迁移、生产 `migrate deploy` 实为空操作） |
-| 其余 11 skill | ⏳ 待实测 | — | 触发判别已实测；行为层待应用内回归 |
+| citypulse-perf | ✅ 已实测 | 2026-06-16 | 对真实仓库跑性能分析，`expect_contains` 4/4 覆盖（前端 Server 14%、bundle mapbox/framer-motion、只读不改码）；实测数据层为 DB 分页 + include 无 N+1 + 有 cache。**注**：运行时载入的是会话初始旧版正文，本会话新增的星级刻度/范例未热重载——skill 磁盘改动需新会话才生效。 |
+| citypulse-guard | ✅ 已实测 | 2026-06-16 | 对"删除 src/app/api/routes/route.ts"出裁决，`expect_contains` 4/4 覆盖：判 🔴 红灯、grep 实测 6 处引用、给确切回滚命令(git restore/revert)、强制停止需人工审批 |
+| citypulse-reviewer | ✅ 已实测 | 2026-06-16 | 审真实组件 src/components/FeedCard.tsx，`expect_contains` 4/4 覆盖；照出 3 条真 findings：typeStyles 3 处用 Tailwind 默认调色板逃出品牌 token、卡片 Link 缺 focus-visible 焦点环、装饰 Icon 未 aria-hidden；结论 REQUEST_CHANGES |
+| citypulse-debugger | ✅ 已实测 | 2026-06-16 | 诊断"无 secret 时 /profile 跳登录"，`expect_contains` 4/4；取证 middleware.ts:5 matcher 含 /profile + auth.ts 条件 provider，正确判为**预期行为非 bug**，未瞎改码 |
+| citypulse-pm | ✅ 已实测 | 2026-06-16 | 对"feed 按 type 筛选"出 PRD-Lite，`expect_contains` 4/4；落在真实 Post.type、RICE=600 带数字、只出 spec |
+| citypulse-orchestrator | ✅ 已实测 | 2026-06-16 | 把上条 spec 拆成 4 有序子任务(data/ui/page/reviewer)，`expect_contains` 4/4；全增量正确免 guard、只出计划 |
+| citypulse-ui | ✅ 已实测 | 2026-06-16 | 隔离 worktree 生成 TypeFilterChips.tsx，`expect_contains` 4/4 + **tsc 退出 0**（token 无 hex、use client、framer-motion、复用 Chip） |
+| citypulse-page | ✅ 已实测 | 2026-06-16 | 生成 explore-feed/page.tsx，4/4 + **tsc 0**（Client 判定、无导航栏、px-margin、三态） |
+| citypulse-api | ✅ 已实测 | 2026-06-16 | 生成 feed/count GET + quick-comment POST，4/4 + **tsc 0**（薄壳+repository、Zod+resolveUserId、状态码 401/400/500/201）。注：skill 模板写 getServerSession，项目实际用 resolveUserId，模板可对齐 |
+| citypulse-data | ◑ 部分实测 | 2026-06-16 | 生成 useFeedByType.ts（hook 层）+ tsc 0；完整五层读路径需建 Prisma model（🔴 guard），无法隔离单文件验证全链路 |
+| citypulse-data-bridge | ◑ 部分实测 | 2026-06-16 | 生成 adapters/weather.ts（adapter 归一化）+ tsc 0；降级/mock 同步/.env/normalize 单测为跨多文件集成步骤，核心 adapter 已坐实 |
+
+> 代码生成型经隔离 git worktree（软链 node_modules）实跑：6 生成物 tsc 全退出 0。ui/page/api 全坐实；data/data-bridge 核心产出坐实，完整跨文件链路本就需 guard/跨 skill 协作。验完 worktree 已丢弃，主仓零污染。
 
 > 触发判别（第一层）对全部 12 skill 已实测；行为层（第二层）按 skill 逐个坐实，结果记此表。
+> ⚠️ 运行时约束：skill 正文在会话内不热重载，验证当轮改版需新开会话。
