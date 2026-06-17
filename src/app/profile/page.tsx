@@ -1,9 +1,13 @@
 import Image from "next/image";
+import Link from "next/link";
 import { Card } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
 import { Icon } from "@/components/ui/Icon";
 import { Avatar } from "@/components/ui/Icon";
 import { RouteCard } from "@/components/RouteCard";
+import { AchievementWall } from "@/components/AchievementWall";
+import { ThemePicker } from "@/components/ThemePicker";
+import { ComingSoonButton } from "@/components/ComingSoonButton";
 import { mockUser, mockRoutes, mockPosts } from "@/data/mock";
 
 export default function ProfilePage() {
@@ -92,20 +96,31 @@ export default function ProfilePage() {
             </div>
           </div>
 
-          <Button icon="edit" variant="ghost" size="sm">
+          <ComingSoonButton
+            icon="edit"
+            message="资料编辑功能即将上线 ✨"
+          >
             编辑
-          </Button>
+          </ComingSoonButton>
         </div>
       </Card>
+
+      {/* Achievement Wall */}
+      <AchievementWall user={mockUser} />
+
+      {/* Theme Picker */}
+      <ThemePicker />
 
       {/* New Route CTA */}
       <div className="flex items-center justify-between mb-lg">
         <h2 className="font-headline-lg text-headline-md text-on-surface">
           我的内容
         </h2>
-        <Button icon="add" size="sm">
-          新建路线
-        </Button>
+        <Link href="/routes/new">
+          <Button icon="add" size="sm">
+            新建路线
+          </Button>
+        </Link>
       </div>
 
       {/* Saved Routes - horizontal scroll */}

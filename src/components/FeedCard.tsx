@@ -1,5 +1,6 @@
 "use client";
 import Image from "next/image";
+import Link from "next/link";
 import { motion } from "framer-motion";
 import { Card } from "@/components/ui/Card";
 import { Icon } from "@/components/ui/Icon";
@@ -30,56 +31,61 @@ export function FeedCard({ post, index = 0 }: FeedCardProps) {
       className="masonry-item"
     >
       <Card hoverable>
-        {/* Image */}
-        {post.images.length > 0 && (
-          <div className="relative w-full h-48 md:h-56 bg-surface-variant overflow-hidden">
-            <Image
-              src={post.images[0]}
-              alt={post.title}
-              fill
-              sizes="(max-width: 768px) 50vw, 25vw"
-              className="object-cover group-hover:scale-105 transition-transform duration-500"
-            />
-          </div>
-        )}
-
-        <div className="p-md">
-          {/* Type badge */}
-          <span
-            className={`inline-flex items-center gap-xs px-sm py-xs rounded-full text-caption font-caption mb-sm ${typeStyles[post.type]}`}
-          >
-            <Icon name="local_offer" size={14} />
-            {post.type}
-          </span>
-
-          {/* Title */}
-          <h3 className="font-label-md text-body-md text-on-surface mb-sm line-clamp-2">
-            {post.title}
-          </h3>
-
-          {/* Author */}
-          <div className="flex items-center gap-sm mb-md">
-            <Avatar src={post.author.avatar} alt={post.author.name} size="sm" />
-            <span className="text-caption font-caption text-on-surface-variant">
-              {post.author.name}
-            </span>
-          </div>
-
-          {/* Actions */}
-          <div className="flex items-center justify-between text-caption font-caption text-on-surface-variant">
-            <div className="flex items-center gap-md">
-              <LikeButton id={post.id} count={post.likes} size={16} />
-              <div className="flex items-center gap-xs">
-                <Icon name="mode_comment" size={16} />
-                <span>{post.comments}</span>
-              </div>
-              <ShareButton
-                data={{ title: post.title, text: post.content }}
-                size={16}
+        <Link href={`/feed/${post.id}`} className="block">
+          {/* Image */}
+          {post.images.length > 0 && (
+            <div className="relative w-full h-48 md:h-56 bg-surface-variant overflow-hidden">
+              <Image
+                src={post.images[0]}
+                alt={post.title}
+                fill
+                sizes="(max-width: 768px) 50vw, 25vw"
+                className="object-cover group-hover:scale-105 transition-transform duration-500"
               />
             </div>
-            <span>{post.createdAt}</span>
+          )}
+
+          <div className="p-md pb-0">
+            {/* Type badge */}
+            <span
+              className={`inline-flex items-center gap-xs px-sm py-xs rounded-full text-caption font-caption mb-sm ${typeStyles[post.type]}`}
+            >
+              <Icon name="local_offer" size={14} />
+              {post.type}
+            </span>
+
+            {/* Title */}
+            <h3 className="font-label-md text-body-md text-on-surface mb-sm line-clamp-2">
+              {post.title}
+            </h3>
+
+            {/* Author */}
+            <div className="flex items-center gap-sm mb-md">
+              <Avatar src={post.author.avatar} alt={post.author.name} size="sm" />
+              <span className="text-caption font-caption text-on-surface-variant">
+                {post.author.name}
+              </span>
+            </div>
           </div>
+        </Link>
+
+        {/* Actions（不放进 Link，避免点赞/分享触发跳转） */}
+        <div className="px-md pb-md flex items-center justify-between text-caption font-caption text-on-surface-variant">
+          <div className="flex items-center gap-md">
+            <LikeButton id={post.id} count={post.likes} size={16} />
+            <Link
+              href={`/feed/${post.id}`}
+              className="flex items-center gap-xs hover:text-primary"
+            >
+              <Icon name="mode_comment" size={16} />
+              <span>{post.comments}</span>
+            </Link>
+            <ShareButton
+              data={{ title: post.title, text: post.content }}
+              size={16}
+            />
+          </div>
+          <span>{post.createdAt}</span>
         </div>
       </Card>
     </motion.div>

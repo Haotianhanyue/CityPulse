@@ -1,0 +1,40 @@
+name: AI Review
+
+on:
+  pull_request:
+    branches: [master, main]
+    paths:
+      - "src/**"
+      - "prisma/**"
+
+jobs:
+  review:
+    name: AI Code Review (citypulse-reviewer)
+    runs-on: ubuntu-latest
+    # 仅在配置了 ANTHROPIC_API_KEY 时运行
+    if: ${{ secrets.ANTHROPIC_API_KEY != '' }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Generate Prisma Client
+        run: npx prisma generate
+
+      - name: Run AI Review
+        uses: anthropics/claude-code-action@v1
+        with:
+          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+          prompt: |
+            Review this PR using the citypulse-reviewer guidelines from .claude/agents/citypulse-reviewer.md.
+            Check: design tokens, App Router correctness, data-layer (5-layer path), accessibility,
+            responsive patterns, three-state loading, type safety.
+            Output a severity-graded report with APPROVE/REQUEST_CHANGES conclusion.

@@ -6,7 +6,7 @@
 // 这一层把两者解耦，使 API Route 始终返回与 mock 数据完全一致的结构。
 // ============================================================
 import type { Prisma } from "@prisma/client";
-import type { Route, RouteStop, Post, POI, UserProfile } from "@/types";
+import type { Route, RouteStop, Post, POI, UserProfile, Comment } from "@/types";
 import { relativeTime } from "@/lib/time";
 
 const DEFAULT_AVATAR = "/avatars/user1.jpg";
@@ -92,6 +92,18 @@ export function normalizePost(p: PostRow): Post {
     bookmarks: p.bookmarks,
     createdAt: relativeTime(p.createdAt),
     isTrending: p.isTrending,
+  };
+}
+
+type CommentRow = Prisma.CommentGetPayload<{ include: { author: true } }>;
+
+export function normalizeComment(c: CommentRow): Comment {
+  return {
+    id: c.id,
+    author: normalizeUser(c.author),
+    content: c.content,
+    createdAt: relativeTime(c.createdAt),
+    likes: c.likes,
   };
 }
 

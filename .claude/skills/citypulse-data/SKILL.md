@@ -1,6 +1,6 @@
 ---
 name: citypulse-data
-description: Wire a complete CityPulse read path from database to UI — repository function, normalize mapper, API route, api-client fetcher, and TanStack Query hook. Use when the user wants a page/component to fetch a new kind of data, add server-state caching, infinite scroll, or replace mock/direct fetch with the proper query layer.
+description: Wire a complete CityPulse read path from database to UI — repository function, normalize mapper, API route, api-client fetcher, and TanStack Query hook. Use when the user wants a page/component to fetch a new kind of data from our own database, add server-state caching, infinite scroll, or replace mock/direct fetch with the proper query layer. This skill creates the hooks. For an external/third-party data source use citypulse-data-bridge; for only the page shell/layout use citypulse-page.
 ---
 
 # CityPulse 数据读路径

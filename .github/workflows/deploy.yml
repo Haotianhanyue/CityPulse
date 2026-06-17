@@ -1,0 +1,99 @@
+name: Deploy
+
+# CD：合入生产分支(master，仓库默认分支)后自动部署。也可在 Actions 页手动触发。
+# 仅监听单一生产分支，避免 main 等其他分支误触发生产发布。
+on:
+  push:
+    branches: [master]
+  workflow_dispatch:
+
+# 同一时间只允许一个部署，且不取消进行中的部署（避免半途中断线上发布）
+concurrency:
+  group: deploy-production
+  cancel-in-progress: false
+
+jobs:
+  # 预检：secrets 只能在 step 中读取，这里把"是否已配置"暴露为 job 输出，
+  # 供后续 job 的 if 判断。未配置对应密钥时，相关阶段会自动跳过（安全空操作）。
+  guard:
+    name: Check deploy config
+    runs-on: ubuntu-latest
+    outputs:
+      vercel: ${{ steps.check.outputs.vercel }}
+      db: ${{ steps.check.outputs.db }}
+    steps:
+      - id: check
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          PROD_DATABASE_URL: ${{ secrets.PROD_DATABASE_URL }}
+        run: |
+          if [ -n "$VERCEL_TOKEN" ]; then echo "vercel=true" >> "$GITHUB_OUTPUT"; else echo "vercel=false" >> "$GITHUB_OUTPUT"; fi
+          if [ -n "$PROD_DATABASE_URL" ]; then echo "db=true" >> "$GITHUB_OUTPUT"; else echo "db=false" >> "$GITHUB_OUTPUT"; fi
+
+  # 生产数据库迁移（仅在配置了 PROD_DATABASE_URL 时运行）
+  migrate:
+    name: Migrate production database
+    needs: guard
+    if: ${{ needs.guard.outputs.db == 'true' }}
+    runs-on: ubuntu-latest
+    environment: production
+    env:
+      DATABASE_URL: ${{ secrets.PROD_DATABASE_URL }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Generate Prisma Client
+        run: npx prisma generate
+
+      - name: Apply migrations
+        run: npx prisma migrate deploy
+
+  # 部署到 Vercel（仅在配置了 VERCEL_TOKEN 时运行）
+  deploy:
+    name: Deploy to Vercel
+    needs: [guard, migrate]
+    # always() 让本 job 在 migrate 被跳过（未配置 DB）时仍可运行；
+    # 但若 migrate 真正失败，则不部署。
+    if: >-
+      ${{ always()
+      && needs.guard.outputs.vercel == 'true'
+      && (needs.migrate.result == 'success' || needs.migrate.result == 'skipped') }}
+    runs-on: ubuntu-latest
+    environment:
+      name: production
+      url: ${{ steps.deploy.outputs.url }}
+    env:
+      VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+      VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+      VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install Vercel CLI
+        run: npm i -g vercel@latest
+
+      - name: Pull Vercel environment
+        run: vercel pull --yes --environment=production --token="$VERCEL_TOKEN"
+
+      - name: Build project artifacts
+        run: vercel build --prod --token="$VERCEL_TOKEN"
+
+      - name: Deploy to production
+        id: deploy
+        run: |
+          url=$(vercel deploy --prebuilt --prod --token="$VERCEL_TOKEN")
+          echo "url=$url" >> "$GITHUB_OUTPUT"
+          echo "🚀 已部署：$url"

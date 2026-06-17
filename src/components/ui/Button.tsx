@@ -11,6 +11,7 @@ interface ButtonProps {
   className?: string;
   onClick?: () => void;
   fullWidth?: boolean;
+  disabled?: boolean;
 }
 
 export function Button({
@@ -21,6 +22,7 @@ export function Button({
   className,
   onClick,
   fullWidth,
+  disabled,
 }: ButtonProps) {
   const base =
     "inline-flex items-center justify-center gap-sm rounded-lg font-label-md text-label-md transition-all active:scale-95";
@@ -39,12 +41,14 @@ export function Button({
 
   return (
     <motion.button
-      whileTap={{ scale: 0.95 }}
+      whileTap={disabled ? undefined : { scale: 0.95 }}
+      disabled={disabled}
       className={clsx(
         base,
         variants[variant],
         sizes[size],
         fullWidth && "w-full",
+        disabled && "opacity-50 cursor-not-allowed pointer-events-none",
         className
       )}
       onClick={onClick}

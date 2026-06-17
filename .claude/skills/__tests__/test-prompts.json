@@ -1,0 +1,161 @@
+{
+  "suite": "citypulse-skills",
+  "version": 1,
+  "purpose": "回归资产：验证每个 skill 的触发判别（trigger / anti_trigger）与行为断言（expect_contains）。anti_trigger 用于捕捉 12 个同前缀 skill 之间的误触发（routing collision）。",
+  "how_to_run": "见同目录 README.md。触发路由层可由人/LLM 评判：把 prompt 对照全部 12 个 SKILL.md 的 description，判定最该命中的 skill 是否等于 expected。行为断言层需在 CityPulse 仓库内实跑该 skill 后核对 expect_contains。",
+  "skills": {
+    "citypulse-ui": {
+      "triggers": [
+        "给路线列表做一个难度徽章组件，轻松/中等/挑战三色",
+        "把现有的 FeedCard 改成符合设计系统的样式",
+        "做一个可复用的分类筛选 Chip 组件"
+      ],
+      "anti_triggers": [
+        { "prompt": "新增一个 /settings 设置页面", "should_route_to": "citypulse-page" },
+        { "prompt": "给社区接口加一个分页字段", "should_route_to": "citypulse-api" }
+      ],
+      "expect_contains": ["仅用 tailwind 设计 token、禁止裸 hex", "use client 仅在 hooks/事件/动画时", "Framer Motion 动画", "优先复用 @/components/ui 基组件"]
+    },
+    "citypulse-page": {
+      "triggers": [
+        "加一个设置页 /settings",
+        "新建一个路线详情页 /routes/[id]",
+        "增加一个「我的收藏」tab",
+        "加一个纯静态的「关于我们」页 /about"
+      ],
+      "anti_triggers": [
+        { "prompt": "做一个点赞按钮组件", "should_route_to": "citypulse-ui" },
+        { "prompt": "让这个页面能拉一种新数据，从库到 UI 全接上", "should_route_to": "citypulse-data" }
+      ],
+      "expect_contains": ["Server vs Client 判定", "不自带导航栏（根 layout 已含）", "px-margin-mobile md:px-margin-desktop", "取数三态 loading/error/empty", "本 skill 消费已有 hook（新建 DB→UI 链路 → data）"]
+    },
+    "citypulse-api": {
+      "triggers": [
+        "加一个 GET /api/pois 端点",
+        "给 /api/routes 加 POST 写入",
+        "把 explore 接口改成支持 category 过滤"
+      ],
+      "anti_triggers": [
+        { "prompt": "把 POI 数据从数据库接到 UI 的完整链路都做了", "should_route_to": "citypulse-data" },
+        { "prompt": "提交前审查一下我这个 route 文件", "should_route_to": "citypulse-reviewer" }
+      ],
+      "expect_contains": ["Route 薄壳 + 业务逻辑写在 repository", "写操作 Zod 校验 + 鉴权", "状态码 400/401/403/404/500 约定", "提醒同步 api-client 与 hooks"]
+    },
+    "citypulse-data": {
+      "triggers": [
+        "让社区页能拉一种新的「活动」数据，从数据库到页面全接上",
+        "给 feed 列表加无限滚动",
+        "把直接 fetch 换成 TanStack Query 的取数层"
+      ],
+      "anti_triggers": [
+        { "prompt": "只加一个 /api/activities 端点就行", "should_route_to": "citypulse-api" },
+        { "prompt": "接入和风天气这个外部数据源", "should_route_to": "citypulse-data-bridge" },
+        { "prompt": "只要这个页面的壳和布局，数据先不接", "should_route_to": "citypulse-page" }
+      ],
+      "expect_contains": ["五层读路径 repository→normalize→route→api-client→hook", "repository 对空/异常回退 mock", "useQuery 与 useInfiniteQuery 两种形态", "改完跑 tsc --noEmit", "本 skill 造 hook（外部源→data-bridge，页面壳→page）"]
+    },
+    "citypulse-data-bridge": {
+      "triggers": [
+        "接入和风天气 API 给每条路线显示天气",
+        "把第三方 POI 数据源的响应转成我们的内部类型",
+        "除了 Mapbox 再集成一个外部地图数据源"
+      ],
+      "anti_triggers": [
+        { "prompt": "新建一个内部的 /api/weather 路由", "should_route_to": "citypulse-api" },
+        { "prompt": "把活动数据从我们自己的库接到 UI", "should_route_to": "citypulse-data" }
+      ],
+      "expect_contains": ["adapter 适配器 src/lib/adapters/<source>.ts", "外部源失败静默降级", "同步 mock 离线可跑", "写入 .env.example", "normalize 单测", "判据：数据来源在外部=本 skill；自己的库=data/api"]
+    },
+    "citypulse-debugger": {
+      "triggers": [
+        "页面白屏了，控制台报 Cannot read properties of undefined",
+        "/api/feed 返回 500 了",
+        "数据改了但页面还显示旧值"
+      ],
+      "anti_triggers": [
+        { "prompt": "提交前审查一下这段代码质量", "should_route_to": "citypulse-reviewer" },
+        { "prompt": "我要删这张表，这个操作能做吗", "should_route_to": "citypulse-guard" }
+      ],
+      "expect_contains": ["按根因分类（类型/认证/数据库/SSR-CSR/缓存）", "P-A-O 流程并用工具取证", "最多 3 轮假设", "最小可验证修复 + 验证方法"]
+    },
+    "citypulse-guard": {
+      "triggers": [
+        "我想删掉 /api/routes 这个路由文件",
+        "要改 prisma schema 里已有的 Route model",
+        "准备执行 prisma migrate reset"
+      ],
+      "anti_triggers": [
+        { "prompt": "为什么这个接口会报 500", "should_route_to": "citypulse-debugger" },
+        { "prompt": "把这个跨层需求拆成开发步骤", "should_route_to": "citypulse-orchestrator" }
+      ],
+      "expect_contains": ["🟢/🟡/🔴 三色裁决", "用 grep 统计引用数评估影响", "给出确切回滚命令", "红灯强制停止需人工审批"]
+    },
+    "citypulse-orchestrator": {
+      "triggers": [
+        "我要做一个完整的活动报名功能，前端后端数据库都要",
+        "帮我把这个跨层需求拆成有依赖顺序的步骤",
+        "这个功能涉及 UI、API、DB，怎么分工",
+        "活动报名需求已经定稿，帮我拆成跨 UI/API/DB 的开发执行顺序"
+      ],
+      "anti_triggers": [
+        { "prompt": "把用户这个模糊想法整理成 PRD 和优先级", "should_route_to": "citypulse-pm" },
+        { "prompt": "做一个按钮组件", "should_route_to": "citypulse-ui" },
+        { "prompt": "这想法还没定，先评估要不要做、优先级多高", "should_route_to": "citypulse-pm" }
+      ],
+      "expect_contains": ["子任务清单（含依赖与 DoD）", "路由到对应 skill 不从零写", "红灯操作先过 guard", "只出计划不写代码", "前提：WHAT 已定，本 skill 只排 HOW/顺序（要不要做/优先级 → pm）"]
+    },
+    "citypulse-pm": {
+      "triggers": [
+        "用户反馈想要收藏路线的功能，帮我理成需求规格",
+        "给这个产品想法写个 PRD 和优先级排序",
+        "下个迭代的 roadmap 怎么排",
+        "活动报名这个功能到底值不值得做、该包含哪些，先帮我理清楚"
+      ],
+      "anti_triggers": [
+        { "prompt": "把这个需求拆成可执行的开发子任务", "should_route_to": "citypulse-orchestrator" },
+        { "prompt": "首页太慢了分析一下", "should_route_to": "citypulse-perf" },
+        { "prompt": "功能已经定稿了，帮我排跨层开发子任务的依赖顺序", "should_route_to": "citypulse-orchestrator" }
+      ],
+      "expect_contains": ["PRD-Lite 六字段", "RICE 优先级", "spec 字段必须落在 types/index.ts（防幻觉）", "只出 spec 不写代码", "管 WHAT/WHY（要不要做/做什么/优先级）；已定功能的拆分排期 → orchestrator"]
+    },
+    "citypulse-perf": {
+      "triggers": [
+        "首页加载好慢，帮我分析一下性能",
+        "bundle 太大了怎么优化",
+        "这个 AI 摘要功能该选哪个模型档位"
+      ],
+      "anti_triggers": [
+        { "prompt": "页面直接报错白屏了", "should_route_to": "citypulse-debugger" },
+        { "prompt": "审查这个组件的设计系统合规性", "should_route_to": "citypulse-reviewer" }
+      ],
+      "expect_contains": ["Server/Client 组件占比", "bundle 热点与懒加载", "AI 模型分级 Haiku/Sonnet/Opus 含成本", "只出分析报告不改代码"]
+    },
+    "citypulse-reviewer": {
+      "triggers": [
+        "提交前帮我审一下这几个改动",
+        "review 一下这个组件符不符合设计系统和 App Router 规范",
+        "检查这个 PR 的可访问性和数据层约定"
+      ],
+      "anti_triggers": [
+        { "prompt": "这段代码为什么会报错", "should_route_to": "citypulse-debugger" },
+        { "prompt": "这个删除操作能不能做", "should_route_to": "citypulse-guard" }
+      ],
+      "expect_contains": ["设计系统/AppRouter/数据层/可访问性 四类清单", "问题分级 🔴/🟡/🔵 含文件:行", "结论 APPROVE / REQUEST_CHANGES", "提交前跑 tsc --noEmit 与 lint"]
+    },
+    "cicd-engineer": {
+      "triggers": [
+        "给这个项目加上 CI",
+        "配置自动部署到生产环境",
+        "我的流水线一直不触发是怎么回事",
+        "CI 构建挂了 / workflow 跑红了，帮我看看"
+      ],
+      "anti_triggers": [
+        { "prompt": "给 citypulse 加一个 /api/pois 端点", "should_route_to": "citypulse-api" },
+        { "prompt": "审查一下我提交前的代码", "should_route_to": "citypulse-reviewer" },
+        { "prompt": "应用运行时报 500、接口挂了", "should_route_to": "citypulse-debugger" },
+        { "prompt": "构建出来的页面白屏了", "should_route_to": "citypulse-debugger" }
+      ],
+      "expect_contains": ["先探测默认分支与真实存在的命令", "分支名不匹配=头号陷阱", "权限分级 🟢🟡🔴", "secrets 不能用于 job 级 if", "显式边界：应用代码报错/运行时不归本 skill（CI 配置 vs src/ 业务代码）"]
+    }
+  }
+}

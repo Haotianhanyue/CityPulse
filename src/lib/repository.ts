@@ -9,10 +9,15 @@
 // 返回结构始终为前端类型（src/types），由 normalize 层保证。
 // ============================================================
 import { prisma } from "@/lib/db";
-import { mockRoutes, mockPosts, mockPOIs } from "@/data/mock";
-import { normalizeRoute, normalizePost, normalizePOI } from "@/lib/normalize";
+import { mockRoutes, mockPosts, mockPOIs, mockComments } from "@/data/mock";
+import {
+  normalizeRoute,
+  normalizePost,
+  normalizePOI,
+  normalizeComment,
+} from "@/lib/normalize";
 import { sortByDistance, type LatLng } from "@/lib/geo";
-import type { Route, Post, POI, Paginated, Collection } from "@/types";
+import type { Route, Post, POI, Comment, Paginated, Collection } from "@/types";
 
 /** 代表「全部」的筛选 chip，不参与 where 过滤 */
 const ALL = "精选";
@@ -35,6 +40,7 @@ function paginate<T>(items: T[], page: number, pageSize: number): Paginated<T> {
 export interface RouteQuery {
   category?: string;
   search?: string;
+  difficulty?: string;
   page?: number;
   pageSize?: number;
 }
@@ -42,12 +48,14 @@ export interface RouteQuery {
 export async function getRoutes({
   category,
   search,
+  difficulty,
   page = 1,
   pageSize = 10,
 }: RouteQuery): Promise<Paginated<Route>> {
   try {
     const where: Prismalike = {};
     if (category && category !== ALL) where.category = category;
+    if (difficulty) where.difficulty = difficulty;
     if (search) {
       where.OR = [
         { title: { contains: search } },
@@ -79,6 +87,9 @@ export async function getRoutes({
     if (category && category !== ALL) {
       items = items.filter((r) => r.category === category);
     }
+    if (difficulty) {
+      items = items.filter((r) => r.difficulty === difficulty);
+    }
     if (search) {
       const q = search.toLowerCase();
       items = items.filter(
@@ -102,6 +113,23 @@ export async function getRouteById(id: string): Promise<Route | null> {
     /* fall through to mock */
   }
   return mockRoutes.find((r) => r.id === id) ?? mockRoutes[0] ?? null;
+}
+
+/** 某条路线的评论列表（按时间倒序）。无库 / 未初始化时回退 mock。 */
+export async function getCommentsByRouteId(
+  routeId: string,
+): Promise<Collection<Comment>> {
+  try {
+    const rows = await prisma.comment.findMany({
+      where: { routeId },
+      include: { author: true },
+      orderBy: { createdAt: "desc" },
+    });
+    if (rows.length === 0) throw new EmptyResult();
+    return { data: rows.map(normalizeComment), total: rows.length };
+  } catch {
+    return { data: mockComments, total: mockComments.length };
+  }
 }
 
 // ---------------------------------------------------------------
@@ -149,6 +177,36 @@ export async function getFeed({
     if (type) items = items.filter((p) => p.type === type);
     if (filter === "trending") items = items.filter((p) => p.isTrending);
     return paginate(items, page, pageSize);
+  }
+}
+
+export async function getPostById(id: string): Promise<Post | null> {
+  try {
+    const row = await prisma.post.findUnique({
+      where: { id },
+      include: { author: true },
+    });
+    if (row) return normalizePost(row);
+  } catch {
+    /* fall through to mock */
+  }
+  return mockPosts.find((p) => p.id === id) ?? mockPosts[0] ?? null;
+}
+
+/** 某条动态的评论列表（按时间倒序）。无库 / 未初始化时回退 mock。 */
+export async function getCommentsByPostId(
+  postId: string,
+): Promise<Collection<Comment>> {
+  try {
+    const rows = await prisma.comment.findMany({
+      where: { postId },
+      include: { author: true },
+      orderBy: { createdAt: "desc" },
+    });
+    if (rows.length === 0) throw new EmptyResult();
+    return { data: rows.map(normalizeComment), total: rows.length };
+  } catch {
+    return { data: mockComments, total: mockComments.length };
   }
 }
 
