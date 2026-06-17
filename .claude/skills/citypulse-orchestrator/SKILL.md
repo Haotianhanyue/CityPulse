@@ -39,3 +39,23 @@ description: Decompose a cross-layer CityPulse feature request into an ordered s
 
 ## 上下文隔离
 子任务间只传"文件路径 + 类型名"接口契约，不传整段代码(>200 行)。
+
+## 范例(把 pm 出的 spec 拆成执行顺序)
+> 输入：pm 的 PRD-Lite「我的收藏」——复用 `Route`+`Bookmark`，需新建读路径 + 页面。全部增量，无红灯。
+
+```markdown
+### 子任务 1 [citypulse-data] — 依赖：无
+目标：getBookmarkedRoutes 读路径
+输入：src/lib/repository.ts、Route 类型 ｜ 输出：repository→normalize→route→api-client→useBookmarkedRoutes hook
+DoD：tsc --noEmit 过 + 断网回退 mock 可跑
+
+### 子任务 2 [citypulse-page] — 依赖：子任务 1
+目标：/profile/bookmarks 列表页
+输入：子任务1 的 useBookmarkedRoutes hook ｜ 输出：Client 列表页(三态)
+DoD：未登录重定向、空态 EmptyState、有数据按收藏时间倒序
+
+### 子任务 3 [citypulse-reviewer] — 依赖：子任务 1,2
+目标：提交前审查 ｜ DoD：APPROVE
+```
+影响分级：全增量 → **无需 guard**。动态路由：若子任务1 的 hook 形态变化，同步调整子任务2 的消费方式。
+> 范例守规矩：依赖成序、每步路由到现成 skill、DoD 可验证、增量操作正确判为免 guard、接口只传"文件+类型名"。

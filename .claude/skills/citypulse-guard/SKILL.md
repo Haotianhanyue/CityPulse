@@ -42,3 +42,21 @@ description: Pre-flight permission gate for destructive CityPulse operations —
 [确切命令]
 ### 裁决：放行 / 需确认 / 强制停止 + 确认命令
 ```
+
+## 范例(对真实红灯操作的裁决 — 实跑影响统计)
+> 操作：删除 `src/app/api/routes/route.ts`。
+
+```markdown
+## 守卫裁决
+### 操作摘要：删除「路线列表」API 路由文件
+### 风险评级：🔴 红灯（删除 src/app/api/ 下的路由文件）
+### 影响范围
+实跑 `grep -rl '/api/routes' src` → 6 处引用：
+| 文件 | 影响 | 引用数 |
+| src/lib/api-client.ts | fetchRoutes() 直打 /api/routes，删后 useRoutes 全链路报错 | 1 |
+| src/app/api/routes/[id]/{route,bookmark,comments,like} | 同资源族子路由，契约关联 | 4 |
+### 回滚方案
+未提交：`git restore src/app/api/routes/route.ts` ｜ 已提交：`git revert <sha>`
+### 裁决：强制停止，需人工审批。确认命令：用户显式批准后方可删除，并须同步处理 api-client.ts 的 fetchRoutes。
+```
+> 范例守规矩：引用数是 `grep` 实跑出来的、回滚给确切命令、红灯不替用户放行。

@@ -45,3 +45,19 @@ description: Review CityPulse code (a diff or set of files) for design-system co
 
 ## 提交前必跑
 `node_modules/.bin/tsc --noEmit` · `npm run lint`
+
+## 范例(对一段小 diff 的审查)
+> 待审：新增 `src/components/RouteBadge.tsx`（路线难度徽章，纯展示）。
+
+```markdown
+## 审查报告
+### 摘要：徽章组件基本可用，2 处需改（1 设计系统违规 + 1 多余 "use client"）
+### 问题
+| 级别 | 文件:行 | 问题 | 建议 |
+| 🔴 严重 | RouteBadge.tsx | 用了裸 hex `bg-[#ff6b35]` | 改用 token `bg-primary-container`（即该 hex 的设计变量） |
+| 🟡 警告 | RouteBadge.tsx:1 | 顶部标 "use client" 但只渲染静态文本、无 hooks/事件 | 去掉，回归 Server Component |
+| 🔵 提示 | RouteBadge.tsx | 难度文案散落组件内 | 可抽到常量，便于复用 |
+### 做得好的地方：props 有 TS 接口；间距用 `px-sm`/`py-xs` token；图标走 `<Icon>`
+### 结论：REQUEST_CHANGES
+```
+> 范例守规矩：每条问题落到清单某一项（设计系统/AppRouter）、给可执行建议、用真实 token 名（`primary-container` = `#ff6b35`）。
