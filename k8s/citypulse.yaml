@@ -11,13 +11,15 @@ stringData:
   NEXTAUTH_SECRET: "zHDtCTbcsCJK6ROEevKhuWQyBYXY9GwCUiUAO0tnAxI="
   NEXTAUTH_URL: "http://localhost:3000"
 ---
-# PostGIS 数据库（demo：emptyDir 临时存储，重启数据丢失）
+# [Sync Wave 0] PostGIS 数据库（demo：emptyDir 临时存储，重启数据丢失）
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: citypulse-db
   namespace: demo
   labels: { app: citypulse-db }
+  annotations:
+    argocd.argoproj.io/sync-wave: "0"
 spec:
   replicas: 1
   selector: { matchLabels: { app: citypulse-db } }
@@ -52,28 +54,33 @@ kind: Service
 metadata:
   name: citypulse-db
   namespace: demo
+  annotations:
+    argocd.argoproj.io/sync-wave: "0"
 spec:
   selector: { app: citypulse-db }
   ports:
     - { port: 5432, targetPort: 5432 }
 ---
-# CityPulse Next.js 应用
-apiVersion: apps/v1
-kind: Deployment
+# [Sync Hook · Wave 1] 数据库迁移（DB 就绪后执行 prisma db push 建表）
+# BeforeHookCreation：每次同步前删旧 Job，保证可重复执行
+apiVersion: batch/v1
+kind: Job
 metadata:
-  name: citypulse
+  name: citypulse-db-migrate
   namespace: demo
-  labels: { app: citypulse }
+  annotations:
+    argocd.argoproj.io/hook: Sync
+    argocd.argoproj.io/sync-wave: "1"
+    argocd.argoproj.io/hook-delete-policy: BeforeHookCreation
 spec:
-  replicas: 1
-  selector: { matchLabels: { app: citypulse } }
+  backoffLimit: 5
   template:
     metadata:
-      labels: { app: citypulse }
+      labels: { app: citypulse-db-migrate }
     spec:
-      initContainers:
-        # 等待 DB 就绪并用 prisma db push 建表
-        - name: db-push
+      restartPolicy: Never
+      containers:
+        - name: migrate
           image: 993099901546.dkr.ecr.eu-central-1.amazonaws.com/citypulse:v1
           command:
             - sh
@@ -82,6 +89,23 @@ spec:
           env:
             - name: DATABASE_URL
               valueFrom: { secretKeyRef: { name: citypulse-secrets, key: DATABASE_URL } }
+---
+# [Sync Wave 2] CityPulse Next.js 应用（已移除 db-push initContainer，改由迁移 Hook 负责）
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: citypulse
+  namespace: demo
+  labels: { app: citypulse }
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"
+spec:
+  replicas: 1
+  selector: { matchLabels: { app: citypulse } }
+  template:
+    metadata:
+      labels: { app: citypulse }
+    spec:
       containers:
         - name: citypulse
           image: 993099901546.dkr.ecr.eu-central-1.amazonaws.com/citypulse:v1
@@ -106,7 +130,42 @@ kind: Service
 metadata:
   name: citypulse
   namespace: demo
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"
 spec:
   selector: { app: citypulse }
   ports:
     - { port: 80, targetPort: 3000 }
+---
+# [PostSync Hook] 冒烟测试：同步完成后 curl 首页，非 200 则 Job 失败 → ArgoCD 报红 + 飞书告警
+# HookSucceeded：成功后自动删除 Job；失败则保留以便查日志
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: citypulse-smoke-test
+  namespace: demo
+  annotations:
+    argocd.argoproj.io/hook: PostSync
+    argocd.argoproj.io/hook-delete-policy: HookSucceeded
+spec:
+  backoffLimit: 2
+  template:
+    metadata:
+      labels: { app: citypulse-smoke-test }
+    spec:
+      restartPolicy: Never
+      containers:
+        - name: smoke
+          image: curlimages/curl:8.10.1
+          command:
+            - sh
+            - -c
+            - |
+              echo "冒烟测试：访问 citypulse 首页..."
+              for i in $(seq 1 12); do
+                code=$(curl -s -o /dev/null -w "%{http_code}" --max-time 5 http://citypulse.demo.svc.cluster.local/ 2>/dev/null)
+                echo "第 $i 次: HTTP $code"
+                if [ "$code" = "200" ]; then echo "✅ 冒烟测试通过"; exit 0; fi
+                sleep 6
+              done
+              echo "❌ 冒烟测试失败：首页未返回 200"; exit 1
