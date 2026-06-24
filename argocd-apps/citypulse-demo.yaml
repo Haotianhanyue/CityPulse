@@ -1,0 +1,24 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: citypulse-demo
+  namespace: argocd
+  annotations:
+    notifications.argoproj.io/subscribe.on-sync-succeeded.feishu: ""
+    notifications.argoproj.io/subscribe.on-sync-failed.feishu: ""
+    notifications.argoproj.io/subscribe.on-health-degraded.feishu: ""
+spec:
+  project: ops-apps
+  source:
+    repoURL: https://github.com/Haotianhanyue/CityPulse.git
+    targetRevision: ops-deploy
+    path: k8s
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: demo
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
